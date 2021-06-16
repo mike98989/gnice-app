@@ -1,5 +1,6 @@
 import React from 'react';
-import { AsyncStorage, View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../components/global';
 //import * as Logic from './Logic';
 
@@ -201,7 +202,6 @@ export const confirm_signup = (that) => {
 
 export const change_pass = (that) =>{
 
-  //do_login = () => {
   if((that.state.email=='')){
     alert("You are not logged in"); 
     that.setState({
@@ -278,7 +278,6 @@ export const change_pass = (that) =>{
 
 export const recover_pass = (that) =>{
 
-  //do_login = () => {
   that.setState({
         errorMsg:'',
         showLoader:true
@@ -341,7 +340,6 @@ export const recover_pass = (that) =>{
 
 export const submit_password = (that) =>{
 
-  //do_login = () => {
   that.setState({
         errorMsg:'',
         showLoader:true
@@ -421,8 +419,41 @@ export const submit_password = (that) =>{
   
 }
 
+export const fetch_all_products = (that) =>{
+    fetch (global.serverUrl+'api/fetch_all_product',{
+      method:'GET',
+      headers: {
+                  'gnice-authenticate': 'gnice-web'
+              },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+    
+      //alert(JSON.stringify(res));
+      //return;
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+        products: JSON.parse(JSON.stringify(res.data)),
+      })
+
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
 export const login = (that) =>{
-  //do_login = () => {
+  
   that.setState({
         errorMsg:'',
         showLoader:true
@@ -433,30 +464,29 @@ export const login = (that) =>{
         showLoader:false
       })
   }else{
-  fetch (global.serverUrl+'api/user_login_from_react_native',{
+    let formData = new FormData();
+    formData.append('username', that.state.username);
+    formData.append('password', that.state.password);
+
+  fetch (global.serverUrl+'api/user_login',{
     method:'POST',
     headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'gnice-authenticate': 'gnice-web'
             },
-    body: JSON.stringify({
-      username:that.state.username,
-      password: that.state.password,
-    }),
+    body: formData,
     
   })
   .then((response)=>response.json())
   .then((res) =>{
     //alert(res);
+    //alert(JSON.stringify(res.token));
     //console.log(res);
-    if(res.status =="2"){
-      //alert(JSON.stringify(res.channels));
+    if(res.status =="1"){
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       AsyncStorage.setItem('user-token',res.token);
-      AsyncStorage.setItem('user-channels',JSON.stringify(res.channels));
-     
-
-      that.props.navigation.push('UserScreen');
+      that.props.navigation.navigate('SellerAccountTypeScreen_preview');
       that.setState({
         errorMsg:'',
         showLoader:false,
@@ -466,7 +496,7 @@ export const login = (that) =>{
       })
     }else{
       that.setState({
-        errorMsg:res.message,
+        errorMsg:res.msg,
         showLoader:false
       })
       //alert(res.message);
@@ -486,7 +516,56 @@ export const login = (that) =>{
 }
   
 }
+/////////////UPDATE USER ACCOUNT TYPE
+export const update_user_account_type = (that) =>{
+  //alert(that.state.userToken);return;
+  that.setState({
+        showLoader:true
+      })
+  if((that.state.selectedOption=='')){
+    alert('Please select an accout type!');
+    that.setState({
+        showLoader:false
+      })
+  }else{
+    let formData = new FormData();
+    formData.append('selectedOption', that.state.selectedOption);
+    
+  fetch (global.serverUrl+'api/update_user_account_type',{
+    method:'POST',
+    headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'gnice-Authenticate': that.state.userToken
+            },
+    body: formData,
+    
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    alert(JSON.stringify(res));
+    //console.log(res);
+    if(res.status =="1"){
+      that.props.navigation.navigate('UserScreens');
+    }else{
+      that.setState({
+        errorMsg:res.msg,
+        showLoader:false
+      })
+      //alert(res.message);
+    }
+  
 
+    })
+  .catch((error) => {
+      that.setState({
+        showLoader:false
+      })
+      console.error(error);
+    });
+}
+  
+}
 
 export const updateProfileImage = (that) => { 
   const formdata = new FormData();

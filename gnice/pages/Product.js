@@ -9,7 +9,6 @@ export default class Home extends Component <{}>{
 
 	constructor(props){
     super(props);
-    
   	}
 
  
@@ -17,9 +16,11 @@ export default class Home extends Component <{}>{
     render(){
     return(
     <Container>
-        <MainHeader header_type="transparent" nav_type="complete" title="Product" profileImageClick={Nav._openscreen.bind(this,this.props,'UserLogin')} cartImageClick={Nav._openscreen.bind(this,this.props,'Cart')} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
+      <ImageBackground source={require('../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground> 
+        <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
         <View style={custom_style.container}>
-        <Text>Product Page</Text>
+        <Text>{JSON.stringify(this.props.route.params)}</Text>
         </View>
         
     </Container>

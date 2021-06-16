@@ -46,7 +46,7 @@ export default class Home extends Component <{}>{
         
           
         
-        <TouchableOpacity style={[custom_style.signup_btn,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserLogin')}>
+        <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserLogin')}>
             <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Login</Text>
         </TouchableOpacity>
         </View>
