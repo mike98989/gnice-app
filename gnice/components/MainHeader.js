@@ -11,19 +11,15 @@ const MainHeader = (props) => (
         <Header transparent style={[{height:40}]}>
         <Left>
           <Button transparent style={{marginLeft:10}} onPress={props.openDrawer}>
-          <Image source={require('../images/drawer4.png')} style={{width:35,height:35}}/>
+          <Image source={require('../images/drawer5.png')} style={{width:33,height:30}}/>
             </Button>
         </Left>
           <Body>
-            <Title>{props.title}</Title>
-            
+          <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',height: 30, width:25}}/>
           </Body>
           <Right>
-          <Button transparent style={{marginLeft:2}} onPress={props.cartImageClick}>
-          <Image source={require('../images/cart_icon.png')} style={{width:25,height:25}}/>
-          </Button>  
-          <Button transparent style={{marginLeft:2}} onPress={props.profileImageClick}>
-          <Image source={require('../images/user_icon.png')} style={{width:25,height:25}}/>
+          <Button transparent style={{marginRight:10}} onPress={props.searchImageClick}>
+          <Image source={require('../images/search_icon.png')} style={{width:30,height:30}}/>
           </Button>
           </Right>
         </Header>
@@ -36,7 +32,7 @@ const MainHeader = (props) => (
     <Header transparent style={[{height:40}]}>
         <Left>
           <Button transparent style={{marginLeft:10}} onPress={props.go_back}>
-          <Icon name='ios-arrow-back' style={{color:'#000'}} />
+          <Icon name='ios-arrow-back' style={{color:'#fff'}} />
           </Button>
         </Left>
           <Body>

@@ -11,6 +11,24 @@ const custom_style = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
   },
+  item_box:{
+  elevation:4,
+  backgroundColor: '#FFF',
+  shadowColor: '#ccc',
+  shadowOpacity: 1,
+  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
+  zIndex:999,borderColor:'#ccc',
+  borderWidth:1,
+  borderRadius:10,
+  },
+  item_box_tag:{
+  backgroundColor:'#8fd0f3',
+  textAlign:'center',
+  alignContent:'center',
+  color:'#000',
+  borderRadius:10,
+  width:40,
+  },
   button:{
     width:300,
     paddingVertical:12,
@@ -26,22 +44,75 @@ fullHeight:{
     },
     
 section_header:{
-    fontSize:20,
-    color:'#303030',
-    fontWeight:'bold',
-    paddingLeft:15,
+    fontSize:27,
+    color:'#313030',
+    fontFamily:'Cicle',
 },
 product_name:{
-  fontWeight:'bold', 
-  color:'#7f7e7e',
-  fontSize:15
+  color:'#000',
+  fontSize:15,
+},
+home_link_btn:{
+  width:null,
+  marginRight:10,
+  paddingHorizontal:10,
+  paddingVertical:5,
+  elevation:4,
+  textAlign:'center',
+  backgroundColor: '#FFF',
+  fontSize:25,
+  shadowColor: '#ccc',
+  shadowOpacity: 1,
+  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
+  zIndex:999,borderColor:'#fff',
+  borderWidth:1,
+  borderRadius:20,
+},
+search_div:{
+  width:'85%',
+  marginLeft:20,
+  paddingHorizontal:0,
+  paddingVertical:0,
+  elevation:4,
+  textAlign:'center',
+  backgroundColor: '#FFF',
+  fontSize:25,
+  shadowColor: '#ccc',
+  shadowOpacity: 1,
+  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
+  zIndex:999,borderColor:'#fff',
+  borderWidth:1,
+  borderRadius:20,
+  height:null,
+  marginBottom:7,
+  flexDirection:'row',
+},
+search_div_search_icon:{
+width:35,
+height:35,
+borderRadius:17,
+backgroundColor:'#ccc',
 },
 product_sub_name:{
   color:'#5c5b5b',
-  fontSize:12
+  fontSize:12,
+  
+},
+product_price_tag:{
+  color:'#053f57',
+  fontSize:21,
+  textAlign:'center',
+  fontWeight:'bold'
+},
+product_price_super_script:{
+  color:'#000',
+  fontSize:15,
+  textAlign:'left',
+  marginRight:4
+  
 },
 login_btn:{
-    width:120,
+    width:140,
     height:40,
     borderRadius:30,
     backgroundColor:'#2c7ab2',
@@ -149,6 +220,27 @@ formcontrol_login_username:{
     marginBottom:10,
     marginTop:15
   },
+  confirmation_code_box:{
+  width:50,
+  height:50,
+  elevation:4,
+  textAlign:'center',
+  backgroundColor: '#FFF',
+  fontSize:25,
+  shadowOffset: { width: 5, height: 5 },
+  shadowColor: '#ccc',
+  shadowOpacity: 1,
+  shadowRadius: 0,shadowOffset: { width: 1, height: 1 },
+  zIndex:999,borderColor:'#ccc',
+  borderWidth:1,
+  borderRadius:10,
+  },
+  signup_checkbox:{
+    height:20,
+    width:20,
+    color:'#000',
+    marginRight:10,
+  }
 
 });
 

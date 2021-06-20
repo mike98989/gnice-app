@@ -10,8 +10,8 @@ export const _goback = (props) => {
     props.navigation.goBack();
  } 
 
-export const _openscreen = (props,Screen,params) => {
-  props.navigation.navigate(Screen,params);
+export const _openscreen = (props,Screen,values) => {
+  props.navigation.navigate(Screen,{paramsdata:values});
 }
 export const _logout = (props,Screen) => {
   //AsyncStorage.clear();

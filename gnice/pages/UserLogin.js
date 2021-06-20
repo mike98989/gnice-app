@@ -40,7 +40,7 @@ export default class Home extends Component <{}>{
         <View style={{flexDirection:'column',alignItems:'center',marginTop:20}}>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <View>
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' autoFocus = {true} placeholder="Email" keyboardType="email-address" selectionColor="#fff"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(username) =>this.setState({username}) }
         placeholderTextColor="grey"
         />
@@ -49,7 +49,10 @@ export default class Home extends Component <{}>{
         />
         </View>
         <View>
-        <TouchableOpacity style={custom_style.login_btn} onPress={this._do_Login}>
+        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row'}]} onPress={this._do_Login}>
+        {this.state.showLoader ?(
+        <Image source={require('../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
+        ):null}  
         <Text style={{fontSize:17,fontWeight:'bold',color:'#fff'}}>Login</Text><Icon name='ios-arrow-forward' style={{color:'#fff'}} />
         
         </TouchableOpacity>
@@ -58,11 +61,15 @@ export default class Home extends Component <{}>{
         </KeyboardAvoidingView>
 
 
-        <TouchableOpacity>
-         <Text style={{color:'#aaa',fontWeight:'bold',fontSize:17,marginTop:20,alignSelf:'center'}}>Forgot Password?</Text>   
+        <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'ForgotPasswordScreen',null)}>
+         <Text style={{color:'#5d5b5b',fontWeight:'bold',fontSize:17,marginTop:20,alignSelf:'center'}}>Forgot Password?</Text>   
+         </TouchableOpacity>  
+
+         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'UserSignup','confirm')}>
+         <Text style={{fontStyle: 'italic',color:'#454444',fontSize:17,marginTop:20,alignSelf:'center'}}>I already have confirmation code?</Text>   
          </TouchableOpacity>  
         
-        <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserSignup')}>
+        <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserSignup',null)}>
             <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Register</Text>
         </TouchableOpacity>
 

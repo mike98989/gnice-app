@@ -7,6 +7,7 @@ import Product from './pages/Product';
 import UserLogin from './pages/UserLogin';
 import UserSignup from './pages/UserSignup';
 import UserScreens from './pages/UserScreens';
+import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
 import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_preview';
 
 
@@ -27,6 +28,7 @@ export default function Routes() {
     <Drawer.Screen name="Product" options={{ drawerLabel: 'Product' }} component={Product} />
     <Drawer.Screen name="UserLogin" options={{ drawerLabel: 'UserLogin' }} component={UserLogin} />
     <Drawer.Screen name="UserSignup" options={{ drawerLabel: 'UserSignup' }} component={UserSignup} />
+    <Drawer.Screen name="ForgotPasswordScreen" options={{ drawerLabel: 'ForgotPasswordScreen' }} component={ForgotPasswordScreen} />
     <Drawer.Screen name="UserScreens" options={{ drawerLabel: 'UserScreens' }} component={UserScreens} />
     <Drawer.Screen name="SellerAccountTypeScreen_preview" options={{ drawerLabel: 'SellerAccountTypeScreen_preview' }} component={SellerAccountTypeScreen_preview} />   
     </Drawer.Navigator>

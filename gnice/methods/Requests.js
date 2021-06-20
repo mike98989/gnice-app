@@ -6,61 +6,59 @@ import '../components/global';
 
   //////SIGNUP METHOD
   export const signup = (that) => {
-
-    if((that.state.FName=='')||(that.state.LName=='')||(that.state.Email=='')||(that.state.Phone=='')||(that.state.Pass=='')){
+    if((that.state.fullname=='')||(that.state.email=='')||(that.state.phone=='')||(that.state.password=='')||(that.state.confiirm_phone=='')){
     that.setState({
         errorMsg:'Please enter all fields!',
       })
-    var email = that.state.Email;
-    var split_email = email.split(".").pop
-    }else if(that.state.Pass!=that.state.ConfPass){
+    }else if(that.state.password!=that.state.confirm_password){
       that.setState({
         errorMsg:'Passwords do not match!',
       })
-    }else if((that.state.latitude =='')||(that.state.longitude =='')){
-      that.setState({
-        errorMsg:'Please enable location permission on this app in your settings.',
-      })
     }else{ 
+    
+    let formData = new FormData();
+    formData.append('fullname', that.state.fullname);
+    formData.append('email', that.state.email);
+    formData.append('phone', that.state.phone);
+    formData.append('password', that.state.password);
+    formData.append('confirm_password', that.state.confirm_password);
+    if(that.state.sellerAccount){ 
+      formData.append('seller','1');  
+    }  
+
     that.setState({
         showLoader:true
       });  
-    fetch (global.serverUrl+'api/user_signup_from_react_native',{
+    fetch (global.serverUrl+'api/user_signup',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-    body: JSON.stringify({
-      FName:that.state.FName,
-      LName:that.state.LName,
-      Email: that.state.Email,
-      Phone: that.state.Phone,
-      Pass: that.state.Pass,
-      ConfPass: that.state.ConfPass,
-      signup_latitude:that.state.latitude,
-      signup_longitude:that.state.longitude,
-    }),
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'gnice-authenticate': 'gnice-web'
+      },
+    body: formData,
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //console.log(JSON.stringify(res));
+    //alert(JSON.stringify(res));
     if(res.status =="1"){
-      alert(JSON.stringify(res.msg));
+      //alert(JSON.stringify(res.msg));
       that.setState({
+        errorMsg:'',
+        showRegisterView:false,
         showConfirmationView:true,
       })
     }else{
       alert(JSON.stringify(res.msg));
     }
     that.setState({
-        errorMsg:res.msg,
+        errorMsg:'',
         showLoader:false
       })
     })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
     var message = "There was an error! Please check your connection";
       alert(JSON.stringify(message));
       that.setState({
@@ -134,45 +132,48 @@ export const resend_confirmation_code = (that) => {
 
 ///////CONFIRM SIGNUP
 export const confirm_signup = (that) => {
-    if((that.state.confirmationCode=='')){
+    if((that.state.code1=='')||(that.state.code2=='')||(that.state.code3=='')||(that.state.code4=='')){
       that.setState({
         errorMsg:'Please enter CONFIRMATION CODE! Check your email for confirmation code',
       })
-    }else if((that.state.Email=='')){
+    }else if((that.state.email=='')){
       that.setState({
         errorMsg:'Please enter your email address',
       })
     }
     else{
-      var confCode = that.state.confirmationCode;
-      if(confCode.length > 5){
+      var confCode = that.state.code1+that.state.code2+that.state.code3+that.state.code4;
+      if(confCode.length > 4){
         that.setState({
         errorMsg:'Invalid Confirmation code',
       })
       }else{
-
+        let formData = new FormData();
+        formData.append('email', that.state.email);
+        formData.append('confirm_code', confCode);
         that.setState({
-        showLoader:true
-      }); 
-
-    fetch (global.serverUrl+'api/user_confirm_signup_from_react_native',{
+          showLoader:true
+        }); 
+      
+    fetch (global.serverUrl+'api/confirm_user_signup',{
     method:'POST',
     headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'gnice-authenticate': 'gnice-web'
             },
-    body: JSON.stringify({
-      confirm_email: that.state.Email,
-      confirm_code: that.state.confirmationCode,
-    }),
-    
+    body: formData,
   })  .then((response)=>response.json())
   .then((res) =>{
     //console.log(JSON.stringify(res));
     if(res.status =="1"){
-      alert(JSON.stringify(res.msg));
+      //alert(JSON.stringify(res.msg));
       that.setState({
+        errorMsg:'',
+        showRegisterView:false,
         showFinishedView:true,
+        password:'',
+        showConfirmationView:false
       })
     }else{
       alert(JSON.stringify(res.msg));
@@ -198,7 +199,79 @@ export const confirm_signup = (that) => {
   }
 
 
+///////CONFIRM PASSWORD RECOOVERY CODE
+export const confirm_password_recovery_code = (that) => {
+  if((that.state.code1=='')||(that.state.code2=='')||(that.state.code3=='')||(that.state.code4=='')){
+    that.setState({
+      errorMsg:'Please enter CONFIRMATION CODE! Check your email for confirmation code',
+    })
+  }
+  else if((that.state.password=='')||(that.state.confirm_password=='')){
+    that.setState({
+      errorMsg:'Please enter both password field.',
+    })
+  }
+  else{
+    var confCode = that.state.code1+that.state.code2+that.state.code3+that.state.code4;
+    if(confCode.length > 4){
+      that.setState({
+      errorMsg:'Invalid Confirmation code',
+    })
+    }else if(that.state.password!==that.state.confirm_password){
+      that.setState({
+      errorMsg:'Sorry! Passwords do not match',
+    })
+    }else{
+      let formData = new FormData();
+      formData.append('confirm_code', confCode);
+      formData.append('password', that.state.password);
+      formData.append('confirm_password', that.state.confirm_password);
+      that.setState({
+        showLoader:true
+      }); 
+    
+  fetch (global.serverUrl+'api/confirm_password_recovery_code',{
+  method:'POST',
+  headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'gnice-authenticate': that.state.user_token,
+          },
+  body: formData,
+}).then((response)=>response.json())
+.then((res) =>{
+  //alert(res);
+  //console.log(JSON.stringify(res));
+  if(res.status =="1"){
+    //alert(JSON.stringify(res.msg));
+    that.setState({
+      errorMsg:'',
+      showConfirmationCodeView:false,
+      showFinishedView:true,
+      
+    })
+  }else{
+    alert(JSON.stringify(res.msg));
+  }
+  that.setState({
+      errorMsg:res.msg,
+      showLoader:false
+    })
+  })
+.catch((error) => {
+  //console.log(error);
+  var message = "There was an error! Please check your connection";
+    alert(JSON.stringify(message));
+    that.setState({
+      errorMsg:message,
+      showLoader:false
+    })
+    
+  });
 
+    }
+  }
+}
 
 export const change_pass = (that) =>{
 
@@ -276,7 +349,7 @@ export const change_pass = (that) =>{
   
 }
 
-export const recover_pass = (that) =>{
+export const send_recovery_code = (that) =>{
 
   that.setState({
         errorMsg:'',
@@ -294,22 +367,27 @@ export const recover_pass = (that) =>{
   
   formdata.append('email', that.state.email);
 
-  fetch (global.serverUrl+'api/forgot_password',{
+  fetch (global.serverUrl+'api/password_recovery',{
     method:'POST',
     headers: {
-    'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'gnice-authenticate': 'gnice-web'
     },
     body: formdata
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    alert(res.msg);
+    alert(JSON.stringify(res));
     //console.log(res);
     if(res.status =="1"){
-      
+
+      AsyncStorage.setItem('user-token',res.token);
       that.setState({
-        showConfirmationView:true,
+        showEmailView:false,
+        showConfirmationCodeView:true,
+        user_token:res.token,
         errorMsg:'',
         showLoader:false,
         
@@ -484,9 +562,18 @@ export const login = (that) =>{
     //alert(JSON.stringify(res.token));
     //console.log(res);
     if(res.status =="1"){
+      
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       AsyncStorage.setItem('user-token',res.token);
-      that.props.navigation.navigate('SellerAccountTypeScreen_preview');
+      
+      //alert(res.data.account_type);return;
+      if((res.data.seller=='1')&&(!res.data.account_type)){
+        that.props.navigation.navigate('SellerAccountTypeScreen_preview');
+        }else{
+          that.props.navigation.navigate('UserScreens',{paramsdata:null});
+        }
+      
+        
       that.setState({
         errorMsg:'',
         showLoader:false,
@@ -536,7 +623,7 @@ export const update_user_account_type = (that) =>{
     headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'gnice-Authenticate': that.state.userToken
+                'gnice-authenticate': that.state.userToken
             },
     body: formData,
     
