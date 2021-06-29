@@ -11,6 +11,16 @@ const custom_style = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
   },
+  category_box:{
+    borderRadius:5,
+    width:'32%',
+    padding:3,
+    margin:'1%',
+    alignContent:'center',
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:5,
+  },
   item_box:{
   elevation:4,
   backgroundColor: '#FFF',
@@ -49,8 +59,15 @@ section_header:{
     fontFamily:'Cicle',
 },
 product_name:{
+  color:'#15495d',
+  fontSize:17,
+  fontFamily:'Rajdhani',
+},
+product_price:{
   color:'#000',
-  fontSize:15,
+  fontSize:14,
+  fontWeight:'bold',
+  marginTop:5,
 },
 home_link_btn:{
   width:null,
@@ -67,6 +84,17 @@ home_link_btn:{
   zIndex:999,borderColor:'#fff',
   borderWidth:1,
   borderRadius:20,
+},
+search_div_transparent:{
+  width:'85%',
+  marginLeft:20,
+  paddingHorizontal:0,
+  paddingVertical:0,
+  borderWidth:1,
+  borderRadius:20,
+  marginBottom:7,
+  borderColor:'#fff',
+  backgroundColor: '#FFF',
 },
 search_div:{
   width:'85%',
@@ -86,6 +114,27 @@ search_div:{
   height:null,
   marginBottom:7,
   flexDirection:'row',
+},
+product_details_container:{
+  marginTop:4,
+  paddingHorizontal:20,
+},
+product_details_image:{
+  borderBottomRightRadius:30,
+  borderBottomLeftRadius:30,
+},
+product_details_title:{
+  fontSize:27,
+  fontWeight:'bold',
+  color:'#3f80a3',
+  fontFamily:'Cicle',
+},
+product_details_price:{
+  fontSize:27,
+  fontWeight:'bold',
+  color:'#000',
+  marginTop:20,
+  fontFamily:'Cicle',
 },
 search_div_search_icon:{
 width:35,
@@ -240,7 +289,33 @@ formcontrol_login_username:{
     width:20,
     color:'#000',
     marginRight:10,
-  }
+  },
+  footer_container:{
+  backgroundColor:'#fff',  
+  elevation:4,
+  shadowOpacity: 0.2,
+  zIndex:999,
+  },
+  styled_blue:{
+    color:'#0f619b',
+  },
+  action_call_btn: {
+    flex: 1,
+    justifyContent:'center',
+    alignContent:'center',
+    alignItems:'center',
+    borderRadius:5,
+    width:'50%',
+    paddingVertical:15,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+  },
 
 });
 

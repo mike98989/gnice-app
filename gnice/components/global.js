@@ -1,7 +1,9 @@
 //var url="gnice.com.ng/";
-var url="192.168.193.98/gnice/";
+var url="192.168.237.98/gnice/";
 global.serverUrl = "http://"+url;
-global.imageBaseUrl = 'public/assets/images/uploads/products/';
+global.UploadImageBaseUrl = 'public/assets/images/uploads/products/';
+global.ProfileImageBaseUrl = 'public/assets/images/uploads/profile/';
+global.CategoryImageBaseUrl = 'public/assets/images/uploads/category/';
 global.AppTitle = "GNICE";
 global.AppSubTitle = "Market Store";
 global.GniceOffiialEmail = "admin@gnice.com.ng";

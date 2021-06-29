@@ -379,7 +379,7 @@ export const send_recovery_code = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));
     //console.log(res);
     if(res.status =="1"){
 
@@ -530,6 +530,113 @@ export const fetch_all_products = (that) =>{
       });
   }
 
+  //////////FETCH ALL PRODUCTS FROM A SUB CATEGORY
+  export const fetch_all_product_sub_category = (that) =>{
+    let paramsValue = JSON.parse(that.props.route.params.paramsdata);
+    //alert(JSON.stringify(paramsValue));
+    fetch (global.serverUrl+'api/fetch_all_product_sub_category?id='+paramsValue.sub_id,{
+      method:'GET',
+      headers: {
+                  'gnice-authenticate': 'gnice-web'
+              },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+    
+      //alert(JSON.stringify(res));
+      //return;
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+        products: JSON.parse(JSON.stringify(res.data)),
+      })
+
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+  
+  //////////FETCH RELATED PRODUCTS
+  export const fetch_related_products = (that) =>{
+    //let paramsValue = that.props.route.params.paramsdata;
+    
+    fetch (global.serverUrl+'api/fetch_related_products?sub_cat_id='+that.props.route.params.paramsdata.sub_category+'&brand='+that.props.route.params.paramsdata.brand+'&product_code='+that.props.route.params.paramsdata.product_code,{
+      method:'GET',
+      headers: {
+                  'gnice-authenticate': 'gnice-web'
+              },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+    
+      //alert(JSON.stringify(res));
+      //return;
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+      relatedProducts: JSON.parse(JSON.stringify(res.data)),
+      })
+
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
+  
+
+  export const fetch_all_categories_and_sub_categories = (that) =>{
+    fetch (global.serverUrl+'api/fetch_all_categories_and_sub_categories',{
+      method:'GET',
+      headers: {
+                  'gnice-authenticate': 'gnice-web'
+              },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+    
+      //alert(JSON.stringify(res));
+      //return;
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+        categories_and_sub: JSON.parse(JSON.stringify(res.data)),
+      })
+
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
 export const login = (that) =>{
   
   that.setState({
@@ -570,7 +677,7 @@ export const login = (that) =>{
       if((res.data.seller=='1')&&(!res.data.account_type)){
         that.props.navigation.navigate('SellerAccountTypeScreen_preview');
         }else{
-          that.props.navigation.navigate('UserScreens',{paramsdata:null});
+          that.props.navigation.navigate('UserArea',{paramsdata:null});
         }
       
         
@@ -630,7 +737,7 @@ export const update_user_account_type = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));
     //console.log(res);
     if(res.status =="1"){
       that.props.navigation.navigate('UserScreens');

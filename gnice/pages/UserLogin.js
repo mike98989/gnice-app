@@ -32,8 +32,8 @@ export default class Home extends Component <{}>{
         <ImageBackground source={require('../images/gnice_burble_backgroud.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:0, width: '100%',height:'30%',paddingTop:5,}]}>
         </ImageBackground> 
-        <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:50,height: 80, width:65}}/>
+        {/* <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="complete"/> */}
+        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:50,height: 60, width:45}}/>
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:40,marginBottom:0}]}>Login</Text>
         <Text style={{alignSelf:'center',color:'#484747'}}>Login with your email and password</Text>
         <KeyboardAvoidingView>

@@ -94,7 +94,7 @@ export default class Home extends Component <{}>{
         </View>
         <View style={{flexDirection:'row',marginVertical:15}}>
             <CheckBox value={this.state.sellerAccount} onValueChange={(sellerAccount) => {this.setState({sellerAccount}); console.log("value="+sellerAccount);}} style={custom_style.signup_checkbox}/>
-            <Text style={{fontWeight:'bold',fontSize:16,color:'#555'}}>I want to be a seller </Text>
+            <Text style={{fontWeight:'bold',fontSize:16,color:'#555'}}>I would also want sell </Text>
         </View>
         <View>
         <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row'}]} onPress={this._signup}>
