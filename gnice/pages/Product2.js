@@ -12,8 +12,6 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
 import ru from 'javascript-time-ago/locale/ru'
 import MainFooter from '../components/MainFooter';
-import { BlurView } from "@react-native-community/blur";
-
 
 export default class Home extends Component <{}>{
 
@@ -62,20 +60,19 @@ export default class Home extends Component <{}>{
   }
   
   get pagination () {
-    const { content, activeSlide } = this.state;
+    //const { content, activeSlide } = this.state;
     return (
         <Pagination
           dotsLength={image_value.length}
           activeDotIndex={this.state.activeSlide}
-          containerStyle={{ paddingVertical: 10 }}
+        
           dotStyle={{
-              width: 45,
-              height: 3,
+              width: 35,
+              height: 5,
               borderRadius: 0,
               backgroundColor: '#054874',
               borderColor:'#054874',
               borderWidth:2,
-              marginTop:0,
           }}
           inactiveDotStyle={{
             backgroundColor: '#fff',
@@ -88,7 +85,6 @@ export default class Home extends Component <{}>{
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
         />
-       
     );
 }
     
@@ -105,7 +101,7 @@ export default class Home extends Component <{}>{
         
         </View> */}
 
-        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,borderRadius:30,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
+        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,borderRadius:30,borderWidth:3,borderColor:'#fff',overflow:'hidden'}]}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
               data={image_value}
@@ -116,32 +112,26 @@ export default class Home extends Component <{}>{
               inactiveSlideScale={0.9}
               firstItem={this.state.activeSlide}
               onSnapToItem={(index)=>this.setState({activeSlide:index})}
-          />
+            />
           
-           <View style={{marginTop:220,height:80,width:'100%',position:'absolute'}}>
-            <BlurView style={[custom_style.blurView,{borderTopColor:'#fff',borderTopWidth:2}]}
-            reducedTransparencyFallbackColor="white"
-            blurType="light"
-            blurAmount={20}>
-              <View style={{flexDirection:'column',paddingLeft:30,paddingTop:5}}>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={[custom_style.product_details_title,{color:'#000'}]}>{this.props.route.params.paramsdata.name}</Text>
-              <Text>NGN {this.props.route.params.paramsdata.price}</Text>
-              </View>
-              <View>
-              {this.pagination }
-              </View>
-            </BlurView>
+           <View style={{marginTop:240,width:'100%',position:'absolute',alignContent:'center',alignItems:'center',alignSelf:'center'}}>
+           {/* <LinearGradient
+         colors={['#000', 'transparent', 'transparent']}
+        style={{width:'100%'}}
+        start={{ x: 0.5, y: 0 }}>
+           <Text>{this.props.route.params.paramsdata.name}</Text>
+            { this.pagination }  
+            </LinearGradient>  */}
+            { this.pagination }  
           </View> 
-          
           </View>
           <ScrollView>
         <View style={custom_style.product_details_container}>
-        {/* <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text> */}
-        <Text style={custom_style.product_details_title}>Details</Text>
+        <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text>
+        {/* {this.props.route.params.paramsdata} */}
         <Text style={{color:'#625e5e',fontSize:16,lineHeight:30,marginTop:10}}>{this.props.route.params.paramsdata.short_description}</Text>
 
-        {/* <Text style={custom_style.product_details_price}>NGN {this.props.route.params.paramsdata.price}</Text> */}
-
+        <Text style={custom_style.product_details_price}>NGN {this.props.route.params.paramsdata.price}</Text>
       <View style={{flexDirection:'row',justifyContent:'center',marginTop:20}}> 
     
     <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} 

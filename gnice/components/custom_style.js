@@ -225,7 +225,19 @@ formcontrol_login_username:{
     fontSize:15,
     paddingVertical:10,
     borderBottomRightRadius:30,
-  },  
+  }, 
+  formcontrol_product_screen:{
+    width:320,
+    paddingVertical:10,
+    paddingLeft:15,
+    height:45,
+    fontSize:15,
+    borderRadius:10,
+    marginBottom:10,
+    borderWidth:1,
+    borderColor:'#ccc',
+    borderRadius:3,
+  }, 
   textInputShadow:{
     elevation: 1,
     borderWidth: .2,
@@ -316,6 +328,14 @@ formcontrol_login_username:{
     color: '#ffffff',
     backgroundColor: 'transparent',
   },
+
+  blurView:{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
+    }
 
 });
 

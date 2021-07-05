@@ -12,12 +12,13 @@ import UserLogin from './pages/UserLogin';
 import UserSignup from './pages/UserSignup';
 import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
+import NewProduct from './pages/user/NewProduct';
 
 import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
 import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_preview';
 
 
-import CustomDrawerContent from './components/CustomDrawer'
+import UserCustomDrawerContent from './components/UserScreenCustomDrawer'
 import { createDrawerNavigator,DrawerContentScrollView,
     DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 const Drawer = createDrawerNavigator();
@@ -28,10 +29,11 @@ function UserArea() {
   return (
 
     
-    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <CustomDrawerContent {...props} that={this} />} drawerContentOptions={{
+    <Drawer.Navigator initialRouteName='NewProduct' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
     activeTintColor: '#e91e63',
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
+    <Drawer.Screen name="NewProduct" options={{ drawerLabel: 'NewProduct' }} component={NewProduct} />
     
     </Drawer.Navigator>
   
@@ -45,7 +47,7 @@ function UserArea() {
 export default function Routes() {
   return (
     <NavigationContainer>
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator initialRouteName="UserArea" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Pinned" component={Pinned} />
       <Stack.Screen name="Product" component={Product} />

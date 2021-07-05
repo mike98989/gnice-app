@@ -37,7 +37,8 @@ export default class Home extends Component <{}>{
     const unsubscribe = this.props.navigation.addListener('focus', () => {
       //this.setState({showLoader:true})
       AsyncMethods._loadSessionState(this).done();
-        Requests.fetch_all_products(this);   
+        Requests.fetch_all_products(this); 
+        Requests.fetch_all_categories_and_sub_categories(this);  
       });
   
   }
@@ -123,7 +124,7 @@ export default class Home extends Component <{}>{
   <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
   <SafeAreaView>
       <FlatList
-        data={this.state.categories_and_sub.category}
+        data={this.state.categories_and_sub}
         renderItem={renderCategories}
         keyExtractor={item => item.id}
         horizontal={false}

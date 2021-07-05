@@ -602,8 +602,47 @@ export const fetch_all_products = (that) =>{
       });
   }
 
-  
+    //////////FETCH RELATED PRODUCTS
+    export const fetch_required_table = (that) =>{
+      //let paramsValue = that.props.route.params.paramsdata;
+      
+      fetch (global.serverUrl+'api/fetch_required_table',{
+        method:'GET',
+        headers: {
+                    'gnice-authenticate': 'gnice-web'
+                },
+      
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+      
+        //alert(res.data.car_makes);
+        // return;
+        that.setState({
+          showLoader:false
+        })
+    if(res.status =="1"){
 
+      that.setState({
+        required_tables: res.data,
+        //car_makes: JSON.parse(JSON.stringify(res.car_makes)),
+        })
+        
+        //alert(JSON.stringify(that.state.required_tables));
+  
+    }else{
+    }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+    }
+
+  
   export const fetch_all_categories_and_sub_categories = (that) =>{
     fetch (global.serverUrl+'api/fetch_all_categories_and_sub_categories',{
       method:'GET',
@@ -622,8 +661,9 @@ export const fetch_all_products = (that) =>{
       })
   if(res.status =="1"){
     that.setState({
-        categories_and_sub: JSON.parse(JSON.stringify(res.data)),
+      categories_and_sub: JSON.parse(JSON.stringify(res.data)),
       })
+      //alert(JSON.stringify(that.state.categories_and_sub.category));
 
   }else{
   }

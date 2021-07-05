@@ -10,7 +10,7 @@ const MainHeader = (props) => (
         {props.header_type == "transparent" ? (
         <Header transparent style={[{height:40}]}>
         <Left>
-          <Text>{JSON.stringify(props)}</Text>
+          
           {/* <Button transparent style={{marginLeft:10}} onPress={props.openDrawer}>
           <Image source={require('../images/drawer5.png')} style={{width:33,height:30}}/>
             </Button> */}

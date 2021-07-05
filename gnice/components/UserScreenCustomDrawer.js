@@ -22,8 +22,12 @@ const CustomDrawerContent = (props) => (
         <Text>Home</Text>
       </ListItem>
       
-      <ListItem noIndent onPress={() => props.navigation.navigate('MyProfile')}>
-      <Text>My Profile</Text>
+      <ListItem noIndent onPress={() => props.navigation.navigate('NewProduct')}>
+      <Text>New Product</Text>
+      </ListItem>
+
+      <ListItem noIndent onPress={() => props.navigation.navigate('MyProducts')}>
+      <Text>My Products</Text>
       </ListItem>
 
       <ListItem noIndent onPress={() => props.navigation.navigate('MyProducts')}>

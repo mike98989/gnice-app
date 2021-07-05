@@ -33,14 +33,17 @@ export default class Home extends Component <{}>{
     position:'absolute',zIndex:0,top:0, width: '100%',height:'30%',paddingTop:5,}]}>
         </ImageBackground> 
         {/* <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="complete"/> */}
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:50,height: 60, width:45}}/>
+        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:100,height: 40, width:35}}/>
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:40,marginBottom:0}]}>Login</Text>
         <Text style={{alignSelf:'center',color:'#484747'}}>Login with your email and password</Text>
+        
+        
         <KeyboardAvoidingView>
+        <ScrollView>
         <View style={{flexDirection:'column',alignItems:'center',marginTop:20}}>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <View>
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' autoFocus = {true} placeholder="Email" keyboardType="email-address" selectionColor="#fff"
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(username) =>this.setState({username}) }
         placeholderTextColor="grey"
         />
@@ -57,9 +60,11 @@ export default class Home extends Component <{}>{
         
         </TouchableOpacity>
         </View>
+        
         </View>
+        </ScrollView>
         </KeyboardAvoidingView>
-
+       
 
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'ForgotPasswordScreen',null)}>
          <Text style={{color:'#5d5b5b',fontWeight:'bold',fontSize:17,marginTop:20,alignSelf:'center'}}>Forgot Password?</Text>   
