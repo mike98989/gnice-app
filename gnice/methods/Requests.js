@@ -41,7 +41,7 @@ import '../components/global';
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));return
     if(res.status =="1"){
       //alert(JSON.stringify(res.msg));
       that.setState({
@@ -616,7 +616,7 @@ export const fetch_all_products = (that) =>{
       .then((response)=>response.json())
       .then((res) =>{
       
-        //alert(res.data.car_makes);
+        //alert(res);
         // return;
         that.setState({
           showLoader:false
@@ -714,7 +714,7 @@ export const login = (that) =>{
       AsyncStorage.setItem('user-token',res.token);
       
       //alert(res.data.account_type);return;
-      if((res.data.seller=='1')&&(!res.data.account_type)){
+      if((res.data.seller=='1')&&(res.data.account_type=='0')){
         that.props.navigation.navigate('SellerAccountTypeScreen_preview');
         }else{
           that.props.navigation.navigate('UserArea',{paramsdata:null});
@@ -756,21 +756,21 @@ export const update_user_account_type = (that) =>{
   that.setState({
         showLoader:true
       })
-  if((that.state.selectedOption=='')){
+  if((that.state.selected_account_type=='')){
     alert('Please select an accout type!');
     that.setState({
         showLoader:false
       })
   }else{
     let formData = new FormData();
-    formData.append('selectedOption', that.state.selectedOption);
-    
+    formData.append('selectedOption', that.state.selected_account_type);
+    formData.append('email_to_be_activated',that.state.email_to_activated)
   fetch (global.serverUrl+'api/update_user_account_type',{
     method:'POST',
     headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'gnice-authenticate': that.state.userToken
+                'gnice-authenticate': 'gnice-app'
             },
     body: formData,
     
@@ -780,7 +780,11 @@ export const update_user_account_type = (that) =>{
     //alert(JSON.stringify(res));
     //console.log(res);
     if(res.status =="1"){
-      that.props.navigation.navigate('UserScreens');
+      AsyncStorage.removeItem('user-data');
+      AsyncStorage.removeItem('selected_account_type');
+      AsyncStorage.removeItem('email_to_activated');
+      AsyncStorage.setItem('user-data',JSON.stringify(res.data));
+      that.props.navigation.navigate('UserArea',{paramsdata:null});
     }else{
       that.setState({
         errorMsg:res.msg,
@@ -795,6 +799,71 @@ export const update_user_account_type = (that) =>{
       that.setState({
         showLoader:false
       })
+      console.error(error);
+    });
+}
+  
+}
+
+
+
+/////////////UPDATE USER ACCOUNT TYPE
+export const generate_paystack_checkout = (that) =>{
+  //alert(that.state.userToken);return;
+  
+  that.setState({
+        showLoader:true
+      })
+  if((that.state.selectedOption==='')){
+    alert('Please select an accout type!');
+    that.setState({
+        showLoader:false
+      })
+  }else{
+    //alert(that.state.userData.email);
+    let formData = new FormData();
+    formData.append('email', that.state.userData.email);
+    formData.append('amount', that.state.selectedValue);
+    formData.append('selected_account_type', that.state.selectedOption);
+    
+  fetch (global.serverUrl+'api/generate_paystack_checkout',{
+    method:'POST',
+    headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'gnice-authenticate': that.state.userToken
+            },
+    body: formData,
+    
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    //alert(JSON.stringify(res));return;
+    //console.log(res);
+    if(res.status =="1"){
+      if(res.data.status==true){
+        AsyncStorage.setItem('selected_account_type',that.state.selectedOption.toString());
+        AsyncStorage.setItem('email_to_activated',that.state.userData.email);  
+      that.setState({
+        authorization_data:JSON.parse(JSON.stringify(res.data.data)),
+        showLoader:false
+      })
+      that.props.navigation.navigate('CardPaymentUi',{paramsdata:that.state});
+      }
+
+    }else{
+      that.setState({
+        errorMsg:res.msg,
+        showLoader:false
+      })
+      alert(res.msg);
+    }
+    })
+  .catch((error) => {
+      that.setState({
+        showLoader:false
+      })
+      alert(error);
       console.error(error);
     });
 }

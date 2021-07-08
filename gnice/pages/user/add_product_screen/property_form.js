@@ -9,7 +9,7 @@ const Property_form = (props) => (
     <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Property Type</Text>  
             <Picker style={[custom_style.formcontrol_product_screen]}
               mode="dropdown"
-              iosIcon={<Icon name="arrow-down" />}
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
@@ -26,10 +26,10 @@ const Property_form = (props) => (
 
             </Picker>
 
-     {/* <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor="#fff"
+     <Text style={[{marginBottom:5,paddingLeft:10}]}>Square Meters</Text> 
+            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Square Meters" keyboardType="number-pad" selectionColor="#fff"
             placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
-            /> */}
+            />
     </View>
 )
 

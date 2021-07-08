@@ -8,6 +8,10 @@ import * as AsyncMethods from '../../methods/AsyncMethods';
 import * as Requests from '../../methods/Requests';
 import Car_form from './add_product_screen/car_form';
 import Property_form from './add_product_screen/property_form';
+import Phones_form from './add_product_screen/phones_form';
+import CheckBox from '@react-native-community/checkbox';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 //import RNPickerSelect from 'react-native-picker-select';
 //import {Picker} from '@react-native-picker/picker';
@@ -28,10 +32,17 @@ export default class LandingScreen extends Component <{}>{
       subCategoryListSelected:[],
       subCategorySelected:'',
       carModelListSelected:[],
+      phoneModelListSelected:[],
+      lgalListSelected:[],
       carMakeSelected:'0',
       carModelSelected:'0',
+      phoneMakeSelected:'0',
+      phoneModelSelected:'0',
       required_tables:[],
       formGroup:'',
+      stateSelected:'',
+      lgaSelected:'',
+      
       
     }
 
@@ -62,6 +73,7 @@ export default class LandingScreen extends Component <{}>{
         //alert(JSON.stringify(this.state.subcategoryselected));
         
       }
+      
 
       onSubCategoryValueChange(value) {
         let objectval = JSON.parse(JSON.stringify(this.state.subCategoryListSelected[value]));  
@@ -80,6 +92,13 @@ export default class LandingScreen extends Component <{}>{
                 formGroup: 'properties',
             }); 
         }
+
+        else if(objectval.sub_id=='7'){
+          this.setState({ 
+              formGroup: 'phones',
+          }); 
+      }
+
          
        }
 
@@ -104,9 +123,38 @@ export default class LandingScreen extends Component <{}>{
          this.setState({
         propertyTypeSelected:value,  
          });
-         
+       }
+       
+       onStateValueChange(props,value) {
+        let objectval = JSON.parse(JSON.stringify(this.state.required_tables.states[value]));   
+         this.setState({
+        lgalListSelected: objectval.lgas,  
+        stateSelected:value,  
+         });
+       }
+
+       onlgaValueChange(props,value) {
+        //let objectval = JSON.parse(JSON.stringify(this.state.required_tables.states[value]));   
+         this.setState({  
+        lgaSelected:value,  
+         });
+       }
+
+       onPhoneMakeValueChange(props,value) {
+        let objectval = JSON.parse(JSON.stringify(this.state.required_tables.phone_makes[value]));   
+         this.setState({
+        phoneMakeSelected:value,  
+         phoneModelListSelected: objectval.phone_models
+         });
          
        }
+       
+       onPhoneModelValueChange(props,value) {
+        this.setState({
+        phoneModelSelected:value,  
+         });
+       }
+       
        
 
   
@@ -121,7 +169,7 @@ export default class LandingScreen extends Component <{}>{
         <View style={[{justifyContent:'center',marginBottom:0}]}>  
         <View> 
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
-        <ScrollView>
+        <ScrollView style={{marginBottom:50}}>
         <KeyboardAvoidingView
         style={{ flex: 1 }}
         keyboardVerticalOffset={100}
@@ -131,14 +179,14 @@ export default class LandingScreen extends Component <{}>{
         
         <Form>
 
-        <Text style={[custom_style.product_details_title,{textAlign:'center',marginBottom:20}]}>New Advert</Text>   
+        <Text style={[custom_style.product_details_title,{textAlign:'center',marginBottom:20,fontFamily:'Rajdhani'}]}>New Advert</Text>   
         
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Category</Text> 
           
-        <Picker style={[custom_style.formcontrol_product_screen]}
+        <Picker style={[custom_style.formcontrol_product_screen,{color:'#ccc'}]}
               mode="dropdown"
-              iosIcon={<Icon name="arrow-down" />}
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
@@ -159,7 +207,7 @@ export default class LandingScreen extends Component <{}>{
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Sub Category</Text>   
             <Picker style={[custom_style.formcontrol_product_screen]}
               mode="dropdown"
-              iosIcon={<Icon name="arrow-down" />}
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
@@ -188,37 +236,103 @@ export default class LandingScreen extends Component <{}>{
             </View>
             ):null
             }
+            {this.state.formGroup == 'phones' ? (
+            <View>  
+            <Phones_form state={this.state}  phoneMakeChange = {this.onPhoneMakeValueChange.bind(this,this.props)} phoneModelChange={this.onPhoneModelValueChange.bind(this,this.props)}/>
+            </View>
+            ):null
+            }
            
-           
+           <Text style={[{marginBottom:5,paddingLeft:10}]}>Select State Region</Text>   
+           <Picker style={[custom_style.formcontrol_product_screen]}
+              mode="dropdown"
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
+              headerStyle={{ backgroundColor: "#5da7d3" }}
+              headerBackButtonTextStyle={{ color: "#fff" }}
+              headerTitleStyle={{ color: "#fff" }}
+              selectedValue={this.state.stateSelected}
+              onValueChange={this.onStateValueChange.bind(this)}
+            >
+                {
+                    Object.entries(this.state.required_tables.states).map(([i, value]) => {
+                        return <Picker.Item key={i} label={value.state} value={i} />;
+                    })
+                  }
+                <Picker.Item label="Select State" value="" />
+            </Picker>
+
+            <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Local Region</Text>   
+           <Picker style={[custom_style.formcontrol_product_screen]}
+              mode="dropdown"
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
+              headerStyle={{ backgroundColor: "#5da7d3" }}
+              headerBackButtonTextStyle={{ color: "#fff" }}
+              headerTitleStyle={{ color: "#fff" }}
+              selectedValue={this.state.lgaSelected}
+              onValueChange={this.onlgaValueChange.bind(this)}
+            >
+                {
+                    Object.entries(this.state.lgalListSelected).map(([i, value]) => {
+                        return <Picker.Item key={i} label={value.Lga} value={i} />;
+                    })
+                  }
+                <Picker.Item label="Select LGA" value="" />
+            </Picker>
+
            <Text style={[{marginBottom:5,paddingLeft:10}]}>Title</Text> 
             <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
             placeholderTextColor="grey" onChangeText={(title) =>this.setState({title}) }
             />
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor="#fff"
+            <View style={{flexDirection:'row'}}>
+            <View style={[custom_style.formcontrol_product_screen,{backgroundColor:'#ccc',width:35,borderRadius:0,alignItems:'center',alignContent:'center',paddingLeft:0}]}>
+              <Text style={{fontWeight:'bold',paddingTop:3}}>N</Text></View><TextInput style={[custom_style.formcontrol_product_screen,{borderTopLeftRadius:0,borderBottomLeftRadius:0,width:315}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor="#fff"
             placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
             />
+            </View>
+
+            <View style={{flexDirection:'row',marginVertical:15}}>
+            <CheckBox value={false} onValueChange={(negotiable_price) => {this.setState({negotiable_price})}} style={custom_style.signup_checkbox}/>
+            <Text style={{fontSize:16,color:'#555'}}>Price is negotiable</Text>
+          </View>
+
             
             </View>
             ):null}
             
             
+            <Text style={[{marginBottom:5,paddingLeft:10}]}>Name</Text> 
+            <TextInput style={[custom_style.formcontrol_product_screen,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
+            value={this.state.userData.fullname} editable={false}
+            />
+            <Text style={[{marginBottom:5,paddingLeft:10}]}>Phone Number</Text> 
+            <TextInput style={[custom_style.formcontrol_product_screen,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
+            value={this.state.userData.phone} editable={false}
+            />
 
           </Form>
         
-          <View style={{alignItems:'center'}}>
-        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',marginTop:70}]} onPress={this._signup}>
-        {this.state.showLoader ?(
+
+      <View style={{flexDirection:'row',justifyContent:'center',marginTop:20,marginBottom:30}}> 
+    <LinearGradient colors={['#266469', '#4983b5', '#388db1']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
+      style={[custom_style.action_call_btn,{marginRight:5,height:50}]} 
+      start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
+      <TouchableOpacity style={{flexDirection:'row',height:20}}>
+      {this.state.showLoader ?(
         <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}
-            
-        <Text style={{fontSize:17,fontWeight:'bold',color:'#fff'}}>Continue</Text><Icon name='ios-arrow-forward' style={{color:'#fff'}} />
-        </TouchableOpacity>
-        </View>
+      <Text style={{fontSize:16,color:'#fff'}}>POST ADS </Text>
+      <Image source={require('../../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 50, width:30}}/> 
+      </TouchableOpacity>
+    </LinearGradient>
+
+
+    
+      </View> 
+
         
-        
-        </View>
+      </View>
         
         </View>
         </KeyboardAvoidingView>

@@ -227,9 +227,9 @@ formcontrol_login_username:{
     borderBottomRightRadius:30,
   }, 
   formcontrol_product_screen:{
-    width:320,
+    width:350,
     paddingVertical:10,
-    paddingLeft:15,
+    paddingLeft:10,
     height:45,
     fontSize:15,
     borderRadius:10,

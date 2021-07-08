@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import * as Requests from '../methods/Requests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Nav from '../methods/Navigation';
 
 
 export default class SellerAccountTypeScreen_preview extends Component <{}>{
@@ -18,8 +19,12 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
   	}
     
 
-    _update_user_account =()=>{
-        Requests.update_user_account_type(this);
+    // _update_user_account =()=>{
+    //     Requests.update_user_account_type(this);
+    // }
+
+    generate_checkout =()=>{
+        Requests.generate_paystack_checkout(this);
     }
 
     componentDidMount =()=> {
@@ -56,7 +61,9 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
     userToken:'',
     userData:[],    
     activeSlide:2, 
-    selectedOption:null,   
+    selectedOption:null,  
+    selectedValue:null, 
+    authorization_data:[],
     content:[
         {
             title:'Advance',
@@ -81,7 +88,11 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
                     title:'Product Index',
                     body:'Your products remains at the top search rank.'
                 },
+                {
+                    price:'N10,000/mo',
+                }
             ],
+            value:'1000000'
         },
         {
             title:'Super',
@@ -106,7 +117,12 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
                     title:'Product Index',
                     body:'Your products are seen before others'
                 },
+                {
+                    price:'N7000/mo',
+                    
+                }
             ],
+            value:'700000'
         },
         {
             title:'Free',
@@ -127,7 +143,12 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
                     title:'Whatsapp',
                     body:'No whatsapp link on your product page'
                 },
+                {
+                    price:'Free',
+                   
+                }
             ],
+            value:'0'
         },
         {
             title:'Basic',
@@ -148,7 +169,12 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
                     title:'Whatsapp',
                     body:'Whatsapp link activated on your product page'
                 },
+                {
+                    price:'N5,000/mo',
+                    
+                }
             ],
+            value:'500000'
         },
 
         
@@ -158,17 +184,24 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
 
     _renderCarouselItem = ({item, index})=>{
         return (
-            <TouchableOpacity onPress={()=>this.setState({selectedOption:index})}>
+            <TouchableOpacity onPress={()=>this.setState({selectedOption:index,selectedValue:item.value})}>
             <Card style={[custom_style.textInputShadow,{borderRadius:20,overflow:'hidden'}]}>
             <CardItem header bordered style={{backgroundColor:'#d7f0f9'}}>
               <Text style={{fontWeight:'bold'}}>{item.title}</Text>
             </CardItem>
             {item.body.map((body, i) => (
             <CardItem bordered  key={i}>
-              <Body>
-                <Text>
-                  {body.body}
-                </Text>
+                <Body>
+                {body.price ? (
+                    <Text style={{textAlign:'center',alignSelf:'center',fontFamily:'Rajdhani',fontWeight:'bold',fontSize:20}}>
+                    {body.price}
+                  </Text>
+                ):null}  
+                {body.body ? (
+                    <Text>
+                    {body.body}
+                  </Text>
+                ):null}  
               </Body>
             </CardItem>
             ))
@@ -223,7 +256,7 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
         <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginBottom:10,height: 40, width:32}}/>  
         <Text style={custom_style.preview_header}>Welcome! You are just a click away from a whole world of possiblities.</Text>
         <Text style={custom_style.preview_header_title}>CHOOSE AN ACCOUNT TYPE</Text>
-        <View style={{height:330}}>
+        <View style={{height:400}}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
               data={this.state.content}
@@ -239,7 +272,10 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
         { this.pagination }   
          
         {this.state.selectedOption!==null ? (
-         <TouchableOpacity onPress={this._update_user_account} style={[custom_style.login_btn,custom_style.right_border_radius,custom_style.left_border_radius,{alignSelf:'center',marginTop:10,backgroundColor:'#ff6347'}]}>
+         <TouchableOpacity onPress={this.generate_checkout.bind(this)} style={[custom_style.login_btn,custom_style.right_border_radius,custom_style.left_border_radius,{alignSelf:'center',marginTop:10,backgroundColor:'#ff6347'}]}>
+         {this.state.showLoader ?(
+        <Image source={require('../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
+        ):null}
          <Text style={{color:'#fff'}}>Get Started</Text>
         </TouchableOpacity>
         ):null

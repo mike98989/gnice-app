@@ -32,8 +32,8 @@ export default class LandingScreen extends Component <{}>{
     <Container>
       <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground>
-        <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'UserLogin')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-        <View style={custom_style.container} p>
+        <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
+        <View style={custom_style.container}>
         {/* <Text>{JSON.stringify(this.state.userData)}</Text> */}
         </View>
         

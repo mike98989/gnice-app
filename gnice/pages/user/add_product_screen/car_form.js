@@ -10,7 +10,7 @@ const Car_form = (props) => (
     <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Make</Text> 
             <Picker style={[custom_style.formcontrol_product_screen]}
               mode="dropdown"
-              iosIcon={<Icon name="arrow-down" />}
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
@@ -30,7 +30,7 @@ const Car_form = (props) => (
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Model</Text> 
             <Picker style={[custom_style.formcontrol_product_screen]}
               mode="dropdown"
-              iosIcon={<Icon name="arrow-down" />}
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}

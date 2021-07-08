@@ -16,6 +16,7 @@ import NewProduct from './pages/user/NewProduct';
 
 import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
 import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_preview';
+import CardPaymentUi from './pages/CardPaymentUi';
 
 
 import UserCustomDrawerContent from './components/UserScreenCustomDrawer'
@@ -29,7 +30,7 @@ function UserArea() {
   return (
 
     
-    <Drawer.Navigator initialRouteName='NewProduct' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
+    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
     activeTintColor: '#e91e63',
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
@@ -47,7 +48,7 @@ function UserArea() {
 export default function Routes() {
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="UserArea" screenOptions={{headerShown: false}}>
+    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Pinned" component={Pinned} />
       <Stack.Screen name="Product" component={Product} />
@@ -59,6 +60,7 @@ export default function Routes() {
       <Stack.Screen name="SellerAccountTypeScreen_preview" component={SellerAccountTypeScreen_preview} />
       <Stack.Screen name="SubCategories" component={SubCategories} />
       <Stack.Screen name="Products" component={Products} />
+      <Stack.Screen name="CardPaymentUi" component={CardPaymentUi} />
     </Stack.Navigator>
     </NavigationContainer>
     );

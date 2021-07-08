@@ -12,7 +12,10 @@ export const _loadSessionState = async(that)=>{
       userID:dataObject.id,
       userToken:token,
       userData:dataObject,
-    })  
+    })
+    if((dataObject.seller=='1')&&(dataObject.account_type=='0')){
+      that.props.navigation.navigate('SellerAccountTypeScreen_preview',{paramsdata:null});
+    }  
   }else{
   AsyncStorage.clear();
   //Toast.show({text: "Invalid Token!",buttonText: "",position: "bottom"});
@@ -25,5 +28,21 @@ export const _loadSessionState = async(that)=>{
   }
 
   }
+
+
+  export const _loadSellerActivationData = async(that)=>{
+    var selected_account_type = await AsyncStorage.getItem('selected_account_type');
+    var email_to_activated = await AsyncStorage.getItem('email_to_activated');
+    
+    if((selected_account_type!=null)&&(selected_account_type !='')){
+      that.setState({
+        selected_account_type:selected_account_type,
+        email_to_activated:email_to_activated,
+      })
+      
+    }
+    
+  
+    }
 
 

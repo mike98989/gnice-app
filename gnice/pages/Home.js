@@ -31,12 +31,12 @@ export default class Home extends Component <{}>{
     }
   
   componentDidMount =()=> {
-    AsyncMethods._loadSessionState(this).done();
+    //AsyncMethods._loadSessionState(this).done();
 
     this._loadInitialState().done();
     const unsubscribe = this.props.navigation.addListener('focus', () => {
       //this.setState({showLoader:true})
-      AsyncMethods._loadSessionState(this).done();
+      //AsyncMethods._loadSessionState(this).done();
         Requests.fetch_all_products(this); 
         Requests.fetch_all_categories_and_sub_categories(this);  
       });
@@ -67,7 +67,9 @@ export default class Home extends Component <{}>{
       // <View style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',marginBottom:4,borderRadius:10,overflow:'hidden'}]}>
       //   <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item.image}}  style={{height: 150, width: '100%', flex: 1}}/>
       // </View>
-      <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',borderRadius:10,overflow:'hidden'}]}>
+
+      
+      <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
         <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
@@ -77,15 +79,32 @@ export default class Home extends Component <{}>{
           <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
           <Text style={custom_style.product_price}>NGN {item.price}</Text>  
-          
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.location}</Text>
           </Body>
         
       </CardItem>
-      {/* <CardItem style={{padding:0}}>
       
-      </CardItem> */}
       </TouchableOpacity>
     </Card>
+
+
+  // <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',borderRadius:10,overflow:'hidden'}]}>
+  //       <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
+  //     <CardItem cardBody>
+  //       <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
+  //     </CardItem>
+  //     <CardItem>
+        
+  //         <Body>
+  //         <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
+  //         <Text style={custom_style.product_price}>NGN {item.price}</Text>  
+          
+  //         </Body>
+        
+  //     </CardItem>
+      
+  //     </TouchableOpacity>
+  //   </Card>
     );
 
 
@@ -164,7 +183,7 @@ export default class Home extends Component <{}>{
   </View>
   </ScrollView>
 
-  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
+  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
   />
