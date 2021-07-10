@@ -328,14 +328,32 @@ formcontrol_login_username:{
     color: '#ffffff',
     backgroundColor: 'transparent',
   },
-
   blurView:{
     position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     right: 0
-    }
+    },
+  image_pick:{
+    height:80,
+    width:80,
+    borderRadius:20,
+    textAlign:'center',
+    alignSelf:'flex-start',
+    alignContent:'center',
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:'#ccc'
+    },
+  advert_images: {
+      width: 80,
+      height: 80,
+      borderColor: 'white',
+      borderWidth: 1,
+      marginHorizontal: 3,
+      borderRadius:20,
+    },
 
 });
 

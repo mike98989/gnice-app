@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../components/global';
-//import * as Logic from './Logic';
+import * as Logic from './Logic';
 
   //////SIGNUP METHOD
   export const signup = (that) => {
@@ -805,6 +805,84 @@ export const update_user_account_type = (that) =>{
   
 }
 
+
+/////////////ADD PRODUCTS
+export const addProducts = (that) =>{
+  //alert(that.state.userToken);return;
+  
+  if((that.state.uploadImageCount==0)){
+    alert('Please select an Image!');
+  }else if(!that.state.categorySelected){
+    alert('Please select Category!');
+  }
+  // else if(!that.state.subCategorySelected){
+  //   alert('Please select Sub Category!');
+  // }
+  else{
+    if(that.state.negotiable_price){
+      var negotiable = '1';
+    }else{
+      var negotiable='0';
+    }
+    that.state.resourcePath.map((item, i) => (
+    that.formData.append('files['+i+']', {
+      uri: item.uri,
+      type: 'image/jpeg/jpg',
+      name: item.fileName,
+      data: item.data,
+    })
+    ));
+    that.formData.append('category', that.state.categorySelected);
+    that.formData.append('sub_category',that.state.subCategorySelected);
+
+    Logic.update_new_product_subcategory_view(that.state.subCategorySelected,that);
+    
+    that.formData.append('state',that.state.stateSelected);
+    that.formData.append('lga',that.state.lgaSelected);
+    that.formData.append('name',that.state.advert_title);
+    that.formData.append('price',that.state.price);
+    that.formData.append('land_mark',that.state.land_mark);
+    that.formData.append('negotiable',negotiable);
+    that.formData.append('seller_id',that.state.userData.seller_id);
+    fetch (global.serverUrl+'api/add_product',{
+    method:'POST',
+    headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'gnice-authenticate': that.userToken,
+            },
+    body: that.formData,
+    
+  })
+  .then((response)=>response.text())
+  .then((res) =>{
+    alert(JSON.stringify(res));return
+    //console.log(res);
+    if(res.status =="1"){
+      AsyncStorage.removeItem('user-data');
+      AsyncStorage.removeItem('selected_account_type');
+      AsyncStorage.removeItem('email_to_activated');
+      AsyncStorage.setItem('user-data',JSON.stringify(res.data));
+      that.props.navigation.navigate('UserArea',{paramsdata:null});
+    }else{
+      that.setState({
+        errorMsg:res.msg,
+        showLoader:false
+      })
+      //alert(res.message);
+    }
+  
+
+    })
+  .catch((error) => {
+      that.setState({
+        showLoader:false
+      })
+      console.error(error);
+    });
+}
+  
+}
 
 
 /////////////UPDATE USER ACCOUNT TYPE

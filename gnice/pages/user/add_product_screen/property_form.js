@@ -28,7 +28,7 @@ const Property_form = (props) => (
 
      <Text style={[{marginBottom:5,paddingLeft:10}]}>Square Meters</Text> 
             <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Square Meters" keyboardType="number-pad" selectionColor="#fff"
-            placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
+            placeholderTextColor="grey" onChangeText={(sqare_meters) =>props.setState({sqare_meters}) }
             />
     </View>
 )

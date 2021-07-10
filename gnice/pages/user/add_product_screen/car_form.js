@@ -65,12 +65,12 @@ const Car_form = (props) => (
                         <Picker.Item label="Loading..." value="0" />
                     )}       
 
-            </Picker>
+            </Picker>*/}
 
-     <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor="#fff"
-            placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
-            /> */}
+        <Text style={[{marginBottom:5,paddingLeft:10}]}>Color</Text> 
+            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Color" keyboardType="number-pad" selectionColor="#fff"
+            placeholderTextColor="grey" onChangeText={(color) =>this.setState({color}) }
+            /> 
     </View>
 )
 
