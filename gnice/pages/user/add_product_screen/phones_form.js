@@ -7,7 +7,7 @@ import {custom_style} from '../../../components/custom_style';
 const Phone_form = (props) => (
     <View>    
     <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Brand</Text>  
-            <Picker style={[custom_style.formcontrol_product_screen]}
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -27,7 +27,7 @@ const Phone_form = (props) => (
             </Picker>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Model</Text>  
-            <Picker style={[custom_style.formcontrol_product_screen]}
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}

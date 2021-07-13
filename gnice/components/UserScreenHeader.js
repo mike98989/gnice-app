@@ -8,7 +8,7 @@ const MainHeader = (props) => (
     {props.nav_type == "complete" ? (
       <View>
         {props.header_type == "transparent" ? (
-        <Header transparent style={[{height:40,marginTop:15}]}>
+        <Header transparent style={[{height:40,marginTop:5}]}>
         <Left>
           <TouchableOpacity transparent style={{marginLeft:10}} onPress={props.openDrawer}>
           <Image source={require('../images/drawer4.png')} style={{width:35,height:35}}/>

@@ -46,7 +46,7 @@ export default class LandingScreen extends Component <{}>{
       phoneMakeSelected:'0',
       phoneModelSelected:'0',
       required_tables:[],
-      formGroup:'',
+      formGroup:null,
       formValues:[],
       stateSelected:'',
       lgaSelected:'',
@@ -182,9 +182,7 @@ export default class LandingScreen extends Component <{}>{
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <ScrollView style={{marginBottom:50}}>
         <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={100}
-        behavior={"position"}>
+        >
         <View style={{flexDirection:'column',alignItems:'center'}}>
         <View>
         
@@ -194,7 +192,7 @@ export default class LandingScreen extends Component <{}>{
       
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Category</Text> 
           
-        <Picker style={[custom_style.formcontrol_product_screen,{color:'#ccc'}]}
+        <Picker style={[custom_style.formcontrol_product_screen,{color:'#ccc',paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -215,7 +213,7 @@ export default class LandingScreen extends Component <{}>{
             </Picker>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Sub Category</Text>   
-            <Picker style={[custom_style.formcontrol_product_screen]}
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -255,13 +253,13 @@ export default class LandingScreen extends Component <{}>{
             }
             {this.state.formGroup == 'fashion' ? (
             <View>  
-            <Fashion_form state={this.state}/>
+            <Fashion_form that={this.state}/>
             </View>
             ):null
             }
            
            <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Condition</Text>   
-            <Picker style={[custom_style.formcontrol_product_screen]}
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -280,7 +278,7 @@ export default class LandingScreen extends Component <{}>{
             </Picker>
 
            <Text style={[{marginBottom:5,paddingLeft:10}]}>Select State Region</Text>   
-           <Picker style={[custom_style.formcontrol_product_screen]}
+           <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -298,7 +296,7 @@ export default class LandingScreen extends Component <{}>{
             </Picker>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Local Region</Text>   
-           <Picker style={[custom_style.formcontrol_product_screen]}
+           <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -315,8 +313,8 @@ export default class LandingScreen extends Component <{}>{
                 <Picker.Item label="Select LGA" value="" />
             </Picker>
 
-            <Text style={[{marginBottom:5,paddingLeft:10}]}>Closest land mark</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Land mark" keyboardType="default" selectionColor="#fff"
+            <Text style={[{marginBottom:5,paddingLeft:10}]}>Nearest land mark</Text> 
+            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Nearest Land mark" keyboardType="default" selectionColor="#fff"
             placeholderTextColor="grey" onChangeText={(land_mark) =>this.setState({land_mark})}
             />
 
@@ -328,7 +326,7 @@ export default class LandingScreen extends Component <{}>{
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
             <View style={{flexDirection:'row'}}>
-            <View style={[custom_style.formcontrol_product_screen,{backgroundColor:'#ccc',width:35,borderRadius:0,alignItems:'center',alignContent:'center',paddingLeft:0}]}>
+            <View style={[custom_style.formcontrol_product_screen,{backgroundColor:'#ccc',width:40,borderRadius:0,alignItems:'center',alignContent:'center',paddingLeft:0}]}>
               <Text style={{fontWeight:'bold',paddingTop:3}}>N</Text></View><TextInput style={[custom_style.formcontrol_product_screen,{borderTopLeftRadius:0,borderBottomLeftRadius:0,width:315}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor="#fff"
             placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
             />

@@ -8,7 +8,7 @@ const Fashion_form = (props) => (
     <View>    
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Size</Text> 
             <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Size" keyboardType="number-pad" selectionColor="#fff"
-            placeholderTextColor="grey" onChangeText={(size) =>this.setState({size}) }
+            placeholderTextColor="grey" onChangeText={(size) =>props.that.setState({size}) }
             /> 
     </View>
 )

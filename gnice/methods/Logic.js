@@ -19,7 +19,6 @@ export const update_new_product_subcategory_view = (value, that)=>{
       that.formData.append('brand',that.state.carMakeSelected);
       that.formData.append('model',that.state.carModelSelected);
       that.formData.append('color',that.state.color);
-      that.formData.append('condition',that.state.conditionSelected);
       break;
     
     case '42':
@@ -40,24 +39,41 @@ export const update_new_product_subcategory_view = (value, that)=>{
 export const update_new_product_category_view = (value,that)=>{
 
   if(that.state.categorySelected!=value){
-    that.formData=null;
+    //that.formData=null;
     that.setState({ formGroup: null}); 
   }
   switch(value) {
     case '1':
+      // if(!that.state.formGroup){
       that.setState({ formGroup: 'cars'}); 
+      // }else{
+      that.formData.append('brand',that.state.carMakeSelected);
+      that.formData.append('model',that.state.carModelSelected);
+      that.formData.append('color',that.state.color);
       break;
     
     case '2':
+      
       that.setState({ formGroup: 'properties'}); 
+      
+      that.formData.append('property_type',that.state.propertyTypeSelected);
+      that.formData.append('property_size',that.state.sqare_meters);
+      
     break;
 
     case '3':
+      
       that.setState({ formGroup: 'phones'}); 
+      that.formData.append('brand',that.state.phoneMakeSelected);
+      that.formData.append('model',that.state.phoneModelSelected);
+      that.formData.append('color',that.state.color);
       break;
 
     case '5':
+        
         that.setState({ formGroup: 'fashion'}); 
+        that.formData.append('color',that.state.color);
+        
         break;  
 
     default:

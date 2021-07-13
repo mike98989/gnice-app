@@ -12,6 +12,7 @@ import UserLogin from './pages/UserLogin';
 import UserSignup from './pages/UserSignup';
 import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
+import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
 
 import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
@@ -35,7 +36,8 @@ function UserArea() {
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
     <Drawer.Screen name="NewProduct" options={{ drawerLabel: 'NewProduct' }} component={NewProduct} />
-    
+    <Drawer.Screen name="MyProducts" options={{ drawerLabel: 'MyProducts' }} component={MyProducts} />
+
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>

@@ -602,6 +602,46 @@ export const fetch_all_products = (that) =>{
       });
   }
 
+
+
+    //////////FETCH USER PRODUCTS
+    export const fetch_all_user_products = (that) =>{
+      //let paramsValue = that.props.route.params.paramsdata;
+      
+      fetch (global.serverUrl+'api/fetch_all_user_products',{
+        method:'GET',
+        headers: {
+          'Accept': 'application/json',
+          'gnice-authenticate': that.userToken,
+      },
+      
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        alert(JSON.stringify(res));
+        return;
+        that.setState({
+          showLoader:false
+        })
+    if(res.status =="1"){
+      that.setState({
+        products: JSON.parse(JSON.stringify(res.data)),
+        })
+  
+    }else{
+    }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+    }
+
+  
+
     //////////FETCH RELATED PRODUCTS
     export const fetch_required_table = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
@@ -839,6 +879,7 @@ export const addProducts = (that) =>{
     
     that.formData.append('state',that.state.stateSelected);
     that.formData.append('lga',that.state.lgaSelected);
+    that.formData.append('condition_state',that.state.conditionSelected);
     that.formData.append('name',that.state.advert_title);
     that.formData.append('price',that.state.price);
     that.formData.append('land_mark',that.state.land_mark);
@@ -854,16 +895,12 @@ export const addProducts = (that) =>{
     body: that.formData,
     
   })
-  .then((response)=>response.text())
+  .then((response)=>response.json())
   .then((res) =>{
-    alert(JSON.stringify(res));return
-    //console.log(res);
+    console.log(res);
     if(res.status =="1"){
-      AsyncStorage.removeItem('user-data');
-      AsyncStorage.removeItem('selected_account_type');
-      AsyncStorage.removeItem('email_to_activated');
-      AsyncStorage.setItem('user-data',JSON.stringify(res.data));
-      that.props.navigation.navigate('UserArea',{paramsdata:null});
+      //that.props.navigation.navigate('UserArea',{paramsdata:null});
+      alert("Advert created successfully!")
     }else{
       that.setState({
         errorMsg:res.msg,
