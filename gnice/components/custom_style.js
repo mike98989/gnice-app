@@ -353,6 +353,45 @@ formcontrol_login_username:{
       marginHorizontal: 3,
       borderRadius:20,
     },
+  curved_top_side_view:{
+  marginHorizontal:15,  
+  borderTopRightRadius:30,
+  borderTopLeftRadius:30,
+  padding:10,
+  },
+  dashboard_box1:{
+    width:'48%',
+    height:150,
+    backgroundColor:'#ccc',
+    marginTop:10,
+    borderRadius:20,
+    paddingHorizontal:30,
+    paddingVertical:30
+},
+
+dashboard_box2:{
+  width:'100%',
+  height:150,
+  backgroundColor:'#ccc',
+  marginTop:10,
+  borderRadius:20,
+  paddingHorizontal:30,
+  paddingVertical:30
+},
+
+dashboard_box1_header:{
+  fontSize:37,
+  color:'#fff',
+  fontFamily:'Cicle',
+},
+dashboard_box1_sub_header:{
+  fontSize:17,
+  color:'#000',
+  fontFamily:'Cicle',
+  marginTop:5,
+},
+
+
 
 });
 

@@ -59,7 +59,7 @@ export default class Home extends Component <{}>{
   }
 
 
-    render(){
+  render(){
 
     const renderProductItems = ({ item }) => (
       image_value = Logic.split_value(item.image, ','),
@@ -67,8 +67,6 @@ export default class Home extends Component <{}>{
       // <View style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',marginBottom:4,borderRadius:10,overflow:'hidden'}]}>
       //   <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item.image}}  style={{height: 150, width: '100%', flex: 1}}/>
       // </View>
-
-      
       <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
@@ -126,7 +124,7 @@ export default class Home extends Component <{}>{
   <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>  
   <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-
+  
   <ScrollView nestedScrollEnabled={true}>
   {/* <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',height: 30, width:25,marginBottom:15}}/>
            */}
@@ -150,6 +148,7 @@ export default class Home extends Component <{}>{
         numColumns={3}
       />
   </SafeAreaView>  
+  
   </View>
 
 

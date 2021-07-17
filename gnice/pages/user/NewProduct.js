@@ -61,14 +61,10 @@ export default class LandingScreen extends Component <{}>{
 
     componentDidMount =()=> {
         AsyncMethods._loadSessionState(this).done();
-    
         this._loadInitialState().done();
         const unsubscribe = this.props.navigation.addListener('focus', () => {
           AsyncMethods._loadSessionState(this).done();
-            Requests.fetch_all_categories_and_sub_categories(this);  
-            Requests.fetch_required_table(this);
           });
-      
       }
       
       _loadInitialState = async()=>{  
@@ -76,6 +72,11 @@ export default class LandingScreen extends Component <{}>{
       Requests.fetch_required_table(this);
       }
      
+      update_state =()=>{
+        Requests.fetch_all_categories_and_sub_categories(this);  
+        Requests.fetch_required_table(this);
+      }
+
       onCategoryValueChange(value) { 
 
        let objectval = JSON.parse(JSON.stringify(this.state.categories_and_sub[value]));   

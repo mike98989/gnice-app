@@ -273,21 +273,16 @@ export const confirm_password_recovery_code = (that) => {
   }
 }
 
-export const change_pass = (that) =>{
 
-  if((that.state.email=='')){
-    alert("You are not logged in"); 
-    that.setState({
-        errorMsg:'You are not logged in!',
-      });
-    that.props.navigation.push('Login'); 
-  }
-  else if((that.state.new_password=='')||(that.state.confirm_new_password=='')){
+
+
+export const change_pass = (that) =>{
+  if((that.state.password=='')||(that.state.confirm_password=='')){
     that.setState({
         errorMsg:'Please enter new password!',
       });
   }
-  else if(that.state.new_password!==that.state.confirm_new_password){
+  else if(that.state.password!==that.state.confirm_password){
     that.setState({
         errorMsg:'Passwords Do Not Match!',
       });
@@ -300,33 +295,36 @@ export const change_pass = (that) =>{
       })
 
   const formdata = new FormData();
-  formdata.append('old_password', that.state.old_password);
-  formdata.append('new_password', that.state.new_password);
-  formdata.append('confirm_password', that.state.confirm_new_password);
-  formdata.append('user_token', that.state.user_token);
-
+  formdata.append('password', that.state.password);
+  formdata.append('confirm_password', that.state.confirm_password);
   fetch (global.serverUrl+'api/change_password',{
     method:'POST',
     headers: {
-    'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'gnice-authenticate': that.state.userToken,
     },
     body: formdata
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(res);
-    alert(res.msg);
+    //alert(res);return;
+    //alert(res.msg);
     //console.log(res);
     if(res.status =="1"){
       that.setState({
         errorMsg:res.msg,
         showLoader:false,
-        new_password:'',
-        old_password:'',
-        confirm_new_password:'',
+        password:'',
+        confirm_password:'',
       })
-    }else{
+    }
+    else if(res.status=='-1'){
+      alert("You are not logged in.");
+      that.props.navigation.push('UserLogin',null);
+    }
+    else{
       that.setState({
         errorMsg:res.msg,
         showLoader:false
@@ -607,19 +605,17 @@ export const fetch_all_products = (that) =>{
     //////////FETCH USER PRODUCTS
     export const fetch_all_user_products = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
-      
-      fetch (global.serverUrl+'api/fetch_all_user_products',{
+      fetch (global.serverUrl+'api/fetch_all_product_of_seller?seller_id='+that.state.userData.seller_id,{
         method:'GET',
         headers: {
           'Accept': 'application/json',
           'gnice-authenticate': that.userToken,
       },
-      
       })
       .then((response)=>response.json())
       .then((res) =>{
-        alert(JSON.stringify(res));
-        return;
+        //alert(JSON.stringify(res.data));
+        //return;
         that.setState({
           showLoader:false
         })
@@ -749,18 +745,14 @@ export const login = (that) =>{
     //alert(JSON.stringify(res.token));
     //console.log(res);
     if(res.status =="1"){
-      
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       AsyncStorage.setItem('user-token',res.token);
-      
       //alert(res.data.account_type);return;
       if((res.data.seller=='1')&&(res.data.account_type=='0')){
         that.props.navigation.navigate('SellerAccountTypeScreen_preview');
         }else{
           that.props.navigation.navigate('UserArea',{paramsdata:null});
         }
-      
-        
       that.setState({
         errorMsg:'',
         showLoader:false,
@@ -1053,66 +1045,43 @@ export const updateProfileImage = (that) => {
 
 export const updateProfile = (that) => { 
 
-    if((that.state.FName=='')){
+    if((that.state.fullname=='')){
     that.setState({
-        errorMsg:'Please enter first name!',
+        errorMsg:'Please enter full name!',
       })
     }else if((that.state.Phone=='')){
       that.setState({
         errorMsg:'Please enter phone number!',
       })
-    }else if((that.state.inst_latitude =='')||(that.state.inst_longitude =='')){
-      that.setState({
-        errorMsg:'Please select institution from drop down!',
-      })
-    }else if(that.state.gender ==''){
-      that.setState({
-        errorMsg:'Please select gender!',
-      })
-    }else if((that.state.edu_role_selected =='')){
-      that.setState({
-        errorMsg:'Please select educational role',
-      })
     }else{
       that.setState({
         showLoader:true
       });
-
-
-
   const formdata = new FormData();
+  formdata.append('fullname', that.state.fullname);
+  formdata.append('phone',that.state.phone);
+  formdata.append('whatsapp',that.state.whatsapp);
   
-  formdata.append('first_name', that.state.FName);
-  formdata.append('last_name', that.state.LName);
-  formdata.append('phone',that.state.Phone);
-  formdata.append('address',that.state.Address);
-  formdata.append('state',that.state.State);
-  formdata.append('DeviceToken',that.state.user_token);
-  formdata.append('institution',that.state.Institution);
-  formdata.append('institution_lat',that.state.inst_latitude);
-  formdata.append('institution_long',that.state.inst_longitude);
-  formdata.append('faculty',that.state.Faculty);
-  formdata.append('department',that.state.Department);
-  formdata.append('gender',that.state.gender);
-  formdata.append('educational_role',that.state.edu_role_selected);
-
-  fetch (global.serverUrl+'api/user_update_details_from_react_native',{
+  fetch (global.serverUrl+'api/update_user_profile',{
   method:'POST',
   headers: {
-  'Content-Type': 'multipart/form-data',
-  },
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'gnice-authenticate': that.state.userToken
+},
   body: formdata
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //console.log(res);
+    //alert(res);
     if(res.status =="1"){
-      alert(JSON.stringify(res.msg));
+      //alert(JSON.stringify(res.data));
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       that.setState({
-        data:JSON.parse(JSON.stringify(res.data)),
-        editView:false,
+        userData:JSON.parse(JSON.stringify(res.data)),
+        errorMsg:res.msg,
+        showLoader:false
       })
     }else{
       alert(JSON.stringify(res.msg));

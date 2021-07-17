@@ -6,7 +6,7 @@ export const _loadSessionState = async(that)=>{
   var token = await AsyncStorage.getItem('user-token');
   var datavalue = await AsyncStorage.getItem('user-data');
   var dataObject = JSON.parse(datavalue);
-  
+ 
   if((token!=null)&&(token !='')){
     that.setState({
       userID:dataObject.id,
@@ -27,6 +27,7 @@ export const _loadSessionState = async(that)=>{
   
   }
 
+  that.update_state();
   }
 
 

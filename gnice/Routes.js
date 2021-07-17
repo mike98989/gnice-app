@@ -14,6 +14,9 @@ import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
 import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
+import MyProfile from './pages/user/MyProfile';
+import EditProfile from './pages/user/EditProfile';
+import ChangePassword from './pages/user/ChangePassword';
 
 import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
 import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_preview';
@@ -37,7 +40,9 @@ function UserArea() {
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
     <Drawer.Screen name="NewProduct" options={{ drawerLabel: 'NewProduct' }} component={NewProduct} />
     <Drawer.Screen name="MyProducts" options={{ drawerLabel: 'MyProducts' }} component={MyProducts} />
-
+    <Drawer.Screen name="MyProfile" options={{ drawerLabel: 'MyProfile' }} component={MyProfile} />
+    <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />
+    <Drawer.Screen name="ChangePassword" options={{ drawerLabel: 'ChangePassword' }} component={ChangePassword} />
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>

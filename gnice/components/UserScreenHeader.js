@@ -20,7 +20,7 @@ const MainHeader = (props) => (
           </Body>
           <Right>
           <Button transparent style={{marginLeft:2}} onPress={props.profileImageClick}>
-          <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+props.profileImageUrl}} style={{width:35,height:35}}/>
+          <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+props.profileImageUrl}} style={{borderRadius:30,overflow:'hidden',width:35,height:35}}/>
           </Button>
           <Button transparent style={{marginLeft:12}} onPress={props.logoutImageClick}>
           <Image source={require('../images/logout_icon.png')} style={{width:25,height:27}}/>
