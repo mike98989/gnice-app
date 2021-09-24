@@ -11,6 +11,7 @@ import Property_form from './add_product_screen/property_form';
 import Phones_form from './add_product_screen/phones_form';
 import CheckBox from '@react-native-community/checkbox';
 import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker';
 
 
 //import RNPickerSelect from 'react-native-picker-select';
@@ -74,6 +75,46 @@ export default class LandingScreen extends Component <{}>{
         
       }
       
+
+     chooseImage = () => {
+        //chooseFile = () => {
+          var options = {
+            title: 'Select Image',
+            customButtons: [
+              { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
+            ],
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            },
+          };
+          ImagePicker.showImagePicker(options, response => {
+            //console.log('Response = ', response);
+      
+            if (response.didCancel) {
+              //console.log('User cancelled image picker');
+            } else if (response.error) {
+              //console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              //console.log('User tapped custom button: ', response.customButton);
+              alert(response.customButton);
+            } else {
+              let source = response;
+              // You can also display the image using data:
+              //console.log(source.fileSize);
+              //console.log(JSON.parse(JSON.stringify(source)));
+              //console.log(JSON.stringify(source.filename))
+              //let source = { uri: 'data:image/jpeg;base64,' + response.data };
+              
+              this.setState({
+                filePath: source,
+                isGroupImageSelected:true,
+                showLoader:that.state.isNotPickerModal ? false : true,
+                pickerModal:true,
+              });
+            }
+          });
+        }
 
       onSubCategoryValueChange(value) {
         let objectval = JSON.parse(JSON.stringify(this.state.subCategoryListSelected[value]));  
@@ -310,6 +351,14 @@ export default class LandingScreen extends Component <{}>{
             <TextInput style={[custom_style.formcontrol_product_screen,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
             value={this.state.userData.phone} editable={false}
             />
+
+            <View style={{flexDirection:'row'}}>
+              <TouchableOpacity onPress={this.chooseImage()}>
+                  <View style={custom_style.image_pick}>
+                    <Text style={{textAlign:'center',fontWeight:'bold',fontSize:12}}>Browse Image</Text>
+                  </View>
+                  </TouchableOpacity>
+            </View>
 
           </Form>
         

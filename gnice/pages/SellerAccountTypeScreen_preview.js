@@ -255,7 +255,7 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
          <View style={[custom_style.justify_container,{paddingHorizontal:30,marginTop:100,marginBottom:40}]}> 
         <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginBottom:10,height: 40, width:32}}/>  
         <Text style={custom_style.preview_header}>Welcome! You are just a click away from a whole world of possiblities.</Text>
-        <Text style={custom_style.preview_header_title}>CHOOSE AN ACCOUNT TYPE</Text>
+        <Text style={custom_style.preview_header_title}>CHOOSE A SELLER ACCOUNT TYPE</Text>
         <View style={{height:400}}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
