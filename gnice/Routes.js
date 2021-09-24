@@ -6,13 +6,17 @@ import Home from './pages/Home';
 import Pinned from './pages/Pinned';
 import Product from './pages/Product';
 import Products from './pages/Products';
-
+import ReportAbuse from './pages/ReportAbuse';
 import SubCategories from './pages/SubCategories';
 import UserLogin from './pages/UserLogin';
 import UserSignup from './pages/UserSignup';
 import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
+import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
+import MyProfile from './pages/user/MyProfile';
+import EditProfile from './pages/user/EditProfile';
+import ChangePassword from './pages/user/ChangePassword';
 
 import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
 import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_preview';
@@ -35,7 +39,10 @@ function UserArea() {
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
     <Drawer.Screen name="NewProduct" options={{ drawerLabel: 'NewProduct' }} component={NewProduct} />
-    
+    <Drawer.Screen name="MyProducts" options={{ drawerLabel: 'MyProducts' }} component={MyProducts} />
+    <Drawer.Screen name="MyProfile" options={{ drawerLabel: 'MyProfile' }} component={MyProfile} />
+    <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />
+    <Drawer.Screen name="ChangePassword" options={{ drawerLabel: 'ChangePassword' }} component={ChangePassword} />
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>
@@ -61,6 +68,9 @@ export default function Routes() {
       <Stack.Screen name="SubCategories" component={SubCategories} />
       <Stack.Screen name="Products" component={Products} />
       <Stack.Screen name="CardPaymentUi" component={CardPaymentUi} />
+      <Stack.Screen name="NewProduct" component={NewProduct} />
+      <Stack.Screen name="ReportAbuse" component={ReportAbuse} />
+
     </Stack.Navigator>
     </NavigationContainer>
     );

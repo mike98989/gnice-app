@@ -29,13 +29,13 @@ export default class Home extends Component <{}>{
     this._loadInitialState().done();
     const unsubscribe = this.props.navigation.addListener('focus', () => {
       //this.setState({showLoader:true})
-    Requests.fetch_all_product_sub_category(this);   
+    Requests.fetch_all_product_from_sub_category(this);   
       });
   
   }
   
   _loadInitialState = async()=>{  
-  Requests.fetch_all_product_sub_category(this);
+  Requests.fetch_all_product_from_sub_category(this);
   }
 
 
@@ -52,30 +52,30 @@ export default class Home extends Component <{}>{
     render(){
     let paramsValue = JSON.parse(this.props.route.params.paramsdata);
     const renderProductItems = ({ item }) => (
-      <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',borderRadius:10,overflow:'hidden'}]}>
+      <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
-        <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item.image}}  style={{height: 150, width: null, flex: 1}}/>
+        <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
       </CardItem>
       <CardItem>
-        <Left>
-          <Body>  
+        
+          <Body>
+          <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
+          <Text style={custom_style.product_price}>NGN {item.price}</Text>  
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.location}</Text>
           </Body>
-        </Left>
+        
       </CardItem>
-      <CardItem footer>
-      <Text style={custom_style.product_name}>{item.name}</Text> 
-      </CardItem>
+      
       </TouchableOpacity>
     </Card>
     );
     return(
-  <Container style={{backgroundColor:'#d4d6d7'}}>
-  <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>  
-  <MainHeader header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
+  <Container style={{backgroundColor:'#e1e5e7'}}>
+  {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
+  <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
 
-  <ScrollView>
   <Text style={[custom_style.section_header,{marginLeft:25,marginVertical:10}]}>Cetegories</Text>  
   
   {this.state.showSearchForm ? (
@@ -89,6 +89,7 @@ export default class Home extends Component <{}>{
 
 <Text style={[custom_style.section_header,{marginLeft:25,marginTop:20}]}>{paramsValue.title}</Text>  
 
+{this.state.products.length!=0 ? (
   <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
   <SafeAreaView>
       <FlatList
@@ -100,7 +101,17 @@ export default class Home extends Component <{}>{
       />
   </SafeAreaView>  
   </View>
-  </ScrollView>
+  ):(
+    <View style={{justifyContent:'center',alignItems:'center'}}>
+    <Image source={require('../images/empty_cart.png')} style={[{width: 100,height:100}]}/>
+    <Text style={{textAlign:'center',marginTop:15,color:'#414040'}}>No product/service uploaded yet!</Text>
+    <TouchableOpacity style={[custom_style.login_btn,{alignSelf:'center',width:'60%'}]} onPress={Nav._openscreen.bind(this,this.props,'NewProduct',null)}>
+    <Text style={{fontSize:17,color:'#fff'}}>You can place your add</Text>
+    </TouchableOpacity>
+    </View>
+    )}
+
+
   </Container>
   );
   }

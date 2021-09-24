@@ -117,7 +117,7 @@ search_div:{
 },
 product_details_container:{
   marginTop:4,
-  paddingHorizontal:20,
+  paddingHorizontal:0,
 },
 product_details_image:{
   borderBottomRightRadius:30,
@@ -187,6 +187,20 @@ signup_btn:{
     alignContent:'center',
     marginTop:20,
 },
+generic_btn:{
+  width:80,
+  height:40,
+  borderRadius:20,
+  backgroundColor:'#2c7ab2',
+  textAlign:'center',
+  color:'#fff',
+  flexDirection:'row',
+  alignItems:'center',
+  alignContent:'center',
+  justifyContent:'center',
+  marginTop:5,
+},
+
 right_border_radius:{
     borderTopRightRadius:20,
     borderBottomRightRadius:20,
@@ -228,8 +242,7 @@ formcontrol_login_username:{
   }, 
   formcontrol_product_screen:{
     width:350,
-    paddingVertical:10,
-    paddingLeft:10,
+    paddingLeft:25,
     height:45,
     fontSize:15,
     borderRadius:10,
@@ -336,8 +349,8 @@ formcontrol_login_username:{
     right: 0
     },
   image_pick:{
-    height:70,
-    width:70,
+    height:80,
+    width:80,
     borderRadius:20,
     textAlign:'center',
     alignSelf:'flex-start',
@@ -345,7 +358,54 @@ formcontrol_login_username:{
     alignItems:'center',
     justifyContent:'center',
     backgroundColor:'#ccc'
-    }
+    },
+  advert_images: {
+      width: 80,
+      height: 80,
+      borderColor: 'white',
+      borderWidth: 1,
+      marginHorizontal: 3,
+      borderRadius:20,
+    },
+  curved_top_side_view:{
+  marginHorizontal:15,  
+  borderTopRightRadius:30,
+  borderTopLeftRadius:30,
+  padding:10,
+  },
+  dashboard_box1:{
+    width:'48%',
+    height:150,
+    backgroundColor:'#ccc',
+    marginTop:10,
+    borderRadius:20,
+    paddingHorizontal:30,
+    paddingVertical:30
+},
+
+dashboard_box2:{
+  width:'100%',
+  height:150,
+  backgroundColor:'#ccc',
+  marginTop:10,
+  borderRadius:20,
+  paddingHorizontal:30,
+  paddingVertical:30
+},
+
+dashboard_box1_header:{
+  fontSize:37,
+  color:'#fff',
+  fontFamily:'Cicle',
+},
+dashboard_box1_sub_header:{
+  fontSize:17,
+  color:'#000',
+  fontFamily:'Cicle',
+  marginTop:5,
+},
+
+
 
 });
 

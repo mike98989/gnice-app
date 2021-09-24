@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Linking,Dimensions,AsyncStorage, ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground } from 'react-native';
 import {custom_style} from '../components/custom_style';
-import { Container,ListItem,List, Header, Content, Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right } from 'native-base';
+import { Container,ListItem,List, Header, Content, Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Row } from 'native-base';
 import MainHeader from '../components/MainHeader';
 import * as Nav from '../methods/Navigation'
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -12,8 +12,8 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
 import ru from 'javascript-time-ago/locale/ru'
 import MainFooter from '../components/MainFooter';
-import { BlurView } from "@react-native-community/blur";
-
+import {BlurView} from "@react-native-community/blur";
+import * as AsyncMethods from '../methods/AsyncMethods';
 
 export default class Home extends Component <{}>{
 
@@ -32,6 +32,7 @@ export default class Home extends Component <{}>{
     showLoader:true,
     showSearchForm:true,
     activeSlide:0,
+    save_button:true,
   }
   
   componentDidMount =()=> {
@@ -55,10 +56,22 @@ export default class Home extends Component <{}>{
       );        
      
   }
+
+  _save_for_later = () =>{
+    if(!this.state.userData){
+      AsyncMethods._loadSessionState(this).done();
+    }else{
+      Requests.save_products(this);  
+    }
+  }
+
   _openscreen = (product)=>{
     this.props.route.params.paramsdata = product;
     Requests.fetch_related_products(this);
     this.props.navigation.navigate('Product',{paramsdata:product});
+  }
+  update_state =()=>{
+    Requests.save_products(this);  
   }
   
   get pagination () {
@@ -105,7 +118,7 @@ export default class Home extends Component <{}>{
         
         </View> */}
 
-        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,borderRadius:30,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
+        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,borderRadius:20,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
               data={image_value}
@@ -122,7 +135,7 @@ export default class Home extends Component <{}>{
             <BlurView style={[custom_style.blurView,{borderTopColor:'#fff',borderTopWidth:2}]}
             reducedTransparencyFallbackColor="white"
             blurType="light"
-            blurAmount={20}>
+            blurAmount={5}>
               <View style={{flexDirection:'column',paddingLeft:30,paddingTop:5}}>
               <Text numberOfLines={1} ellipsizeMode="tail" style={[custom_style.product_details_title,{color:'#000'}]}>{this.props.route.params.paramsdata.name}</Text>
               <Text>NGN {this.props.route.params.paramsdata.price}</Text>
@@ -137,21 +150,35 @@ export default class Home extends Component <{}>{
           <ScrollView>
         <View style={custom_style.product_details_container}>
         {/* <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text> */}
+        <View style={{paddingHorizontal:20}}>
+        {/* <Text numberOfLines={1} ellipsizeMode="tail" style={[custom_style.product_details_title]}>{this.props.route.params.paramsdata.name}</Text>
+        <Text>NGN {this.props.route.params.paramsdata.price}</Text>   */}
         <Text style={custom_style.product_details_title}>Details</Text>
-        <Text style={{color:'#625e5e',fontSize:16,lineHeight:30,marginTop:10}}>{this.props.route.params.paramsdata.short_description}</Text>
+        <Text style={{color:'#625e5e',fontSize:16,lineHeight:30,marginTop:10}}>{this.props.route.params.paramsdata.description}</Text>
+        </View>
+        <View style={{flexDirection:'row',justifyContent:'center',}}>
+        {this.state.save_button?(
+          <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow,{alignSelf:'flex-start',flexDirection:'row',width:'50%',marginTop:15,marginRight:'15%'}]} onPress={this._save_for_later}>
+          <Icon style={{fontSize:18}} name="pin" />
+          <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Save for later</Text>
+          </TouchableOpacity>
+        ):null}
 
-        {/* <Text style={custom_style.product_details_price}>NGN {this.props.route.params.paramsdata.price}</Text> */}
+        <TouchableOpacity style={[custom_style.signup_btn,custom_style.left_border_radius,custom_style.textInputShadow,{alignSelf:'flex-end',flexDirection:'row',width:'50%',marginTop:15}]} onPress={Nav._openscreen.bind(this,this.props,'ReportAbuse',this.props.route.params.paramsdata)}>
+          <Icon style={{fontSize:18}} name="pin" />
+          <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Report Abuse</Text>
+          </TouchableOpacity>
+        </View>
 
       <View style={{flexDirection:'row',justifyContent:'center',marginTop:20}}> 
-    
     <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} 
-      style={[custom_style.action_call_btn,{marginRight:5,flexDirection:'row',height:50}]} 
+      style={[custom_style.action_call_btn,{marginRight:15,flexDirection:'row',height:50}]} 
       start={{ y: 1.5, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
         <Image source={require('../images/chat.png')}  style={{alignSelf:'center',height: 20, width:30}}/> 
           <Text style={{fontSize:16,color:'#fff'}}>Make an offer</Text>
     </LinearGradient>
     <LinearGradient colors={['#94e8f0', '#4983b5', '#388db1']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
-      style={[custom_style.action_call_btn,{marginRight:5,height:50}]} 
+      style={[custom_style.action_call_btn,{height:50}]} 
       start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
       <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone)}>
       <Text style={{fontSize:16,color:'#fff'}}> Place a call </Text>
@@ -207,7 +234,7 @@ export default class Home extends Component <{}>{
               <Body>
               <TouchableOpacity onPress={this._openscreen.bind(this,product)}>
                 <Text style={[custom_style.product_name,{fontWeight:'bold'}]}>{product.name}</Text>
-                <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{product.short_description}</Text>
+                <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{product.land_mark}</Text>
                 <Text style={custom_style.product_price}>NGN {product.price}</Text>
                 </TouchableOpacity>
               </Body>

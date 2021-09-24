@@ -7,7 +7,7 @@ import {custom_style} from '../../../components/custom_style';
 const Property_form = (props) => (
     <View>    
     <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Property Type</Text>  
-            <Picker style={[custom_style.formcontrol_product_screen]}
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -28,7 +28,7 @@ const Property_form = (props) => (
 
      <Text style={[{marginBottom:5,paddingLeft:10}]}>Square Meters</Text> 
             <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Square Meters" keyboardType="number-pad" selectionColor="#fff"
-            placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
+            placeholderTextColor="grey" onChangeText={(sqare_meters) =>props.setState({sqare_meters}) }
             />
     </View>
 )

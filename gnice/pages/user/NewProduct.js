@@ -9,9 +9,10 @@ import * as Requests from '../../methods/Requests';
 import Car_form from './add_product_screen/car_form';
 import Property_form from './add_product_screen/property_form';
 import Phones_form from './add_product_screen/phones_form';
+import Fashion_form from './add_product_screen/fashion_form';
 import CheckBox from '@react-native-community/checkbox';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
+import * as Logic from '../../methods/Logic';
 
 
 //import RNPickerSelect from 'react-native-picker-select';
@@ -23,15 +24,20 @@ export default class LandingScreen extends Component <{}>{
 
 	constructor(props){
     super(props);
+    
   	}
 
     state = {
       userData:[],
       categories_and_sub:[],
       categorySelected:'0',
+      categoryDropDownValue:'-1',
+      conditionDropDownValue:'-1',
+      conditionSelected:'0',
       propertyTypeSelected:'0',
       subCategoryListSelected:[],
       subCategorySelected:'',
+      subCategoryDropDownValue:'-1',
       carModelListSelected:[],
       phoneModelListSelected:[],
       lgalListSelected:[],
@@ -40,41 +46,47 @@ export default class LandingScreen extends Component <{}>{
       phoneMakeSelected:'0',
       phoneModelSelected:'0',
       required_tables:[],
-      formGroup:'',
+      formGroup:null,
+      formValues:[],
       stateSelected:'',
       lgaSelected:'',
+      resourcePath:[],
+      uploadImageCount:0,
+      color:'',
       
       
     }
 
-    
+    formData = new FormData();
+
     componentDidMount =()=> {
         AsyncMethods._loadSessionState(this).done();
-    
-        this._loadInitialState().done();
+        //this._loadInitialState().done();
         const unsubscribe = this.props.navigation.addListener('focus', () => {
           AsyncMethods._loadSessionState(this).done();
-            Requests.fetch_all_categories_and_sub_categories(this);  
-            Requests.fetch_required_table(this);
           });
-      
       }
       
-      _loadInitialState = async()=>{  
-      Requests.fetch_all_categories_and_sub_categories(this);
-      Requests.fetch_required_table(this);
-      }
+      // _loadInitialState = async()=>{  
+      // Requests.fetch_all_categories_and_sub_categories(this);
+      // Requests.fetch_required_table(this);
+      // }
      
-      onCategoryValueChange(value) {
+      update_state =()=>{
+        Requests.fetch_all_categories_and_sub_categories(this);  
+        Requests.fetch_required_table(this);
+      }
+
+      onCategoryValueChange(value) { 
+
        let objectval = JSON.parse(JSON.stringify(this.state.categories_and_sub[value]));   
         this.setState({
-        categorySelected:value,  
-        subCategoryListSelected: objectval.subcategory
+        categorySelected:this.state.categories_and_sub[value].id,  
+        categoryDropDownValue:value,
+        subCategoryListSelected: objectval.subcategory,
         });
-        //alert(JSON.stringify(this.state.subcategoryselected));
-        
+        Logic.update_new_product_category_view(this.state.categories_and_sub[value].id,this);
       }
-      
 
      chooseImage = () => {
         //chooseFile = () => {
@@ -119,31 +131,30 @@ export default class LandingScreen extends Component <{}>{
       onSubCategoryValueChange(value) {
         let objectval = JSON.parse(JSON.stringify(this.state.subCategoryListSelected[value]));  
         this.setState({ 
-            subCategorySelected: value,
+            subCategorySelected: objectval.sub_id,
+            subCategoryDropDownValue:value,
             showProductForm:true,
         }); 
 
-        if(objectval.sub_id=='27'){
-            this.setState({ 
-                formGroup: 'cars',
-            }); 
-        }
-        else if(objectval.sub_id=='42'){
-            this.setState({ 
-                formGroup: 'properties',
-            }); 
+        Logic.update_new_product_subcategory_view(value,this);
+
         }
 
-        else if(objectval.sub_id=='7'){
-          this.setState({ 
-              formGroup: 'phones',
-          }); 
+
+      _add_products=()=>{
+        Requests.addProducts(this);
       }
 
+      onConditionValueChange(props,value) {
+        let objectval = JSON.parse(JSON.stringify(this.state.required_tables.conditions[value]));   
+         this.setState({
+          conditionDropDownValue:value,  
+         conditionSelected: objectval.conditon_id
+         });
          
        }
 
-       onCarMakeValueChange(props,value) {
+      onCarMakeValueChange(props,value) {
         let objectval = JSON.parse(JSON.stringify(this.state.required_tables.car_makes[value]));   
          this.setState({
         carMakeSelected:value,  
@@ -152,7 +163,7 @@ export default class LandingScreen extends Component <{}>{
          
        }
 
-       onCarModelValueChange(props,value) {
+      onCarModelValueChange(props,value) {
         let objectval = JSON.parse(JSON.stringify(this.state.carModelListSelected[value]));   
          this.setState({
         carModelSelected:value,  
@@ -212,26 +223,23 @@ export default class LandingScreen extends Component <{}>{
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <ScrollView style={{marginBottom:50}}>
         <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={100}
-        behavior={"position"}>
+        >
         <View style={{flexDirection:'column',alignItems:'center'}}>
         <View>
         
         <Form>
 
         <Text style={[custom_style.product_details_title,{textAlign:'center',marginBottom:20,fontFamily:'Rajdhani'}]}>New Advert</Text>   
-        
-
+      
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Category</Text> 
           
-        <Picker style={[custom_style.formcontrol_product_screen,{color:'#ccc'}]}
+        <Picker style={[custom_style.formcontrol_product_screen,{color:'#ccc',paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
-              selectedValue={this.state.categorySelected}
+              selectedValue={this.state.categoryDropDownValue}
               onValueChange={this.onCategoryValueChange.bind(this)}
             >
             {this.state.categories_and_sub !== [] ? (
@@ -241,28 +249,29 @@ export default class LandingScreen extends Component <{}>{
                 ) : (
                     <Picker.Item label="Loading..." value="0" />
                 )}    
-             
+             <Picker.Item label="Select Category" value="-1"/>
             
             </Picker>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Sub Category</Text>   
-            <Picker style={[custom_style.formcontrol_product_screen]}
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
-              selectedValue={this.state.subCategorySelected}
+              selectedValue={this.state.subCategoryDropDownValue}
               onValueChange={this.onSubCategoryValueChange.bind(this)}
             >
-            {
+              {
                     Object.entries(this.state.subCategoryListSelected).map(([i, value]) => {
                         return <Picker.Item key={i} label={value.title} value={i} />;
                     })
                 }    
-             <Picker.Item label="Select Category" value=""/>
+             <Picker.Item label="Select Sub Category" value="-1"/>
             
             </Picker>
+
             {this.state.showProductForm ? (
             <View>
             {this.state.formGroup == 'cars' ? (
@@ -283,9 +292,34 @@ export default class LandingScreen extends Component <{}>{
             </View>
             ):null
             }
+            {this.state.formGroup == 'fashion' ? (
+            <View>  
+            <Fashion_form that={this.state}/>
+            </View>
+            ):null
+            }
            
+           <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Condition</Text>   
+            <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
+              mode="dropdown"
+              iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
+              headerStyle={{ backgroundColor: "#5da7d3" }}
+              headerBackButtonTextStyle={{ color: "#fff" }}
+              headerTitleStyle={{ color: "#fff" }}
+              selectedValue={this.state.conditionDropDownValue}
+              onValueChange={this.onConditionValueChange.bind(this)}
+            >
+              {
+                    Object.entries(this.state.required_tables.conditions).map(([i, value]) => {
+                        return <Picker.Item key={i} label={value.state} value={i} />;
+                    })
+                }    
+             <Picker.Item label="Select Condition" value="-1"/>
+            
+            </Picker>
+
            <Text style={[{marginBottom:5,paddingLeft:10}]}>Select State Region</Text>   
-           <Picker style={[custom_style.formcontrol_product_screen]}
+           <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -303,7 +337,7 @@ export default class LandingScreen extends Component <{}>{
             </Picker>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Local Region</Text>   
-           <Picker style={[custom_style.formcontrol_product_screen]}
+           <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
               headerStyle={{ backgroundColor: "#5da7d3" }}
@@ -320,14 +354,20 @@ export default class LandingScreen extends Component <{}>{
                 <Picker.Item label="Select LGA" value="" />
             </Picker>
 
+            <Text style={[{marginBottom:5,paddingLeft:10}]}>Nearest land mark</Text> 
+            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Nearest Land mark" keyboardType="default" selectionColor="#fff"
+            placeholderTextColor="grey" onChangeText={(land_mark) =>this.setState({land_mark})}
+            />
+
+                
            <Text style={[{marginBottom:5,paddingLeft:10}]}>Title</Text> 
             <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
-            placeholderTextColor="grey" onChangeText={(title) =>this.setState({title}) }
+            placeholderTextColor="grey" onChangeText={(advert_title) =>this.setState({advert_title}) }
             />
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
             <View style={{flexDirection:'row'}}>
-            <View style={[custom_style.formcontrol_product_screen,{backgroundColor:'#ccc',width:35,borderRadius:0,alignItems:'center',alignContent:'center',paddingLeft:0}]}>
+            <View style={[custom_style.formcontrol_product_screen,{backgroundColor:'#ccc',width:40,borderRadius:0,alignItems:'center',alignContent:'center',paddingLeft:0}]}>
               <Text style={{fontWeight:'bold',paddingTop:3}}>N</Text></View><TextInput style={[custom_style.formcontrol_product_screen,{borderTopLeftRadius:0,borderBottomLeftRadius:0,width:315}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor="#fff"
             placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
             />
@@ -352,12 +392,20 @@ export default class LandingScreen extends Component <{}>{
             value={this.state.userData.phone} editable={false}
             />
 
+          
             <View style={{flexDirection:'row'}}>
-              <TouchableOpacity onPress={this.chooseImage()}>
+            {/* <Text>{JSON.stringify(this.state.resourcePath)}</Text> */}
+            {this.state.uploadImageCount>0 ? (
+            this.state.resourcePath.map((item, i) => ( 
+            <Image key={i} source={{uri:item.uri}} style={custom_style.advert_images} />
+            ))
+            ):null}
+            
+              <TouchableOpacity onPress={Logic.chooseMultipleImage.bind(this,this)}>
                   <View style={custom_style.image_pick}>
                     <Text style={{textAlign:'center',fontWeight:'bold',fontSize:12}}>Browse Image</Text>
                   </View>
-                  </TouchableOpacity>
+              </TouchableOpacity>
             </View>
 
           </Form>
@@ -367,7 +415,7 @@ export default class LandingScreen extends Component <{}>{
     <LinearGradient colors={['#266469', '#4983b5', '#388db1']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
       style={[custom_style.action_call_btn,{marginRight:5,height:50}]} 
       start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
-      <TouchableOpacity style={{flexDirection:'row',height:20}}>
+      <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={this._add_products}>
       {this.state.showLoader ?(
         <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../components/global';
-//import * as Logic from './Logic';
+import * as Logic from './Logic';
 
   //////SIGNUP METHOD
   export const signup = (that) => {
@@ -273,21 +273,16 @@ export const confirm_password_recovery_code = (that) => {
   }
 }
 
-export const change_pass = (that) =>{
 
-  if((that.state.email=='')){
-    alert("You are not logged in"); 
-    that.setState({
-        errorMsg:'You are not logged in!',
-      });
-    that.props.navigation.push('Login'); 
-  }
-  else if((that.state.new_password=='')||(that.state.confirm_new_password=='')){
+
+
+export const change_pass = (that) =>{
+  if((that.state.password=='')||(that.state.confirm_password=='')){
     that.setState({
         errorMsg:'Please enter new password!',
       });
   }
-  else if(that.state.new_password!==that.state.confirm_new_password){
+  else if(that.state.password!==that.state.confirm_password){
     that.setState({
         errorMsg:'Passwords Do Not Match!',
       });
@@ -300,33 +295,36 @@ export const change_pass = (that) =>{
       })
 
   const formdata = new FormData();
-  formdata.append('old_password', that.state.old_password);
-  formdata.append('new_password', that.state.new_password);
-  formdata.append('confirm_password', that.state.confirm_new_password);
-  formdata.append('user_token', that.state.user_token);
-
+  formdata.append('password', that.state.password);
+  formdata.append('confirm_password', that.state.confirm_password);
   fetch (global.serverUrl+'api/change_password',{
     method:'POST',
     headers: {
-    'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'gnice-authenticate': that.state.userToken,
     },
     body: formdata
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(res);
-    alert(res.msg);
+    //alert(res);return;
+    //alert(res.msg);
     //console.log(res);
     if(res.status =="1"){
       that.setState({
         errorMsg:res.msg,
         showLoader:false,
-        new_password:'',
-        old_password:'',
-        confirm_new_password:'',
+        password:'',
+        confirm_password:'',
       })
-    }else{
+    }
+    else if(res.status=='-1'){
+      alert("You are not logged in.");
+      that.props.navigation.push('UserLogin',null);
+    }
+    else{
       that.setState({
         errorMsg:res.msg,
         showLoader:false
@@ -416,92 +414,92 @@ export const send_recovery_code = (that) =>{
 }
 
 
-export const submit_password = (that) =>{
+// export const submit_password = (that) =>{
 
-  that.setState({
-        errorMsg:'',
-        showLoader:true
-      })
+//   that.setState({
+//         errorMsg:'',
+//         showLoader:true
+//       })
 
-  if((that.state.email=='')){
-    that.setState({
-        errorMsg:'Email address not found!',
-        showLoader:false
-      })
-  }else if(that.state.confirm_id ==''){
-    that.setState({
-        errorMsg:'Please enter the confirmation code sent to your email address!',
-        showLoader:false
-      })
-  }else if(that.state.new_password ==''){
-    that.setState({
-        errorMsg:'Please enter new password!',
-        showLoader:false
-      })
-  }else if(that.state.new_password !== that.state.confirm_new_password){
-    that.setState({
-        errorMsg:'Passwords do not match!',
-        showLoader:false
-      })
-  }else{   
+//   if((that.state.email=='')){
+//     that.setState({
+//         errorMsg:'Email address not found!',
+//         showLoader:false
+//       })
+//   }else if(that.state.confirm_id ==''){
+//     that.setState({
+//         errorMsg:'Please enter the confirmation code sent to your email address!',
+//         showLoader:false
+//       })
+//   }else if(that.state.new_password ==''){
+//     that.setState({
+//         errorMsg:'Please enter new password!',
+//         showLoader:false
+//       })
+//   }else if(that.state.new_password !== that.state.confirm_new_password){
+//     that.setState({
+//         errorMsg:'Passwords do not match!',
+//         showLoader:false
+//       })
+//   }else{   
 
-  const formdata = new FormData();
+//   const formdata = new FormData();
   
-  formdata.append('email', that.state.email);
-  formdata.append('user_recover_id', that.state.confirm_id);
-  formdata.append('password', that.state.new_password);
-  formdata.append('confirm_password', that.state.confirm_new_password);
+//   formdata.append('email', that.state.email);
+//   formdata.append('user_recover_id', that.state.confirm_id);
+//   formdata.append('password', that.state.new_password);
+//   formdata.append('confirm_password', that.state.confirm_new_password);
 
-  fetch (global.serverUrl+'api/forgot_password_confirm',{
-    method:'POST',
-    headers: {
-    'Content-Type': 'multipart/form-data',
-    },
-    body: formdata
+//   fetch (global.serverUrl+'api/forgot_password_confirm',{
+//     method:'POST',
+//     headers: {
+//     'Content-Type': 'multipart/form-data',
+//     },
+//     body: formdata
     
-  })
-  .then((response)=>response.json())
-  .then((res) =>{
-    alert(res.msg);
-    //console.log(res);
-    if(res.status =="1"){
-      that.setState({
-        errorMsg:res.msg,
-        showLoader:false,
-        email:'',
-        confirm_id:'',
-        new_password:'',
-        confirm_new_password:'',
-      })
-      //that.props.navigation.push('UserScreen');
-    }else{
-      that.setState({
-        errorMsg:res.msg,
-        showLoader:false
-      })
-      //alert(res.message);
-    }
+//   })
+//   .then((response)=>response.json())
+//   .then((res) =>{
+//     alert(res.msg);
+//     //console.log(res);
+//     if(res.status =="1"){
+//       that.setState({
+//         errorMsg:res.msg,
+//         showLoader:false,
+//         email:'',
+//         confirm_id:'',
+//         new_password:'',
+//         confirm_new_password:'',
+//       })
+//       //that.props.navigation.push('UserScreen');
+//     }else{
+//       that.setState({
+//         errorMsg:res.msg,
+//         showLoader:false
+//       })
+//       //alert(res.message);
+//     }
   
 
-    })
-  .catch((error) => {
-    var message = "There was an error! Please check your connection";
-      alert(JSON.stringify(message));
-      that.setState({
-        errorMsg:message,
-        showLoader:false
-      })
-      //console.error(error);
-    });
-}
+//     })
+//   .catch((error) => {
+//     var message = "There was an error! Please check your connection";
+//       alert(JSON.stringify(message));
+//       that.setState({
+//         errorMsg:message,
+//         showLoader:false
+//       })
+//       //console.error(error);
+//     });
+// }
   
-}
+// }
 
 export const fetch_all_products = (that) =>{
     fetch (global.serverUrl+'api/fetch_all_product',{
       method:'GET',
       headers: {
-                  'gnice-authenticate': 'gnice-web'
+        'gnice-authenticate': 'gnice-web'
               },
     
     })
@@ -530,8 +528,83 @@ export const fetch_all_products = (that) =>{
       });
   }
 
+
+  export const fetch_all_user_saved_products = (that) =>{
+    fetch (global.serverUrl+'api/fetch_all_user_saved_products',{
+      method:'GET',
+      headers: {
+        'Accept': 'application/json',
+        'gnice-authenticate': that.state.userToken,
+      },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+    
+      //alert(JSON.stringify(res));
+      //return;
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+        saved_products: JSON.parse(JSON.stringify(res.data)),
+      })
+
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
+
+
+  export const save_products = (that) =>{
+
+    let formData = new FormData();
+    formData.append('product_id', that.props.route.params.paramsdata.id);
+    formData.append('user_id', that.state.userData.id);
+
+    fetch (global.serverUrl+'api/pin_product',{
+      method:'POST',
+      headers: {
+        'Accept': 'application/json',
+        'gnice-authenticate': that.state.userToken,
+      },
+      body: formData,
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      // alert(JSON.stringify(res));
+      // return;
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+        save_button:false,
+      })
+
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
   //////////FETCH ALL PRODUCTS FROM A SUB CATEGORY
-  export const fetch_all_product_sub_category = (that) =>{
+  export const fetch_all_product_from_sub_category = (that) =>{
     let paramsValue = JSON.parse(that.props.route.params.paramsdata);
     //alert(JSON.stringify(paramsValue));
     fetch (global.serverUrl+'api/fetch_all_product_sub_category?id='+paramsValue.sub_id,{
@@ -602,6 +675,132 @@ export const fetch_all_products = (that) =>{
       });
   }
 
+
+
+    //////////FETCH USER PRODUCTS
+    export const fetch_all_user_products = (that) =>{
+      //let paramsValue = that.props.route.params.paramsdata;
+      fetch (global.serverUrl+'api/fetch_all_product_of_seller?seller_id='+that.state.userData.seller_id,{
+        method:'GET',
+        headers: {
+          'Accept': 'application/json',
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        //alert(JSON.stringify(res));
+        //return;
+        that.setState({
+          showLoader:false
+        })
+    if(res.status =="1"){
+      that.setState({
+        products: JSON.parse(JSON.stringify(res.data)),
+        })
+  
+    }else{
+    }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+    }
+
+  
+     //////////FETCH RELATED PRODUCTS
+     export const fetch_report_reasons = (that) =>{
+      //let paramsValue = that.props.route.params.paramsdata;
+      
+      fetch (global.serverUrl+'api/fetch_report_reasons',{
+        method:'GET',
+        headers: {
+                    'gnice-authenticate': 'gnice-web'
+                },
+      
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        // return;
+        that.setState({
+          showLoader:false
+        })
+    if(res.status =="1"){
+
+      that.setState({
+        report_reasons: res.data,
+        //car_makes: JSON.parse(JSON.stringify(res.car_makes)),
+        })
+        
+        //alert(JSON.stringify(that.state.required_tables));
+  
+    }else{
+    }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+    }
+
+
+
+    /////////////REPORT ABUSE
+export const reportAbuse = (that) =>{
+  //alert(that.state.userToken);return;
+  that.setState({
+        showLoader:true
+      })
+    let formData = new FormData();
+    formData.append('product_id', that.props.route.params.paramsdata.id);
+    formData.append('user_id',that.state.userData.id)
+    formData.append('report_title',that.state.reportReasonSelected)
+    formData.append('report_content',that.state.abuseContent)
+  fetch (global.serverUrl+'api/report_abuse',{
+    method:'POST',
+    headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'gnice-authenticate': that.state.userToken
+            },
+    body: formData,
+    
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    //alert(JSON.stringify(res));
+    console.log(res.message);
+    that.setState({
+      alertMsg:res.message,
+      showLoader:false
+    })
+
+    if(res.status =="1"){
+      that.setState({
+        abuseContent:'',
+        reportReasonDropDownValue:'0',
+      })
+    }
+  
+    })
+  .catch((error) => {
+      that.setState({
+        showLoader:false
+      })
+      console.error(error);
+    });
+
+  
+}
+
+
     //////////FETCH RELATED PRODUCTS
     export const fetch_required_table = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
@@ -654,7 +853,7 @@ export const fetch_all_products = (that) =>{
     .then((response)=>response.json())
     .then((res) =>{
     
-      //alert(JSON.stringify(res));
+      //alert(JSON.stringify(res.data[1].subcategory[0].counted_sub_category_products.counted));
       //return;
       that.setState({
         showLoader:false
@@ -709,18 +908,17 @@ export const login = (that) =>{
     //alert(JSON.stringify(res.token));
     //console.log(res);
     if(res.status =="1"){
-      
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       AsyncStorage.setItem('user-token',res.token);
-      
       //alert(res.data.account_type);return;
       if((res.data.seller=='1')&&(res.data.account_type=='0')){
-        that.props.navigation.navigate('SellerAccountTypeScreen_preview');
-        }else{
+      that.props.navigation.navigate('SellerAccountTypeScreen_preview');
+      }else if(that.props.route.params.paramsdata.revertTo){
+      that.props.navigation.navigate(that.props.route.params.paramsdata.revertTo,{paramsdata:that.props.route.params.paramsdata}); 
+      }
+      else{
           that.props.navigation.navigate('UserArea',{paramsdata:null});
-        }
-      
-        
+      }
       that.setState({
         errorMsg:'',
         showLoader:false,
@@ -752,7 +950,7 @@ export const login = (that) =>{
 }
 /////////////UPDATE USER ACCOUNT TYPE
 export const update_user_account_type = (that) =>{
-  //alert(that.state.userToken);return;
+  //alert(that.state.token);return;
   that.setState({
         showLoader:true
       })
@@ -770,7 +968,7 @@ export const update_user_account_type = (that) =>{
     headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'gnice-authenticate': 'gnice-app'
+                'gnice-authenticate': that.state.token
             },
     body: formData,
     
@@ -783,6 +981,7 @@ export const update_user_account_type = (that) =>{
       AsyncStorage.removeItem('user-data');
       AsyncStorage.removeItem('selected_account_type');
       AsyncStorage.removeItem('email_to_activated');
+      AsyncStorage.removeItem('token');
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       that.props.navigation.navigate('UserArea',{paramsdata:null});
     }else{
@@ -805,6 +1004,81 @@ export const update_user_account_type = (that) =>{
   
 }
 
+
+/////////////ADD PRODUCTS
+export const addProducts = (that) =>{
+  //alert(that.state.userToken);return;
+  
+  if((that.state.uploadImageCount==0)){
+    alert('Please select an Image!');
+  }else if(!that.state.categorySelected){
+    alert('Please select Category!');
+  }
+  // else if(!that.state.subCategorySelected){
+  //   alert('Please select Sub Category!');
+  // }
+  else{
+    if(that.state.negotiable_price){
+      var negotiable = '1';
+    }else{
+      var negotiable='0';
+    }
+    that.state.resourcePath.map((item, i) => (
+    that.formData.append('files['+i+']', {
+      uri: item.uri,
+      type: 'image/jpeg/jpg',
+      name: item.fileName,
+      data: item.data,
+    })
+    ));
+    that.formData.append('category', that.state.categorySelected);
+    that.formData.append('sub_category',that.state.subCategorySelected);
+
+    Logic.update_new_product_subcategory_view(that.state.subCategorySelected,that);
+    
+    that.formData.append('state',that.state.stateSelected);
+    that.formData.append('lga',that.state.lgaSelected);
+    that.formData.append('condition_state',that.state.conditionSelected);
+    that.formData.append('name',that.state.advert_title);
+    that.formData.append('price',that.state.price);
+    that.formData.append('land_mark',that.state.land_mark);
+    that.formData.append('negotiable',negotiable);
+    that.formData.append('seller_id',that.state.userData.seller_id);
+    fetch (global.serverUrl+'api/add_product',{
+    method:'POST',
+    headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+                'gnice-authenticate': that.state.userToken,
+            },
+    body: that.formData,
+    
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    console.log(res);
+    if(res.status =="1"){
+      that.props.navigation.navigate('MyProducts',{paramsdata:null});
+      alert("Advert created successfully!");
+    }else{
+      that.setState({
+        errorMsg:res.msg,
+        showLoader:false
+      })
+      //alert(res.message);
+    }
+  
+
+    })
+  .catch((error) => {
+      that.setState({
+        showLoader:false
+      })
+      console.error(error);
+    });
+}
+  
+}
 
 
 /////////////UPDATE USER ACCOUNT TYPE
@@ -843,7 +1117,8 @@ export const generate_paystack_checkout = (that) =>{
     if(res.status =="1"){
       if(res.data.status==true){
         AsyncStorage.setItem('selected_account_type',that.state.selectedOption.toString());
-        AsyncStorage.setItem('email_to_activated',that.state.userData.email);  
+        AsyncStorage.setItem('email_to_activated',that.state.userData.email);
+        AsyncStorage.setItem('token',that.state.userToken);  
       that.setState({
         authorization_data:JSON.parse(JSON.stringify(res.data.data)),
         showLoader:false
@@ -871,47 +1146,50 @@ export const generate_paystack_checkout = (that) =>{
 }
 
 export const updateProfileImage = (that) => { 
-  const formdata = new FormData();
-  if(that.state.isGroupImageSelected){
-  var pegSize = 5;  
-  const imageSize = Logic.calculate_megabyte_from_byte(that.state.filePath.fileSize); 
+  const formData = new FormData();
+  if(that.state.uploadImageCount>0){
+  var pegedSize = 2;  
+  const imageSize = Logic.calculate_megabyte_from_byte(that.state.resourcePath.fileSize); 
   var Size = imageSize*1;
-  if(Size<pegSize){
-    
+  if(Size<pegedSize){
     that.setState({
         showLoader:true
       });
-        
-  formdata.append('DeviceToken',that.state.user_token);  
-  formdata.append('base64',that.state.filePath.data);
-  formdata.append('folder_to_save','profile_images');
-  formdata.append('type','profile');
+    formData.append('files[0]', {
+      uri: that.state.resourcePath.uri,
+      type: 'image/jpeg/jpg',
+      name: that.state.resourcePath.fileName,
+      data: that.state.resourcePath.data,
+    })
+
   }else{    
   that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegSize+'MB'})
   return;
   }
   
     
-  fetch (global.serverUrl+'api/user_update_profile_image',{
+  fetch (global.serverUrl+'api/upload_image',{
   method:'POST',
   headers: {
-  'Content-Type': 'multipart/form-data',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'gnice-authenticate': that.state.userToken
   },
-  body: formdata 
+  body: formData 
   })
   .then((response)=>response.json())
   .then((res) =>{
-    
+    //alert(res);return;
     //console.log(res);
     if(res.status =="1"){
-      alert(JSON.stringify(res.msg));
+      alert("Profile image updated successfully");
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       that.setState({
-        data:JSON.parse(JSON.stringify(res.data)),
-        editView:false,
-        showLoader:false
+        userData:res.data,
+        showLoader:false,
+        uploadImageCount:0
       })
-      that.props.navigation.push('UserScreen',{default_screen:"Profile"});
+      //that.props.navigation.push('UserScreen',{default_screen:"Profile"});
 
     }else{
       alert(JSON.stringify(res.msg));
@@ -938,66 +1216,43 @@ export const updateProfileImage = (that) => {
 
 export const updateProfile = (that) => { 
 
-    if((that.state.FName=='')){
+    if((that.state.fullname=='')){
     that.setState({
-        errorMsg:'Please enter first name!',
+        errorMsg:'Please enter full name!',
       })
     }else if((that.state.Phone=='')){
       that.setState({
         errorMsg:'Please enter phone number!',
       })
-    }else if((that.state.inst_latitude =='')||(that.state.inst_longitude =='')){
-      that.setState({
-        errorMsg:'Please select institution from drop down!',
-      })
-    }else if(that.state.gender ==''){
-      that.setState({
-        errorMsg:'Please select gender!',
-      })
-    }else if((that.state.edu_role_selected =='')){
-      that.setState({
-        errorMsg:'Please select educational role',
-      })
     }else{
       that.setState({
         showLoader:true
       });
-
-
-
   const formdata = new FormData();
+  formdata.append('fullname', that.state.fullname);
+  formdata.append('phone',that.state.phone);
+  formdata.append('whatsapp',that.state.whatsapp);
   
-  formdata.append('first_name', that.state.FName);
-  formdata.append('last_name', that.state.LName);
-  formdata.append('phone',that.state.Phone);
-  formdata.append('address',that.state.Address);
-  formdata.append('state',that.state.State);
-  formdata.append('DeviceToken',that.state.user_token);
-  formdata.append('institution',that.state.Institution);
-  formdata.append('institution_lat',that.state.inst_latitude);
-  formdata.append('institution_long',that.state.inst_longitude);
-  formdata.append('faculty',that.state.Faculty);
-  formdata.append('department',that.state.Department);
-  formdata.append('gender',that.state.gender);
-  formdata.append('educational_role',that.state.edu_role_selected);
-
-  fetch (global.serverUrl+'api/user_update_details_from_react_native',{
+  fetch (global.serverUrl+'api/update_user_profile',{
   method:'POST',
   headers: {
-  'Content-Type': 'multipart/form-data',
-  },
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'gnice-authenticate': that.state.userToken
+},
   body: formdata
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //console.log(res);
+    //alert(res);
     if(res.status =="1"){
-      alert(JSON.stringify(res.msg));
+      //alert(JSON.stringify(res.data));
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       that.setState({
-        data:JSON.parse(JSON.stringify(res.data)),
-        editView:false,
+        userData:JSON.parse(JSON.stringify(res.data)),
+        errorMsg:res.msg,
+        showLoader:false
       })
     }else{
       alert(JSON.stringify(res.msg));
