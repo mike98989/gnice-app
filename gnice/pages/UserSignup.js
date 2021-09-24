@@ -65,7 +65,7 @@ export default class Home extends Component <{}>{
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         
         <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:270,height: 70, width:58}}/>  
+        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:270,height: 0, width:58}}/>  
           
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Signup</Text>
         {this.state.showRegisterView ? (

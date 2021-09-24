@@ -82,7 +82,7 @@ export const update_new_product_category_view = (value,that)=>{
 
 }
 
-export const chooseImage = (that) => {  
+export const chooseMultipleImage = (that) => {  
     ImagePicker.launchImageLibrary(
       {
         noData: true,  
@@ -109,4 +109,36 @@ export const chooseImage = (that) => {
     )
 }
 
+
+export const chooseImage = (that) => {  
+  ImagePicker.launchImageLibrary(
+    {
+      noData: true,  
+      mediaType: 'photo',
+      storageOptions: {
+          cameraRoll: true,
+          waitUntilSaved: true,
+          privateDirectory: true,
+          path:'images',
+          skipBackup: true
+        },
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+    },
+    (response) => {
+      console.log(response);
+      let responseValue = JSON.parse(JSON.stringify(response['assets']));
+      that.state.uploadImageCount++;
+      that.setState({resourcePath: responseValue[0]});
+    },
+  )
+}
+
+
+export const calculate_megabyte_from_byte = (byte) =>{
+  let imagesize = byte/1000000;
+  return imagesize;
+}
+  
 

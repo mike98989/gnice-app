@@ -13,7 +13,7 @@ const MainFooter = (props) => (
             </Button>
             <Button vertical onPress={props.pinnedButtonClick}>
               <Icon style={props.active=='pinned' ? custom_style.styled_blue : null} name="pin" />
-              <Text style={props.active=='pinned' ? custom_style.styled_blue : null}>Pinned</Text>
+              <Text style={props.active=='pinned' ? custom_style.styled_blue : null}>Saved</Text>
             </Button>
             <Button vertical onPress={props.sellButtonClick}>
               <Icon style={props.active=='sell' ? custom_style.styled_blue : null} name="navigate" />

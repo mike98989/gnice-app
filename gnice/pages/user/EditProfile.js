@@ -37,6 +37,7 @@ export default class EditProfile extends Component <{}>{
       update_state=()=>{
         this.setState({
             fullname:this.state.userData.fullname,
+            email:this.state.userData.email,
             phone:this.state.userData.phone,
             whatsapp:this.state.userData.whatsapp,
         })
@@ -52,12 +53,17 @@ export default class EditProfile extends Component <{}>{
             <Text style={[custom_style.section_header,{marginLeft:5,marginVertical:10}]}>Edit {this.state.userData.fullname} Profile</Text>
         </View>
 
-        <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingHorizontal:20,paddingTop:20,height:350,}]}>
+        <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingHorizontal:20,paddingTop:0,height:350,}]}>
         <ScrollView>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Full Name</Text> 
         <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor="#fff" value={this.state.fullname}
         placeholderTextColor="grey" onChangeText={(fullname) =>this.setState({fullname})}
+        />
+
+        <Text style={[{marginBottom:5,paddingLeft:10}]}>Email</Text> 
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',backgroundColor:'#ececec'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="default" selectionColor="#fff" value={this.state.email}
+        placeholderTextColor="grey" editable={false}
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Phone Number</Text> 

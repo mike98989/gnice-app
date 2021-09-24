@@ -10,6 +10,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
 import ru from 'javascript-time-ago/locale/ru'
+import * as Logic from '../../methods/Logic';
+import * as Requests from '../../methods/Requests';
 
 
 export default class MyProfile extends Component <{}>{
@@ -24,7 +26,13 @@ export default class MyProfile extends Component <{}>{
     state = {
       showLoader:true,
       userData:[],
+      resourcePath:[],
+      uploadImageCount:0,
       
+    }
+
+    _do_profile_upload =()=>{
+      Requests.updateProfileImage(this);
     }
 
     componentDidMount =()=> {
@@ -46,8 +54,26 @@ export default class MyProfile extends Component <{}>{
         <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
         <View style={[custom_style.container]}>
         <View style={[custom_style.container,{justifyContent:'center', alignItems:'center'}]}>
-            
+        {this.state.uploadImageCount==0 ? (
+            <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>
             <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:30,overflow:'hidden',width:145,height:145}}/>
+            </TouchableOpacity>
+          ):null}
+
+            {this.state.uploadImageCount>0 ? (
+             <View style={{flexDirection:'column'}}> 
+            <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>  
+            <Image source={{uri:this.state.resourcePath.uri}} style={{borderRadius:30,overflow:'hidden',width:145,height:145}} />
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[custom_style.generic_btn,{alignSelf:'center'}]} onPress={this._do_profile_upload}>
+            <Text style={{fontSize:13,color:'#fff',textAlign:'center'}}>Upload</Text>
+            </TouchableOpacity>
+            </View>
+            ):null}
+
+            
+
             <Text style={[custom_style.section_header,{marginLeft:5,marginVertical:10}]}>{this.state.userData.fullname}</Text>
             <Text style={{color:'#0e3f5f',fontSize:11}}>Click profile image to browse</Text>
 

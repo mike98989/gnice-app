@@ -18,12 +18,16 @@ export const _loadSessionState = async(that)=>{
     }  
   }else{
   AsyncStorage.clear();
-  //Toast.show({text: "Invalid Token!",buttonText: "",position: "bottom"});
-  //var props = this.props.navigation;
-  that.props.navigation.navigate('UserLogin');
-  // setTimeout(function(){ 
-  //     props.navigate('UserLogin');
-  // }, 0);
+  
+  var route = that.props.route;
+  //alert(JSON.stringify(route));return;
+  if(route.params.paramsdata){
+    route.params.paramsdata.revertTo=route.name;
+    that.props.navigation.navigate('UserLogin',{paramsdata:route.params.paramsdata});
+  }else{
+    that.props.navigation.navigate('UserLogin',{paramsdata:{revertTo:route.name}});
+  }
+  
   
   }
 
@@ -34,11 +38,13 @@ export const _loadSessionState = async(that)=>{
   export const _loadSellerActivationData = async(that)=>{
     var selected_account_type = await AsyncStorage.getItem('selected_account_type');
     var email_to_activated = await AsyncStorage.getItem('email_to_activated');
+    var token = await AsyncStorage.getItem('token');
     
     if((selected_account_type!=null)&&(selected_account_type !='')){
       that.setState({
         selected_account_type:selected_account_type,
         email_to_activated:email_to_activated,
+        token:token,
       })
       
     }

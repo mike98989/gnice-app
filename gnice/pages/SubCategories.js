@@ -32,7 +32,6 @@ export default class SubCategories extends Component <{}>{
         //Requests.fetch_all_products(this);  
         
       });
-  
   }
   
   _loadInitialState = async()=>{  
@@ -58,8 +57,9 @@ export default class SubCategories extends Component <{}>{
       <CardItem cardBody style={{alignItems:'center',alignContent:'center',justifyContent:'center'}}>
         <Image source={{ uri: global.serverUrl+global.CategoryImageBaseUrl+item.image}}  style={{alignSelf:'center',width: 50,height:45}}/>
       </CardItem>
-      <CardItem footer>
-      <Text style={{textAlign:'center',fontWeight:'bold',marginTop:5,color:'#2d2c2c'}}>{item.title}</Text> 
+      <CardItem footer style={{flexDirection:'column'}}>
+      <Text style={{textAlign:'center',marginTop:5,color:'#2d2c2c'}}>{item.title}</Text> 
+      <Text style={{color:'#1e5877',fontSize:11}}>{item.counted_sub_category_products.counted} item(s)</Text>
       </CardItem>
       </TouchableOpacity>
     </Card>
@@ -67,17 +67,14 @@ export default class SubCategories extends Component <{}>{
     );
 
     return(
-  <Container style={{backgroundColor:'#d4d6d7'}}>
-  <ImageBackground source={require('../images/gnice_bg_home_area.png')} style={[{resizeMode: "cover",
+  <Container style={{backgroundColor:'#c9e0f4'}}>
+  <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>  
-  <MainHeader header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-
-
-  <ScrollView>
+  <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
   {this.state.showSearchForm ? (
     <View style={[custom_style.search_div,{backgroundColor:'transparent',borderWidth:1.5,marginTop:20}]}>
     <Item>
-      <TextInput style={[custom_style.formcontrol,{height:40,paddingLeft:0,paddingTop:10,width:'90%',backgroundColor:'transparent',paddingLeft:10,fontSize:18,marginBottom:0}]} placeholder="Search" />
+      <TextInput style={[custom_style.formcontrol,{height:40,backgroundColor:'transparent',paddingLeft:0,paddingTop:10,width:'90%',paddingLeft:10,fontSize:18,marginBottom:0}]} placeholder="Search" />
       <TouchableOpacity><Icon name="ios-search" /></TouchableOpacity>
     </Item>
     </View>
@@ -88,14 +85,13 @@ export default class SubCategories extends Component <{}>{
       <FlatList
         data={JSON.parse(this.props.route.params.paramsdata)}
         renderItem={renderSubCategories}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.sub_id}
         horizontal={false}
         numColumns={3}
       />
   </SafeAreaView>  
   </View>
 
-  </ScrollView>
   </Container>
   );
   }

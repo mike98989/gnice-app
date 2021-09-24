@@ -61,16 +61,16 @@ export default class LandingScreen extends Component <{}>{
 
     componentDidMount =()=> {
         AsyncMethods._loadSessionState(this).done();
-        this._loadInitialState().done();
+        //this._loadInitialState().done();
         const unsubscribe = this.props.navigation.addListener('focus', () => {
           AsyncMethods._loadSessionState(this).done();
           });
       }
       
-      _loadInitialState = async()=>{  
-      Requests.fetch_all_categories_and_sub_categories(this);
-      Requests.fetch_required_table(this);
-      }
+      // _loadInitialState = async()=>{  
+      // Requests.fetch_all_categories_and_sub_categories(this);
+      // Requests.fetch_required_table(this);
+      // }
      
       update_state =()=>{
         Requests.fetch_all_categories_and_sub_categories(this);  
@@ -114,7 +114,7 @@ export default class LandingScreen extends Component <{}>{
          
        }
 
-       onCarMakeValueChange(props,value) {
+      onCarMakeValueChange(props,value) {
         let objectval = JSON.parse(JSON.stringify(this.state.required_tables.car_makes[value]));   
          this.setState({
         carMakeSelected:value,  
@@ -123,7 +123,7 @@ export default class LandingScreen extends Component <{}>{
          
        }
 
-       onCarModelValueChange(props,value) {
+      onCarModelValueChange(props,value) {
         let objectval = JSON.parse(JSON.stringify(this.state.carModelListSelected[value]));   
          this.setState({
         carModelSelected:value,  
@@ -361,7 +361,7 @@ export default class LandingScreen extends Component <{}>{
             ))
             ):null}
             
-              <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>
+              <TouchableOpacity onPress={Logic.chooseMultipleImage.bind(this,this)}>
                   <View style={custom_style.image_pick}>
                     <Text style={{textAlign:'center',fontWeight:'bold',fontSize:12}}>Browse Image</Text>
                   </View>

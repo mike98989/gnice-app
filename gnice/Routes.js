@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Pinned from './pages/Pinned';
 import Product from './pages/Product';
 import Products from './pages/Products';
-
+import ReportAbuse from './pages/ReportAbuse';
 import SubCategories from './pages/SubCategories';
 import UserLogin from './pages/UserLogin';
 import UserSignup from './pages/UserSignup';
@@ -68,6 +68,9 @@ export default function Routes() {
       <Stack.Screen name="SubCategories" component={SubCategories} />
       <Stack.Screen name="Products" component={Products} />
       <Stack.Screen name="CardPaymentUi" component={CardPaymentUi} />
+      <Stack.Screen name="NewProduct" component={NewProduct} />
+      <Stack.Screen name="ReportAbuse" component={ReportAbuse} />
+
     </Stack.Navigator>
     </NavigationContainer>
     );

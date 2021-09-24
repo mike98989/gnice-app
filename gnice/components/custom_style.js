@@ -117,7 +117,7 @@ search_div:{
 },
 product_details_container:{
   marginTop:4,
-  paddingHorizontal:20,
+  paddingHorizontal:0,
 },
 product_details_image:{
   borderBottomRightRadius:30,
@@ -187,6 +187,20 @@ signup_btn:{
     alignContent:'center',
     marginTop:20,
 },
+generic_btn:{
+  width:80,
+  height:40,
+  borderRadius:20,
+  backgroundColor:'#2c7ab2',
+  textAlign:'center',
+  color:'#fff',
+  flexDirection:'row',
+  alignItems:'center',
+  alignContent:'center',
+  justifyContent:'center',
+  marginTop:5,
+},
+
 right_border_radius:{
     borderTopRightRadius:20,
     borderBottomRightRadius:20,

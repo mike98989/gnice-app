@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet,SafeAreaView,FlatList,ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground } from 'react-native';
-import { Container, Badge, Header, Content, Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Footer, FooterTab, Item,Input} from 'native-base';
+import { Container, Badge, Header, Content, Tab, Tabs,DefaultTabBar,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Footer, FooterTab, Item,Input} from 'native-base';
 import {custom_style} from '../components/custom_style';
 import MainHeader from '../components/MainHeader'
 //import MainFooter from '../components/MainFooter'
@@ -18,7 +18,6 @@ export default class Home extends Component <{}>{
 
   constructor(props){
     super(props);
-    
     }
 
     state = {
@@ -76,8 +75,12 @@ export default class Home extends Component <{}>{
         
           <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
-          <Text style={custom_style.product_price}>NGN {item.price}</Text>  
-          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.location}</Text>
+          <Text style={custom_style.product_price}>NGN {item.price}</Text> 
+          {item.land_mark!=''?(
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.land_mark}</Text>
+          ):
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.state}/{item.lga}</Text>
+          } 
           </Body>
         
       </CardItem>
@@ -112,23 +115,30 @@ export default class Home extends Component <{}>{
       <CardItem cardBody style={{alignItems:'center',alignContent:'center',justifyContent:'center'}}>
         <Image source={{ uri: global.serverUrl+global.CategoryImageBaseUrl+item.image}}  style={{alignSelf:'center',width: 50,height:45}}/>
       </CardItem>
-      <CardItem footer>
+      <CardItem footer style={{flexDirection:'column'}}>
       <Text style={{textAlign:'center',fontFamily:'Rajdhani',color:'#2d2c2c'}}>{item.title}</Text> 
+      {/* <Text style={{textAlign:'center',fontFamily:'Rajdhani',color:'#2d2c2c'}}>{item.counted_category_products.counted}</Text>  */}
       </CardItem>
       </TouchableOpacity>
     </Card>
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const renderTabBar = (props: any) => {
+  props.tabStyle = Object.create(props.tabStyle);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return <DefaultTabBar {...props} />;
+};
+
     return(
-  <Container style={{backgroundColor:'#d4d6d7'}}>
+  <Container style={{backgroundColor:'#c9e0f4'}}>
   <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>  
   <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-  
-  <ScrollView nestedScrollEnabled={true}>
-  {/* <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',height: 30, width:25,marginBottom:15}}/>
-           */}
-  {this.state.showSearchForm ? (
+        <Tabs renderTabBar={renderTabBar}>
+          <Tab tabStyle={{ /* ... */ }} heading="Products">
+    {this.state.showSearchForm ? (
     <View style={[custom_style.search_div_transparent,{backgroundColor:'transparent'}]}>
     <Item>
       <TextInput style={[custom_style.formcontrol,{height:40,paddingLeft:0,paddingTop:10,width:'90%',backgroundColor:'transparent',paddingLeft:10,fontSize:18,marginBottom:0}]} placeholder="Search" />
@@ -136,52 +146,64 @@ export default class Home extends Component <{}>{
     </Item>
     </View>
   ):null}
-
-  <Text style={[custom_style.section_header,{marginLeft:25,marginVertical:10}]}>Categories</Text>  
-  <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
-  <SafeAreaView>
-      <FlatList
-        data={this.state.categories_and_sub}
-        renderItem={renderCategories}
-        keyExtractor={item => item.id}
-        horizontal={false}
-        numColumns={3}
-      />
-  </SafeAreaView>  
-  
-  </View>
-
-
-  
     <Text style={[custom_style.section_header,{marginLeft:25,marginTop:20}]}>Latest</Text>  
+    {this.state.showLoader ?(
+        <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+        <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
+        </View> 
+    ):null} 
 
-  {/* <View style={{flexDirection:'row',paddingLeft:20}}>
-    <TouchableOpacity style={custom_style.home_link_btn}>
-      <Text>Best Selling</Text>
-    </TouchableOpacity>
+{/* <View style={{flexDirection:'row',paddingLeft:20}}>
+  <TouchableOpacity style={custom_style.home_link_btn}>
+    <Text>Best Selling</Text>
+  </TouchableOpacity>
 
-    <TouchableOpacity style={custom_style.home_link_btn}>
-      <Text>Most Viewed</Text>
-    </TouchableOpacity>
+  <TouchableOpacity style={custom_style.home_link_btn}>
+    <Text>Most Viewed</Text>
+  </TouchableOpacity>
 
-    <TouchableOpacity style={custom_style.home_link_btn}>
-      <Text>Top Rated</Text>
-    </TouchableOpacity>
+  <TouchableOpacity style={custom_style.home_link_btn}>
+    <Text>Top Rated</Text>
+  </TouchableOpacity>
 
-  </View> */}
-  <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
-  <SafeAreaView>
-      <FlatList
-        data={this.state.products}
-        renderItem={renderProductItems}
-        keyExtractor={(item, index) => String(index)}
-        horizontal={false}
-        numColumns={2}
-      />
-  </SafeAreaView>  
-  </View>
-  </ScrollView>
+</View> */}
+<View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
+<SafeAreaView>
+    <FlatList
+      data={this.state.products}
+      renderItem={renderProductItems}
+      keyExtractor={(item, index) => String(index)}
+      horizontal={false}
+      numColumns={2}
+    />
+</SafeAreaView>  
+</View>
 
+          </Tab>
+          <Tab tabStyle={{ /* ... */ }}  heading="Categories">
+
+          {this.state.showLoader ?(
+        <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+        <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
+        </View> 
+      ):null} 
+      
+          <Text style={[custom_style.section_header,{marginLeft:25,marginVertical:10}]}>Categories</Text>  
+          <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
+          <SafeAreaView>
+              <FlatList
+                data={this.state.categories_and_sub}
+                renderItem={renderCategories}
+                keyExtractor={item => item.id}
+                horizontal={false}
+                numColumns={3}
+              />
+          </SafeAreaView>  
+          
+          </View>
+
+          </Tab> 
+  </Tabs>
   <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
