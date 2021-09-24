@@ -43,8 +43,6 @@ export default class ReportAbuse extends Component <{}>{
       }
 
       onreportReasonChange(props,value) {
-        alert(JSON.stringify(value));
-
         let objectval = JSON.parse(JSON.stringify(this.state.report_reasons[value]));   
         this.setState({
         reportReasonSelected:this.state.report_reasons[value].reason,  
@@ -64,8 +62,7 @@ export default class ReportAbuse extends Component <{}>{
         <Container style={{backgroundColor:'#d4d6d7'}}>
           <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>  
-        <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-       
+        <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
         <View style={[custom_style.container,{paddingHorizontal:20}]}>
         <Text style={[custom_style.section_header,{textAlign:'center',marginLeft:25,marginTop:20}]}>Report Abuse For</Text> 
         <Text style={[custom_style.section_header,{textAlign:'center',fontSize:20,marginLeft:25,marginTop:5,marginBottom:50}]}>{this.props.route.params.paramsdata.name}</Text>

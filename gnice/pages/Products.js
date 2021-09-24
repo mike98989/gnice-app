@@ -7,7 +7,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Nav from '../methods/Navigation'
 import * as Requests from '../methods/Requests';
 import { SearchBar } from 'react-native-elements';
-
+import * as Logic from '../methods/Logic';
 
 export default class Home extends Component <{}>{
 
@@ -52,6 +52,7 @@ export default class Home extends Component <{}>{
     render(){
     let paramsValue = JSON.parse(this.props.route.params.paramsdata);
     const renderProductItems = ({ item }) => (
+      image_value = Logic.split_value(item.image, ','),
       <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
