@@ -6,7 +6,7 @@ import {Footer, FooterTab} from 'native-base';
 
 const MainFooter = (props) => (
     <Footer style={custom_style.footer_container}>
-          <FooterTab>
+          <FooterTab style={{backgroundColor:"#FFF"}}>
             <Button vertical onPress={props.homeButtonClick}>
               <Icon style={props.active=='home' ? custom_style.styled_blue : null} name="apps" />
               <Text style={props.active=='home' ? custom_style.styled_blue : null} >Home</Text>
