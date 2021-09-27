@@ -11,7 +11,6 @@ export default class Home extends Component <{}>{
 
 	constructor(props){
     super(props);
-
   	}
     state = {
         fullname: '',
@@ -40,11 +39,13 @@ export default class Home extends Component <{}>{
     }
 
     _check_render_view = ()=>{
-        if(this.props.route.params.paramsdata){
-            this.state.showRegisterView=false;
-            this.state.showConfirmationView=true;
-            this.state.showEmailInputField=true;
-            //this.setState({showRegisterView:false,showConfirmationView:true})
+        
+        if(this.props.route.params.paramsdata=='confirm'){
+           
+            // this.state.showRegisterView=false;
+            // this.state.showConfirmationView=true;
+            // this.state.showEmailInputField=true;
+            this.setState({showRegisterView:false,showConfirmationView:true,showEmailInputField:true})
         }
         // else{
         //     this.state.showRegisterView=true;
@@ -52,50 +53,53 @@ export default class Home extends Component <{}>{
         //     this.state.showEmailInputField=false;
         // }
     }
-    
+    componentDidMount =()=> {
+    this._check_render_view();
+    }
     
 
     render(){
-    this._check_render_view();    
+       
     return(
     <Container style={{backgroundColor:'#fff'}}>
+        <KeyboardAvoidingView>
+        <ScrollView>
         <ImageBackground source={require('../images/gnice_top_login_bg.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:10000000,top:-5, width: '100%',height:'50%',paddingTop:5,}]}>	
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'50%',paddingTop:5,}]}></ImageBackground>	
     
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         
         <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:270,height: 0, width:58}}/>  
-          
+        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:100,height: 40, width:35}}/>  
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Signup</Text>
         {this.state.showRegisterView ? (
-        <View>    
+        <View style={{paddingBottom:30}}>    
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
-        <KeyboardAvoidingView>
-        <View style={{flexDirection:'column',alignItems:'center',marginTop:20}}>
+        
+        <View style={{flexDirection:'column',alignItems:'center',marginTop:10}}>
         <View>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor="#fff"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(fullname) =>this.setState({fullname}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'} autoFocus={true}
         />
 
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
-        placeholderTextColor="grey" onChangeText={(email) =>this.setState({email}) }
+        placeholderTextColor="grey" onChangeText={(email) =>this.setState({email}) } selectionColor={'#1688EA'}
         />
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Phone Number" keyboardType="number-pad" selectionColor="#fff" onChangeText={(phone) =>this.setState({phone}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:30}]} underlineColorAndroid='rgba(0,0,0,0)' secureTextEntry={true} placeholder="Password" selectionColor="#fff" onChangeText={(password) =>this.setState({password}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm Password" secureTextEntry={true} selectionColor="#fff" onChangeText={(confirm_password) =>this.setState({confirm_password}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         </View>
-        <View style={{flexDirection:'row',marginVertical:15}}>
+        {/* <View style={{flexDirection:'row',marginVertical:15}}>
             <CheckBox value={this.state.sellerAccount} onValueChange={(sellerAccount) => {this.setState({sellerAccount}); console.log("value="+sellerAccount);}} style={custom_style.signup_checkbox}/>
             <Text style={{fontWeight:'bold',fontSize:16,color:'#555'}}>I would also want sell </Text>
-        </View>
+        </View> */}
         <View>
         <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row'}]} onPress={this._signup}>
         {this.state.showLoader ?(
@@ -106,7 +110,7 @@ export default class Home extends Component <{}>{
         </TouchableOpacity>
         </View>
         </View>
-        </KeyboardAvoidingView>
+        
         <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserLogin')}>
             <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Login</Text>
         </TouchableOpacity>
@@ -115,6 +119,7 @@ export default class Home extends Component <{}>{
          <Text style={{fontStyle: 'italic',color:'#454444',fontSize:17,marginTop:20,alignSelf:'center'}}>I already have confirmation code?</Text>   
          </TouchableOpacity>  
         </View>
+        
         ):null
         }
         {this.state.showConfirmationView ? (
@@ -122,13 +127,13 @@ export default class Home extends Component <{}>{
         {!this.state.showEmailInputField ?(    
         <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}>A confirmation email have been sent to your  email address. Please enter the confirmation code</Text>
         ):
-        <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}>Please enter the confirmation code sent to your email.</Text>
+        <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}> Please enter the confirmation code sent to your email.</Text>
         }
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         {this.state.showEmailInputField ?(
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
         onChangeText={(email) =>this.setState({email}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         /> 
         ):null
         }
@@ -151,11 +156,11 @@ export default class Home extends Component <{}>{
 
     {this.state.showFinishedView ? (
         <View style={{paddingHorizontal:30,paddingVertical:30,justifyContent:'center',alignContent:'center',alignItems:'center'}}>
-        <Text style={{lineHeight:25,fontSize:24,textAlign:'center',fontWeight:'bold',marginBottom:10}}>Weldone {this.state.fullname}</Text>
+        <Text style={{lineHeight:25,fontSize:24,textAlign:'center',fontWeight:'bold',marginBottom:10}}>Welldone {this.state.fullname}</Text>
         <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}>Your account ({this.state.email.toLowerCase()}) is activated. Please proceed to login</Text>
         <TouchableOpacity style={[custom_style.login_btn,custom_style.right_border_radius,custom_style.left_border_radius,{alignSelf:'center',marginTop:20,backgroundColor:'#ff6347'}]} onPress={Nav._openscreen.bind(this,this.props,'UserLogin')}>
         <Text style={{color:'#fff'}}>Login</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> 
         </View>
          ):null
         }
@@ -163,13 +168,14 @@ export default class Home extends Component <{}>{
          
         
         
-        </ImageBackground>
+        
 
         {/* <ImageBackground source={require('../images/gnice_bottom_login_bg.png')} style={[{resizeMode: "cover",
         position:'absolute',bottom:0, width: '100%',height:'40%',}]}>
 
         </ImageBackground> */}
-        
+        </ScrollView>
+        </KeyboardAvoidingView>
     </Container>
 	);
 	}

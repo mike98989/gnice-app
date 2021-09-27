@@ -22,9 +22,8 @@ import * as Logic from './Logic';
     formData.append('phone', that.state.phone);
     formData.append('password', that.state.password);
     formData.append('confirm_password', that.state.confirm_password);
-    if(that.state.sellerAccount){ 
-      formData.append('seller','1');  
-    }  
+    formData.append('seller','1');
+    
 
     that.setState({
         showLoader:true
@@ -32,8 +31,6 @@ import * as Logic from './Logic';
     fetch (global.serverUrl+'api/user_signup',{
     method:'POST',
     headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'gnice-authenticate': 'gnice-web'
       },
     body: formData,
@@ -50,10 +47,12 @@ import * as Logic from './Logic';
         showConfirmationView:true,
       })
     }else{
-      alert(JSON.stringify(res.msg));
+      that.setState({
+        errorMsg:res.msg,
+      })
+      //alert(JSON.stringify(res.msg));
     }
     that.setState({
-        errorMsg:'',
         showLoader:false
       })
     })
@@ -89,10 +88,10 @@ export const resend_confirmation_code = (that) => {
 
     fetch (global.serverUrl+'api/user_resend_confirmation_code',{
     method:'POST',
-    headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+    // headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
     body: JSON.stringify({
       resend_to_email: that.state.Email,
     }),
@@ -132,6 +131,7 @@ export const resend_confirmation_code = (that) => {
 
 ///////CONFIRM SIGNUP
 export const confirm_signup = (that) => {
+  
     if((that.state.code1=='')||(that.state.code2=='')||(that.state.code3=='')||(that.state.code4=='')){
       that.setState({
         errorMsg:'Please enter CONFIRMATION CODE! Check your email for confirmation code',
@@ -158,8 +158,6 @@ export const confirm_signup = (that) => {
     fetch (global.serverUrl+'api/confirm_user_signup',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'gnice-authenticate': 'gnice-web'
             },
     body: formData,
@@ -168,12 +166,13 @@ export const confirm_signup = (that) => {
     //console.log(JSON.stringify(res));
     if(res.status =="1"){
       //alert(JSON.stringify(res.msg));
+      
       that.setState({
         errorMsg:'',
         showRegisterView:false,
         showFinishedView:true,
+        showConfirmationView:false,
         password:'',
-        showConfirmationView:false
       })
     }else{
       alert(JSON.stringify(res.msg));
@@ -233,8 +232,6 @@ export const confirm_password_recovery_code = (that) => {
   fetch (global.serverUrl+'api/confirm_password_recovery_code',{
   method:'POST',
   headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
               'gnice-authenticate': that.state.user_token,
           },
   body: formData,
@@ -300,8 +297,6 @@ export const change_pass = (that) =>{
   fetch (global.serverUrl+'api/change_password',{
     method:'POST',
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
       'gnice-authenticate': that.state.userToken,
     },
     body: formdata
@@ -368,8 +363,6 @@ export const send_recovery_code = (that) =>{
   fetch (global.serverUrl+'api/password_recovery',{
     method:'POST',
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
       'gnice-authenticate': 'gnice-web'
     },
     body: formdata
@@ -377,7 +370,7 @@ export const send_recovery_code = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(JSON.stringify(res));
+    alert(JSON.stringify(res));
     //console.log(res);
     if(res.status =="1"){
 
@@ -533,7 +526,6 @@ export const fetch_all_products = (that) =>{
     fetch (global.serverUrl+'api/fetch_all_user_saved_products',{
       method:'GET',
       headers: {
-        'Accept': 'application/json',
         'gnice-authenticate': that.state.userToken,
       },
     
@@ -574,7 +566,6 @@ export const fetch_all_products = (that) =>{
     fetch (global.serverUrl+'api/pin_product',{
       method:'POST',
       headers: {
-        'Accept': 'application/json',
         'gnice-authenticate': that.state.userToken,
       },
       body: formData,
@@ -680,10 +671,10 @@ export const fetch_all_products = (that) =>{
     //////////FETCH USER PRODUCTS
     export const fetch_all_user_products = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
+      if(that.state.userToken){
       fetch (global.serverUrl+'api/fetch_all_product_of_seller?seller_id='+that.state.userData.seller_id,{
         method:'GET',
         headers: {
-          'Accept': 'application/json',
           'gnice-authenticate': that.state.userToken,
       },
       })
@@ -692,15 +683,11 @@ export const fetch_all_products = (that) =>{
         //alert(JSON.stringify(res));
         //return;
         that.setState({
-          showLoader:false
+          showLoader:false,
+          products: JSON.parse(JSON.stringify(res.data)),
+          products_count: res.data.length,
         })
-    if(res.status =="1"){
-      that.setState({
-        products: JSON.parse(JSON.stringify(res.data)),
-        })
-  
-    }else{
-    }
+        get_user_account_package_usage_breakdown(that);
         })
       .catch((error) => {
           console.error(error);
@@ -709,9 +696,61 @@ export const fetch_all_products = (that) =>{
        
           //console.error(error);
         });
+      }
     }
 
-  
+    //////////FETCH USER PRODUCTS
+    export const fetch_all_messages_to_user = (that) =>{
+      //let paramsValue = that.props.route.params.paramsdata;
+      //alert(that.state.userData.seller_id);
+      if(that.state.userToken){
+      fetch (global.serverUrl+'api/fetch_all_messages_to_seller?seller_id='+that.state.userData.seller_id,{
+        method:'GET',
+        headers: {
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        //alert(JSON.stringify(res));
+        //return;
+        that.setState({
+          showLoader:false,
+          messages: JSON.parse(JSON.stringify(res.data)),
+          messages_count: res.data.length,
+        })
+        
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+      }
+    }
+
+    const get_user_account_package_usage_breakdown = (that) =>{
+      var user_remaining_product_slot =
+      that.state.userData.seller_account_details.product_count * 1 -
+      that.state.products_count * 1;
+      //alert($scope.user_remaining_product_slot);
+      var date1 = new Date(that.state.userData.account_type_activation_date);
+      var date2 = new Date();
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Math.round(
+        Difference_In_Time / (1000 * 3600 * 24)
+      );
+      var slot_remaining_duration = that.state.userData.seller_account_details.duration_in_days * 1 - Difference_In_Days;
+      //alert(Difference_In_Days);
+      //$scope.$apply();
+      that.setState({
+        slot_remaining_duration:slot_remaining_duration,
+        user_remaining_product_slot: user_remaining_product_slot,
+      })
+    }
      //////////FETCH RELATED PRODUCTS
      export const fetch_report_reasons = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
@@ -766,8 +805,6 @@ export const reportAbuse = (that) =>{
   fetch (global.serverUrl+'api/report_abuse',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'gnice-authenticate': that.state.userToken
             },
     body: formData,
@@ -891,12 +928,10 @@ export const login = (that) =>{
     let formData = new FormData();
     formData.append('username', that.state.username);
     formData.append('password', that.state.password);
-
+    //alert(global.serverUrl);return;
   fetch (global.serverUrl+'api/user_login',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'gnice-authenticate': 'gnice-web'
             },
     body: formData,
@@ -904,16 +939,17 @@ export const login = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(res);
+    //alert(JSON.stringify(res));
     //alert(JSON.stringify(res.token));
     //console.log(res);
     if(res.status =="1"){
+      //alert('here is the problem333');return;
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       AsyncStorage.setItem('user-token',res.token);
-      //alert(res.data.account_type);return;
+      //alert(JSON.stringify(that.props.route.params));return;
       if((res.data.seller=='1')&&(res.data.account_type=='0')){
       that.props.navigation.navigate('SellerAccountTypeScreen_preview');
-      }else if(that.props.route.params.paramsdata.revertTo){
+      }else if(that.props.route.params.paramsdata){
       that.props.navigation.navigate(that.props.route.params.paramsdata.revertTo,{paramsdata:that.props.route.params.paramsdata}); 
       }
       else{
@@ -966,8 +1002,6 @@ export const update_user_account_type = (that) =>{
   fetch (global.serverUrl+'api/update_user_account_type',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'gnice-authenticate': that.state.token
             },
     body: formData,
@@ -1047,8 +1081,6 @@ export const addProducts = (that) =>{
     fetch (global.serverUrl+'api/add_product',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data',
                 'gnice-authenticate': that.state.userToken,
             },
     body: that.formData,
@@ -1103,8 +1135,6 @@ export const generate_paystack_checkout = (that) =>{
   fetch (global.serverUrl+'api/generate_paystack_checkout',{
     method:'POST',
     headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'gnice-authenticate': that.state.userToken
             },
     body: formData,
@@ -1166,7 +1196,6 @@ export const updateProfileImage = (that) => {
   that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegSize+'MB'})
   return;
   }
-  
     
   fetch (global.serverUrl+'api/upload_image',{
   method:'POST',
@@ -1200,7 +1229,7 @@ export const updateProfileImage = (that) => {
       })
     })
   .catch((error) => {
-    var message = "There was an error! Please check your connection";
+    var message = error;
     //console.log(error);
       alert(JSON.stringify(message));
       that.setState({
@@ -1236,8 +1265,6 @@ export const updateProfile = (that) => {
   fetch (global.serverUrl+'api/update_user_profile',{
   method:'POST',
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
     'gnice-authenticate': that.state.userToken
 },
   body: formdata

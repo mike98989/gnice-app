@@ -5,6 +5,11 @@ const custom_style = StyleSheet.create({
     flex:1,
     alignContent:'center',
   },
+  heading1:{
+    fontSize:22,
+    fontFamily:'cicle',
+    textAlign:'center'
+  },
   justify_container:{
     flex:1,
     alignContent:'center',
@@ -24,11 +29,9 @@ const custom_style = StyleSheet.create({
   item_box:{
   elevation:4,
   backgroundColor: '#FFF',
-  shadowColor: '#ccc',
-  shadowOpacity: 1,
+  shadowOpacity: 0.2,
   shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
-  zIndex:999,borderColor:'#ccc',
-  borderWidth:1,
+  zIndex:999,
   borderRadius:10,
   },
   item_box_tag:{
@@ -54,7 +57,7 @@ fullHeight:{
     },
     
 section_header:{
-    fontSize:27,
+    fontSize:22,
     color:'#313030',
     fontFamily:'Cicle',
 },
@@ -65,7 +68,7 @@ product_name:{
 },
 product_price:{
   color:'#000',
-  fontSize:14,
+  fontSize:12,
   fontWeight:'bold',
   marginTop:5,
 },
@@ -86,8 +89,7 @@ home_link_btn:{
   borderRadius:20,
 },
 search_div_transparent:{
-  width:'85%',
-  marginLeft:20,
+  width:'90%',
   paddingHorizontal:0,
   paddingVertical:0,
   borderWidth:1,
@@ -124,16 +126,15 @@ product_details_image:{
   borderBottomLeftRadius:30,
 },
 product_details_title:{
-  fontSize:27,
+  fontSize:22,
   fontWeight:'bold',
-  color:'#3f80a3',
   fontFamily:'Cicle',
 },
 product_details_price:{
-  fontSize:27,
+  fontSize:18,
   fontWeight:'bold',
   color:'#000',
-  marginTop:20,
+  marginTop:5,
   fontFamily:'Cicle',
 },
 search_div_search_icon:{
@@ -211,12 +212,13 @@ left_border_radius:{
 },
 
 formcontrol:{
-    width:320,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    width:'100%',
+    backgroundColor: '#fff',
     paddingVertical:10,
     paddingHorizontal:35,
-    height:55,
+    height:'auto',
     fontSize:15,
+    color:'#000',
     borderRadius:30,
     marginBottom:10,
   },
@@ -241,15 +243,15 @@ formcontrol_login_username:{
     borderBottomRightRadius:30,
   }, 
   formcontrol_product_screen:{
-    width:350,
-    paddingLeft:25,
-    height:45,
+    width:'100%',
+    paddingLeft:0,
+    height:40,
     fontSize:15,
-    borderRadius:10,
+    borderRadius:15,
     marginBottom:10,
     borderWidth:1,
     borderColor:'#ccc',
-    borderRadius:3,
+    
   }, 
   textInputShadow:{
     elevation: 1,
@@ -265,7 +267,7 @@ formcontrol_login_username:{
     paddingHorizontal:20,
     textAlign:'center',
     fontSize:15,
-    marginVertical:17,
+    marginVertical:4,
   },
   preview_header:{
     fontSize:16,
@@ -308,6 +310,7 @@ formcontrol_login_username:{
   zIndex:999,borderColor:'#ccc',
   borderWidth:1,
   borderRadius:10,
+  color:'#000'
   },
   signup_checkbox:{
     height:20,
@@ -316,13 +319,17 @@ formcontrol_login_username:{
     marginRight:10,
   },
   footer_container:{
-  backgroundColor:'#fff',  
   elevation:4,
-  shadowOpacity: 0.2,
+  backgroundColor: '#FFF',
+  shadowOpacity: 0,
+  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
   zIndex:999,
   },
-  styled_blue:{
+  color_blue:{
     color:'#0f619b',
+  },
+  color_black:{
+    color:'#000',
   },
   action_call_btn: {
     flex: 1,
@@ -375,7 +382,7 @@ formcontrol_login_username:{
   },
   dashboard_box1:{
     width:'48%',
-    height:150,
+    height:'auto',
     backgroundColor:'#ccc',
     marginTop:10,
     borderRadius:20,
@@ -385,7 +392,7 @@ formcontrol_login_username:{
 
 dashboard_box2:{
   width:'100%',
-  height:150,
+  height:'auto',
   backgroundColor:'#ccc',
   marginTop:10,
   borderRadius:20,
@@ -394,12 +401,12 @@ dashboard_box2:{
 },
 
 dashboard_box1_header:{
-  fontSize:37,
+  fontSize:30,
   color:'#fff',
   fontFamily:'Cicle',
 },
 dashboard_box1_sub_header:{
-  fontSize:17,
+  fontSize:14,
   color:'#000',
   fontFamily:'Cicle',
   marginTop:5,
@@ -408,5 +415,8 @@ dashboard_box1_sub_header:{
 
 
 });
+
+
+
 
 export{custom_style}

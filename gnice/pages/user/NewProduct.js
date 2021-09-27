@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground } from 'react-native';
+import { StyleSheet, ActivityIndicator,Modal,Text,ScrollView,View,Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground } from 'react-native';
 import {custom_style} from '../../components/custom_style';
-import { Container, Header, Content,Item,Label,Input, Picker,Form,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right } from 'native-base';
+import { Container, Header, Picker,Select, Content,Item,Label,Input,Form,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right } from 'native-base';
 import UserScreenHeader from '../../components/UserScreenHeader';
 import * as Nav from '../../methods/Navigation';
 import * as AsyncMethods from '../../methods/AsyncMethods';
@@ -27,6 +27,7 @@ export default class LandingScreen extends Component <{}>{
     
   	}
 
+    
     state = {
       userData:[],
       categories_and_sub:[],
@@ -87,6 +88,46 @@ export default class LandingScreen extends Component <{}>{
         });
         Logic.update_new_product_category_view(this.state.categories_and_sub[value].id,this);
       }
+
+     chooseImage = () => {
+        //chooseFile = () => {
+          var options = {
+            title: 'Select Image',
+            customButtons: [
+              { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
+            ],
+            storageOptions: {
+              skipBackup: true,
+              path: 'images',
+            },
+          };
+          ImagePicker.showImagePicker(options, response => {
+            //console.log('Response = ', response);
+      
+            if (response.didCancel) {
+              //console.log('User cancelled image picker');
+            } else if (response.error) {
+              //console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              //console.log('User tapped custom button: ', response.customButton);
+              alert(response.customButton);
+            } else {
+              let source = response;
+              // You can also display the image using data:
+              //console.log(source.fileSize);
+              //console.log(JSON.parse(JSON.stringify(source)));
+              //console.log(JSON.stringify(source.filename))
+              //let source = { uri: 'data:image/jpeg;base64,' + response.data };
+              
+              this.setState({
+                filePath: source,
+                isGroupImageSelected:true,
+                showLoader:that.state.isNotPickerModal ? false : true,
+                pickerModal:true,
+              });
+            }
+          });
+        }
 
       onSubCategoryValueChange(value) {
         let objectval = JSON.parse(JSON.stringify(this.state.subCategoryListSelected[value]));  
@@ -173,34 +214,30 @@ export default class LandingScreen extends Component <{}>{
     render(){
     return(
         
-    <Container>
+    <Container style={{backgroundColor:'#c9e0f4'}}>
       <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground>
         <UserScreenHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
-        <View style={[custom_style.container]}>
-        <View style={[{justifyContent:'center',marginBottom:0}]}>  
-        <View> 
+        <View style={[custom_style.container,{paddingHorizontal:20}]}>
+        <Image source={require('../../images/gnice_logo_only.png')}  style={{height: 34, width:25,marginBottom:5,marginTop:30,marginLeft:0}}/>
+        <Text style={[custom_style.section_header,{marginLeft:0,marginTop:10}]}>New Ads</Text>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
+        
         <ScrollView style={{marginBottom:50}}>
         <KeyboardAvoidingView
         >
-        <View style={{flexDirection:'column',alignItems:'center'}}>
-        <View>
-        
         <Form>
-
-        <Text style={[custom_style.product_details_title,{textAlign:'center',marginBottom:20,fontFamily:'Rajdhani'}]}>New Advert</Text>   
-      
-        <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Category</Text> 
-          
-        <Picker style={[custom_style.formcontrol_product_screen,{color:'#ccc',paddingLeft:0}]}
+        <Text>Select Category</Text> 
+         
+        <Picker 
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
-              headerStyle={{ backgroundColor: "#5da7d3" }}
+              headerStyle={{ backgroundColor: "#fff" }}
               headerBackButtonTextStyle={{ color: "#fff" }}
               headerTitleStyle={{ color: "#fff" }}
               selectedValue={this.state.categoryDropDownValue}
               onValueChange={this.onCategoryValueChange.bind(this)}
+              itemStyle={{ backgroundColor: "#fff", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
             >
             {this.state.categories_and_sub !== [] ? (
                     Object.entries(this.state.categories_and_sub).map(([i, value]) => {
@@ -213,7 +250,7 @@ export default class LandingScreen extends Component <{}>{
             
             </Picker>
 
-            <Text style={[{marginBottom:5,paddingLeft:10}]}>Select Sub Category</Text>   
+            <Text>Select Sub Category</Text>   
             <Picker style={[custom_style.formcontrol_product_screen,{paddingLeft:0}]}
               mode="dropdown"
               iosIcon={<Icon name="caret-down" style={{color:'#7a7878'}} />}
@@ -343,12 +380,12 @@ export default class LandingScreen extends Component <{}>{
             ):null}
             
             
-            <Text style={[{marginBottom:5,paddingLeft:10}]}>Name</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
+            <Text>Name</Text> 
+            <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
             value={this.state.userData.fullname} editable={false}
             />
-            <Text style={[{marginBottom:5,paddingLeft:10}]}>Phone Number</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
+            <Text>Phone Number</Text> 
+            <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
             value={this.state.userData.phone} editable={false}
             />
 
@@ -371,16 +408,16 @@ export default class LandingScreen extends Component <{}>{
           </Form>
         
 
-      <View style={{flexDirection:'row',justifyContent:'center',marginTop:20,marginBottom:30}}> 
+      <View style={{flexDirection:'row',justifyContent:'center',marginTop:30,marginBottom:30}}> 
     <LinearGradient colors={['#266469', '#4983b5', '#388db1']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
-      style={[custom_style.action_call_btn,{marginRight:5,height:50}]} 
+      style={[custom_style.action_call_btn,{height:40}]} 
       start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
       <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={this._add_products}>
       {this.state.showLoader ?(
         <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}
       <Text style={{fontSize:16,color:'#fff'}}>POST ADS </Text>
-      <Image source={require('../../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 50, width:30}}/> 
+      <Image source={require('../../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 40, width:30}}/> 
       </TouchableOpacity>
     </LinearGradient>
 
@@ -388,14 +425,9 @@ export default class LandingScreen extends Component <{}>{
     
       </View> 
 
-        
-      </View>
-        
-        </View>
         </KeyboardAvoidingView>
         </ScrollView>
-        </View>
-        </View>
+        
 
         </View>
         
@@ -403,3 +435,5 @@ export default class LandingScreen extends Component <{}>{
 	);
 	}
 }
+
+

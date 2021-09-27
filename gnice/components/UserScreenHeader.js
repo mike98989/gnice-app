@@ -8,10 +8,10 @@ const MainHeader = (props) => (
     {props.nav_type == "complete" ? (
       <View>
         {props.header_type == "transparent" ? (
-        <Header transparent style={[{height:40,marginTop:5}]}>
+        <Header transparent style={[{height:40,marginTop:25}]}>
         <Left>
           <TouchableOpacity transparent style={{marginLeft:10}} onPress={props.openDrawer}>
-          <Image source={require('../images/drawer4.png')} style={{width:35,height:35}}/>
+          <Image source={require('../images/drawer4.png')} style={{width:30,height:30}}/>
             </TouchableOpacity>
         </Left>
           <Body>
@@ -23,7 +23,7 @@ const MainHeader = (props) => (
           <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+props.profileImageUrl}} style={{borderRadius:30,overflow:'hidden',width:35,height:35}}/>
           </Button>
           <Button transparent style={{marginLeft:12}} onPress={props.logoutImageClick}>
-          <Image source={require('../images/logout_icon.png')} style={{width:25,height:27}}/>
+          <Image source={require('../images/logout_icon.png')} style={{width:25,height:28}}/>
           </Button>
           </Right>
         </Header>
@@ -33,7 +33,7 @@ const MainHeader = (props) => (
       }
       </View>
     ):
-    <Header transparent style={[{height:40,marginTop:0}]}>
+    <Header transparent style={[{height:40,marginTop:25}]}>
         <Left>
           <Button transparent style={{marginLeft:10}} onPress={props.go_back}>
           <Icon name='ios-arrow-back' style={{color:'#fff'}} />

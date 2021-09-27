@@ -13,8 +13,6 @@ import * as Requests from '../methods/Requests';
 
 
 export default class CardPaymentUi extends Component <{}>{
-
-
 	constructor(props){
     super(props);
     //this.webViewRef = React.createRef();
@@ -36,7 +34,7 @@ export default class CardPaymentUi extends Component <{}>{
 
     render(){
       const webViewRef = React.createRef();
-      const trans_status_url = 'http://localhost/gnice/transactionstatus';
+      const trans_status_url = 'https://gnice.com.ng/transactionstatus';
       const url = 'https://localhost/gnice';
       // onNavigationStateChange = state => {
         
@@ -45,7 +43,7 @@ export default class CardPaymentUi extends Component <{}>{
       //   if (url === callback_url) {
       //     Nav._openscreen.bind(this,this.props,'TransactionStatus',{paramsdata:this.props.route.params.paramsdata});
       //     // get transaction reference from url and verify transaction, then redirect
-      //     //const redirectTo = 'window.location = "' + callback_url + '"';
+      //     //const  redirectTo = 'window.location = "' + callback_url + '"';
       //     //this.webview.injectJavaScript(redirectTo);
       //   }
       // };
@@ -57,27 +55,14 @@ export default class CardPaymentUi extends Component <{}>{
       style={{ marginTop: 40 }}
       onNavigationStateChange={(event) => {
         var go_to_url = event.url.split('?')[0];
+        //alert(go_to_url);
         if (go_to_url == trans_status_url) {
           webViewRef.current.stopLoading();
-          
-          //Nav._openscreen(this,that.props,'UserArea',null);
-          //AsyncMethods._loadSellerActivationData(this).done();
           Requests.update_user_account_type(this);
         }
       }}
       
     />
-        // <Container style={{backgroundColor:'#fff'}} style={[custom_style.container,{justifyContent:'center', alignItems:'center'}]}>
-            
-        // {/* <View style={{flex:1,marginTop:300}}>
-        // <CreditCardInput onChange={_onChange => form => console.log(form)} />
-        // </View> */}
-       
-        // <Text>Card Payment</Text>
-        // <Text>{JSON.stringify(this.props.route.params.paramsdata.authorization_data.authorization_url)}</Text>
-        
-            
-        // </Container>
 	);
 	}
 }

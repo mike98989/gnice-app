@@ -52,7 +52,7 @@ export default class Home extends Component <{}>{
 
   _renderCarouselItem = ({item, index})=>{
       return (
-        <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item}}  style={[custom_style.product_details_image,{width: '100%',height:300}]}/>  
+        <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item}}  style={[{width: '100%',height:300}]}/>  
       );        
      
   }
@@ -110,15 +110,15 @@ export default class Home extends Component <{}>{
       
     image_value = Logic.split_value(this.props.route.params.paramsdata.image,',');  
     return(
-    <Container style={{backgroundColor:'#ebeced'}}>
-      <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0, width: '100%',height:'50%',}]}></ImageBackground> 
+    <Container style={{backgroundColor:'#efefefe',paddingTop:20}}>
+      {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0, width: '100%',height:'50%',}]}></ImageBackground>  */}
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
         {/* <View style={custom_style.container}>
         
         </View> */}
 
-        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,borderRadius:20,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
+        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,marginTop:20,borderRadius:20,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
               data={image_value}
@@ -131,7 +131,11 @@ export default class Home extends Component <{}>{
               onSnapToItem={(index)=>this.setState({activeSlide:index})}
           />
           
-           <View style={{marginTop:220,height:80,width:'100%',position:'absolute'}}>
+          <View style={{bottom:0,height:40,width:'100%',position:'absolute'}}>
+          {this.pagination }
+          </View>
+
+           {/* <View style={{marginTop:220,height:80,width:'100%',position:'absolute'}}>
             <BlurView style={[custom_style.blurView,{borderTopColor:'#fff',borderTopWidth:2}]}
             reducedTransparencyFallbackColor="white"
             blurType="light"
@@ -144,16 +148,21 @@ export default class Home extends Component <{}>{
               {this.pagination }
               </View>
             </BlurView>
-          </View> 
+          </View>  */}
           
           </View>
           <ScrollView>
         <View style={custom_style.product_details_container}>
         {/* <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text> */}
+        <View style={{marginTop:10,borderTopWidth:.5,borderTopColor:'#ccc',paddingLeft:20}}>
+        <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text>
+        <Text style={[custom_style.product_details_price,{color:'#aaa'}]}>N{this.props.route.params.paramsdata.price}</Text>
+        </View>
         <View style={{paddingHorizontal:20}}>
+        
         {/* <Text numberOfLines={1} ellipsizeMode="tail" style={[custom_style.product_details_title]}>{this.props.route.params.paramsdata.name}</Text>
         <Text>NGN {this.props.route.params.paramsdata.price}</Text>   */}
-        <Text style={custom_style.product_details_title}>Details</Text>
+        <Text style={[custom_style.product_details_title,{marginTop:20,color:'#3f80a3'}]}>Details</Text>
         <Text style={{color:'#625e5e',fontSize:16,lineHeight:30,marginTop:10}}>{this.props.route.params.paramsdata.description}</Text>
         </View>
         <View style={{flexDirection:'row',justifyContent:'center',}}>

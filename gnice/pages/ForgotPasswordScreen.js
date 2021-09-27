@@ -39,40 +39,39 @@ export default class Home extends Component <{}>{
 
     _check_render_view = ()=>{
         if(this.props.route.params.paramsdata){
-            this.state.showRegisterView=false;
-            this.state.showConfirmationView=true;
-            this.state.showEmailInputField=true;
-            //this.setState({showRegisterView:false,showConfirmationView:true})
+            // this.state.showRegisterView=false;
+            // this.state.showConfirmationView=true;
+            // this.state.showEmailInputField=true;
+            this.setState({showRegisterView:false,showConfirmationView:true,showEmailInputField:true})
         }
-        // else{
-        //     this.state.showRegisterView=true;
-        //     this.state.showConfirmationView=false;
-        //     this.state.showEmailInputField=false;
-        // }
+
     }
     
-    
+    componentDidMount =()=> {
+        this._check_render_view();
+    }
 
     render(){
     //this._check_render_view();    
     return(
     <Container style={{backgroundColor:'#fff'}}>
         <ImageBackground source={require('../images/gnice_top_login_bg.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:10000000,top:-5, width: '100%',height:'50%',paddingTop:5,}]}>	
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'50%',paddingTop:5,}]}></ImageBackground>	
     
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         
         <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:270,height: 70, width:58}}/>  
+        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:10,height: 40, width:35}}/>  
           
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Forgot Password</Text>
+        
         {this.state.showEmailView ? (
         <View style={{paddingHorizontal:30,paddingVertical:30,justifyContent:'center',alignContent:'center',alignItems:'center'}}>
         <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}>Please enter your email address.</Text>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
         onChangeText={(email) =>this.setState({email}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         /> 
         <TouchableOpacity style={[custom_style.login_btn,{marginTop:30,flexDirection:'row'}]} onPress={this._send_recovery_code}>
         {this.state.showLoader ?(
@@ -96,10 +95,10 @@ export default class Home extends Component <{}>{
         </View>
         <Text style={{marginTop:30,paddingLeft:10,color:'#7e7b7b',lineHeight:25,fontStyle:'italic',fontSize:16,alignSelf:'flex-start'}}>Enter New Password</Text>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:5}]} underlineColorAndroid='rgba(0,0,0,0)' secureTextEntry={true} placeholder="New Password" selectionColor="#fff" onChangeText={(password) =>this.setState({password}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm New Password" secureTextEntry={true} selectionColor="#fff" onChangeText={(confirm_password) =>this.setState({confirm_password}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
 
         <TouchableOpacity style={[custom_style.login_btn,{marginTop:30,flexDirection:'row'}]} onPress={this._confirm_password_recovery_code}>
@@ -127,7 +126,7 @@ export default class Home extends Component <{}>{
          
         
         
-        </ImageBackground>
+        {/* </ImageBackground> */}
 
         {/* <ImageBackground source={require('../images/gnice_bottom_login_bg.png')} style={[{resizeMode: "cover",
         position:'absolute',bottom:0, width: '100%',height:'40%',}]}>
