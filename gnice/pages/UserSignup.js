@@ -70,13 +70,13 @@ export default class Home extends Component <{}>{
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         
         <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:100,height: 40, width:35}}/>  
+        <Image source={require('../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:50,height: 60, width:60}}/>  
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Signup</Text>
         {this.state.showRegisterView ? (
         <View style={{paddingBottom:30}}>    
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         
-        <View style={{flexDirection:'column',alignItems:'center',marginTop:10}}>
+        <View style={{flexDirection:'column',paddingHorizontal:20,marginTop:10}}>
         <View>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor="#fff"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(fullname) =>this.setState({fullname}) }
@@ -101,7 +101,7 @@ export default class Home extends Component <{}>{
             <Text style={{fontWeight:'bold',fontSize:16,color:'#555'}}>I would also want sell </Text>
         </View> */}
         <View>
-        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row'}]} onPress={this._signup}>
+        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',alignSelf:'center'}]} onPress={this._signup}>
         {this.state.showLoader ?(
         <Image source={require('../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}
@@ -115,7 +115,7 @@ export default class Home extends Component <{}>{
             <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'UserSignup','confirm')}>
+        <TouchableOpacity onPress={()=>{this.setState({showRegisterView:false,showConfirmationView:true,showEmailInputField:true})}}>
          <Text style={{fontStyle: 'italic',color:'#454444',fontSize:17,marginTop:20,alignSelf:'center'}}>I already have confirmation code?</Text>   
          </TouchableOpacity>  
         </View>

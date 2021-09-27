@@ -40,7 +40,7 @@ export default class Home extends Component <{}>{
         </TouchableOpacity>
 
         {/* <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="complete"/> */}
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:100,height: 40, width:35}}/>
+        <Image source={require('../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:100,height: 60, width:60}}/>
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:40,marginBottom:0}]}>Login</Text>
         <Text style={{alignSelf:'center',color:'#484747'}}>Login with your email and password</Text>
         

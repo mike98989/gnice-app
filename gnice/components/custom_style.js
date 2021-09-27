@@ -321,8 +321,8 @@ formcontrol_login_username:{
   footer_container:{
   elevation:4,
   backgroundColor: '#FFF',
-  shadowOpacity: 0,
-  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
+  shadowOpacity: 0.4,
+  shadowRadius: 15,shadowOffset: { width: 5, height: 5 },
   zIndex:999,
   },
   color_blue:{

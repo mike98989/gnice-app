@@ -61,7 +61,7 @@ export default class Home extends Component <{}>{
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         
         <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
-        <Image source={require('../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:10,height: 40, width:35}}/>  
+        <Image source={require('../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:0,height: 60, width:60}}/>  
           
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Forgot Password</Text>
         

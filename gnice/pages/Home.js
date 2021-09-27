@@ -136,8 +136,7 @@ const renderTabBar = (props: any) => {
   {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
   {/* <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/> */}
-   
-        
+  
         <Tabs renderTabBar={renderTabBar} style={{backgroundColor:'#fff'}}>
           <Tab  tabStyle={{ backgroundColor: "white" }} activeTabStyle={{ backgroundColor: "#c9e0f4"}} heading="Products">
     {/* {this.state.showSearchForm ? (
@@ -150,9 +149,10 @@ const renderTabBar = (props: any) => {
   ):null} */}
 
 <View>
-<LinearGradient style={[{height:200,width:'100%',alignItems:'center',alignContent:'center',paddingTop:50,margin:0}]}
+<LinearGradient style={[{height:200,width:'100%',alignItems:'center',alignContent:'center',paddingTop:20,margin:0}]}
         colors={['#c9e0f4', '#c9e0f4', '#fff']}
         start={{ x: 0.5, y: 0 }}>
+     <Image source={require('../images/gnice_logo.png')}  style={{marginTop:5,height: 50, width:50,alignSelf:'center'}}/>     
     <Text style={custom_style.heading1}>What Are You Looking For?</Text>
     <View style={[custom_style.formcontrol,{height:50,width:'90%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
     <TextInput style={{width:'80%',fontSize:18,color:'#000',height:50,margin:0}} autoFocus={true}></TextInput>
@@ -166,7 +166,7 @@ const renderTabBar = (props: any) => {
     </LinearGradient>
   </View>  
 
-    <Text style={[custom_style.section_header,{marginLeft:25,marginTop:2}]}>Latest</Text>  
+    <Text style={[custom_style.section_header,{marginLeft:25,marginTop:2}]}>Latest Ads</Text>  
     {this.state.showLoader ?(
         <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
         <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
