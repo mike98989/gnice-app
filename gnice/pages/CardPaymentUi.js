@@ -34,7 +34,7 @@ export default class CardPaymentUi extends Component <{}>{
 
     render(){
       const webViewRef = React.createRef();
-      const trans_status_url = 'https://gnice.com.ng/dashboard/transactionstatus';
+      const trans_status_url = 'https://gnice.com.ng/transactionstatus';
       const url = 'https://localhost/gnice';
       // onNavigationStateChange = state => {
         
@@ -55,6 +55,7 @@ export default class CardPaymentUi extends Component <{}>{
       style={{ marginTop: 40 }}
       onNavigationStateChange={(event) => {
         var go_to_url = event.url.split('?')[0];
+        //alert(go_to_url);
         if (go_to_url == trans_status_url) {
           webViewRef.current.stopLoading();
           Requests.update_user_account_type(this);

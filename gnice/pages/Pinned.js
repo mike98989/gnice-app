@@ -42,9 +42,9 @@ export default class Pinned extends Component <{}>{
 
     render(){
     return(
-        <Container style={{backgroundColor:'#d4d6d7'}}>
-          <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>  
+        <Container style={{backgroundColor:'#fff'}}>
+          {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
         <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
        
         <View style={[custom_style.container]}>

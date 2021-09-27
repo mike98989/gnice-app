@@ -21,11 +21,15 @@ export const _loadSessionState = async(that)=>{
   
   var route = that.props.route;
   //alert(JSON.stringify(route));return;
+  if(route.params){
   if(route.params.paramsdata){
     route.params.paramsdata.revertTo=route.name;
     that.props.navigation.navigate('UserLogin',{paramsdata:route.params.paramsdata});
   }else{
     that.props.navigation.navigate('UserLogin',{paramsdata:{revertTo:route.name}});
+  }
+  }else{
+    that.props.navigation.navigate('UserLogin',{paramsdata:null});
   }
   
   

@@ -26,12 +26,14 @@ export default class Home extends Component <{}>{
 
     render(){
     return(
-    <Container style={{backgroundColor:'#ddd'}}>
+    <Container style={{backgroundColor:'#fff'}}>
+      <KeyboardAvoidingView>
+        <ScrollView>
         <ImageBackground source={require('../images/gnice_top_login_bg.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:10000000,top:-5, width: '100%',height:'50%',paddingTop:5,}]}>	 
-        <ImageBackground source={require('../images/gnice_burble_backgroud.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>	 
+        {/* <ImageBackground source={require('../images/gnice_burble_backgroud.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:0, width: '100%',height:'30%',paddingTop:5,}]}>
-        </ImageBackground> 
+        </ImageBackground>  */}
 
         <TouchableOpacity transparent style={{marginLeft:20,marginTop:50}} onPress={Nav._openscreen.bind(this,this.props,'Home',null)}>
           <Image source={require('../images/drawer4.png')} style={{width:35,height:35}}/>
@@ -42,25 +44,24 @@ export default class Home extends Component <{}>{
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:40,marginBottom:0}]}>Login</Text>
         <Text style={{alignSelf:'center',color:'#484747'}}>Login with your email and password</Text>
         
-        <KeyboardAvoidingView>
-        <ScrollView>
-        <View style={{flexDirection:'column',alignItems:'center',marginTop:20}}>
+        
+        <View style={{flexDirection:'column',paddingHorizontal:20,marginTop:20}}>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <View>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(username) =>this.setState({username}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" autoFocus={true} selectionColor={'#1688EA'}
         />
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="********" secureTextEntry={true} selectionColor="#fff" onChangeText={(password) =>this.setState({password}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         </View>
         <View>
-        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row'}]} onPress={this._do_Login}>
+        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',alignSelf:'center'}]} onPress={this._do_Login}>
         {this.state.showLoader ?(
         <Image source={require('../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}  
-        <Text style={{fontSize:17,fontWeight:'bold',color:'#fff'}}>Login</Text><Icon name='ios-arrow-forward' style={{color:'#fff'}} />
+        <Text style={{fontSize:14,fontWeight:'bold',color:'#fff'}}>Login</Text>
         
         </TouchableOpacity>
         </View>
@@ -82,7 +83,7 @@ export default class Home extends Component <{}>{
             <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Register</Text>
         </TouchableOpacity>
 
-        </ImageBackground>
+        {/* </ImageBackground> */}
 
         {/* <ImageBackground source={require('../images/gnice_bottom_login_bg.png')} style={[{resizeMode: "contain",
         position:'absolute',bottom:0, width: '100%',height:'40%',}]}>

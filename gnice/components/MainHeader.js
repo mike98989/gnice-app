@@ -34,7 +34,7 @@ const MainHeader = (props) => (
       }
       </View>
     ):
-    <Header transparent style={[{height:40}]}>
+    <Header transparent style={[{height:40,marginTop:20}]}>
         <Left>
           <Button transparent style={{marginLeft:10}} onPress={props.go_back}>
           <Icon name='ios-arrow-back' style={{color:'#fff'}} />
