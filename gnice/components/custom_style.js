@@ -20,7 +20,7 @@ const custom_style = StyleSheet.create({
     borderRadius:5,
     width:'32%',
     padding:3,
-    margin:'1%',
+    marginLeft:'1%',
     alignContent:'center',
     justifyContent:'center',
     alignItems:'center',
@@ -29,8 +29,8 @@ const custom_style = StyleSheet.create({
   item_box:{
   elevation:4,
   backgroundColor: '#FFF',
-  shadowOpacity: 0.2,
-  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
+  shadowOpacity: 0.5,
+  shadowRadius: 10,shadowOffset: { width: 5, height: 5 },
   zIndex:999,
   borderRadius:10,
   },
@@ -57,7 +57,7 @@ fullHeight:{
     },
     
 section_header:{
-    fontSize:22,
+    fontSize:20,
     color:'#313030',
     fontFamily:'Cicle',
 },
@@ -174,6 +174,19 @@ login_btn:{
     justifyContent:'center',
     marginTop:5,
 },
+call_btn:{
+  width:'auto',
+  height:'auto',
+  borderRadius:5,
+  paddingHorizontal:7,
+  paddingVertical:3,
+  backgroundColor:'lightblue',
+  textAlign:'center',
+  alignItems:'center',
+  alignContent:'center',
+  justifyContent:'center',
+},
+
 signup_btn:{
     width:130,
     height:45,
@@ -185,8 +198,18 @@ signup_btn:{
     fontWeight:'bold',
     alignContent:'center',
     justifyContent:'center',
-    alignContent:'center',
     marginTop:20,
+},
+back_curved_btn:{
+  width:90,
+  height:35,
+  backgroundColor:'#fff',
+  color:'black',
+  fontWeight:'bold',
+  justifyContent:'center',
+  paddingLeft:20,
+  marginTop:10,
+  marginBottom:10,
 },
 generic_btn:{
   width:80,
@@ -321,8 +344,8 @@ formcontrol_login_username:{
   footer_container:{
   elevation:4,
   backgroundColor: '#FFF',
-  shadowOpacity: 0.4,
-  shadowRadius: 15,shadowOffset: { width: 5, height: 5 },
+  shadowOpacity: 1.8,
+  shadowRadius: 15,shadowOffset: { width: 0, height: 5 },
   zIndex:999,
   },
   color_blue:{

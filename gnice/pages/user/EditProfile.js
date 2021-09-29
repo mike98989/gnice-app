@@ -48,31 +48,34 @@ export default class EditProfile extends Component <{}>{
         <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground>    
         <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
+
         <View style={[custom_style.container]}>
         <View style={[custom_style.container,{justifyContent:'center', alignItems:'center'}]}>
-            <Text style={[custom_style.section_header,{marginLeft:5,marginVertical:10}]}>Edit {this.state.userData.fullname} Profile</Text>
+        <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:30,overflow:'hidden',width:105,height:105}}/>
+            <Text style={[custom_style.section_header,{marginLeft:5,marginVertical:0}]}>Edit </Text>
+            <Text>{this.state.userData.fullname}'s Profile</Text>
         </View>
 
         <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingHorizontal:20,paddingTop:0,height:350,}]}>
         <ScrollView>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Full Name</Text> 
-        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor="#fff" value={this.state.fullname}
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor={'#1688EA'} value={this.state.fullname}
         placeholderTextColor="grey" onChangeText={(fullname) =>this.setState({fullname})}
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Email</Text> 
-        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',backgroundColor:'#ececec'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="default" selectionColor="#fff" value={this.state.email}
+        <TextInput style={[custom_style.formcontrol,{width:'100%',backgroundColor:'#ececec',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="default" selectionColor={'#1688EA'} value={this.state.email}
         placeholderTextColor="grey" editable={false}
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Phone Number</Text> 
-        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Phone number" keyboardType="number-pad" selectionColor="#fff" value={this.state.phone}
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Phone number" keyboardType="number-pad" selectionColor="#fff" value={this.state.phone}
         placeholderTextColor="grey" onChangeText={(phone) =>this.setState({phone})}
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Whatsapp Number</Text> 
-        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor="#fff" value={this.state.whatsapp}
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Whatsapp" keyboardType="default" selectionColor="#fff" value={this.state.whatsapp}
         placeholderTextColor="grey" onChangeText={(whatsapp) =>this.setState({whatsapp})}
         />
 

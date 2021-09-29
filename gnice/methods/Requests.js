@@ -508,7 +508,7 @@ export const fetch_all_products = (that) =>{
     that.setState({
         products: JSON.parse(JSON.stringify(res.data)),
       })
-
+      return;
   }else{
   }
       })
@@ -630,6 +630,46 @@ export const fetch_all_products = (that) =>{
       });
   }
   
+
+  //////////SEARCH
+  export const search = (that) =>{
+    //let paramsValue = that.props.route.params.paramsdata;
+    if(that.state.searchQuery==''){
+      alert("Please enter a key word!");
+      return;
+    }else{
+      that.setState({
+        showLoader:true
+      })
+
+    fetch (global.serverUrl+'api/fetch_product_by_term?query='+that.state.searchQuery+'&sub_category='+that.state.subCategorySelected,{
+      method:'GET',
+      headers: {
+                  'gnice-authenticate': 'gnice-web'
+              },
+      
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      //alert(JSON.stringify(res.data));
+      //if(res.status =="1"){
+        that.setState({
+          showLoader:false,
+        })
+        that.props.navigation.navigate('SearchResults',{paramsdata:JSON.stringify(res.data),searchQuery:that.state.searchQuery});
+      //}
+    
+      })
+    .catch((error) => {
+        that.setState({
+          showLoader:false
+        })
+        console.error(error);
+      });
+  
+  }
+}
+
   //////////FETCH RELATED PRODUCTS
   export const fetch_related_products = (that) =>{
     //let paramsValue = that.props.route.params.paramsdata;
@@ -666,6 +706,40 @@ export const fetch_all_products = (that) =>{
       });
   }
 
+
+   //////////FETCH SELLER PRODUCTS
+   export const fetch_seller_products = (that) =>{
+    //let paramsValue = that.props.route.params.paramsdata;
+    
+    fetch (global.serverUrl+'api/fetch_all_product_of_seller?seller_id='+that.props.route.params.paramsdata.seller_id,{
+      method:'GET',
+      headers: {
+                  'gnice-authenticate': 'gnice-web'
+              },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      console.log(res);
+      //alert(JSON.stringify(res));
+      //return;
+      that.setState({
+        showLoader:false
+      })
+  
+    that.setState({
+      seller_products: JSON.parse(JSON.stringify(res.data)),
+      })
+
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
 
 
     //////////FETCH USER PRODUCTS
@@ -858,7 +932,7 @@ export const reportAbuse = (that) =>{
           showLoader:false
         })
     if(res.status =="1"){
-
+      //alert(JSON.stringify(res.data))
       that.setState({
         required_tables: res.data,
         //car_makes: JSON.parse(JSON.stringify(res.car_makes)),
@@ -899,7 +973,7 @@ export const reportAbuse = (that) =>{
     that.setState({
       categories_and_sub: JSON.parse(JSON.stringify(res.data)),
       })
-      //alert(JSON.stringify(that.state.categories_and_sub.category));
+      //alert(JSON.stringify(that.state.categories_and_sub));
 
   }else{
   }
@@ -1042,15 +1116,11 @@ export const update_user_account_type = (that) =>{
 /////////////ADD PRODUCTS
 export const addProducts = (that) =>{
   //alert(that.state.userToken);return;
-  
   if((that.state.uploadImageCount==0)){
     alert('Please select an Image!');
   }else if(!that.state.categorySelected){
     alert('Please select Category!');
   }
-  // else if(!that.state.subCategorySelected){
-  //   alert('Please select Sub Category!');
-  // }
   else{
     if(that.state.negotiable_price){
       var negotiable = '1';
@@ -1089,6 +1159,7 @@ export const addProducts = (that) =>{
   .then((response)=>response.json())
   .then((res) =>{
     console.log(res);
+    alert(res);return;
     if(res.status =="1"){
       that.props.navigation.navigate('MyProducts',{paramsdata:null});
       alert("Advert created successfully!");
@@ -1101,7 +1172,7 @@ export const addProducts = (that) =>{
     }
   
 
-    })
+  })
   .catch((error) => {
       that.setState({
         showLoader:false

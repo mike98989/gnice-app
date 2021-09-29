@@ -36,6 +36,43 @@ export const update_new_product_subcategory_view = (value, that)=>{
     }
 }
 
+  export const onreportReasonChange = (value,that)=> { 
+  let objectval = JSON.parse(JSON.stringify(that.state.report_reasons[value.value])); 
+  var reason = objectval.reason;
+  //alert(objectval.reason);return;
+  that.setState({
+  reportReasonSelected:reason,  
+  reportReasonDropDownValue:value,
+  //subCategoryListSelected: objectval.subcategory,
+  });
+  //alert(that.state.reportReasonSelected);
+ }
+
+ export const onCategoryValueChange = (value,that,update_view)=> { 
+   //alert(JSON.stringify(update_view));return;
+  let objectval = JSON.parse(JSON.stringify(that.state.categories_and_sub[value.value]));   
+  that.setState({
+  categorySelected:that.state.categories_and_sub[value.value].id,  
+  categoryDropDownValue:value,
+  subCategoryListSelected: objectval.subcategory,
+  });
+  update_view ? update_new_product_category_view(that.state.categories_and_sub[value.value].id,that):null
+ }
+
+// }
+
+export const onSubCategoryValueChange = (value,that,update_view) => {
+  let objectval = JSON.parse(JSON.stringify(that.state.subCategoryListSelected[value.value]));  
+  that.setState({ 
+      subCategorySelected: objectval.sub_id,
+      subCategoryDropDownValue:value,
+      showProductForm:true,
+  }); 
+  update_view ? update_new_product_subcategory_view(value.value,that):null
+  
+}
+
+ 
 export const update_new_product_category_view = (value,that)=>{
 
   if(that.state.categorySelected!=value){

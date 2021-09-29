@@ -34,11 +34,17 @@ const MainHeader = (props) => (
       }
       </View>
     ):
-    <Header transparent style={[{height:40,marginTop:20}]}>
+    <Header transparent style={[{height:40,marginTop:40,paddingLeft:0}]}>
+      
         <Left>
-          <Button transparent style={{marginLeft:10}} onPress={props.go_back}>
-          <Icon name='ios-arrow-back' style={{color:'#fff'}} />
-          </Button>
+          {/* <Button transparent style={{marginLeft:0}} onPress={props.go_back}>
+          <Icon name='ios-arrow-back' style={{fontSize:30,color:'#000'}} />
+          </Button> */}
+
+        <TouchableOpacity style={[custom_style.back_curved_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={props.go_back}>
+         <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>
+         <Icon name='ios-arrow-back' style={{fontSize:13,color:'#000'}} /> Back</Text>
+        </TouchableOpacity>
         </Left>
           <Body>
             <Title>{props.title}</Title>

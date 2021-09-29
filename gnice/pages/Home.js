@@ -3,13 +3,14 @@ import { StyleSheet,SafeAreaView,FlatList,ActivityIndicator,Modal,Text,ScrollVie
 import { Container, Badge, Header, Content, Tab, Tabs,DefaultTabBar,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Footer, FooterTab, Item,Input} from 'native-base';
 import {custom_style} from '../components/custom_style';
 import MainHeader from '../components/MainHeader'
+import SearchBox from '../snipets/SearchBox'
 //import MainFooter from '../components/MainFooter'
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Nav from '../methods/Navigation';
 import * as Logic from '../methods/Logic';
 import * as AsyncMethods from '../methods/AsyncMethods';
 import * as Requests from '../methods/Requests';
-import { SearchBar } from 'react-native-elements';
+// import { SearchBar } from 'react-native-elements';
 import MainFooter from '../components/MainFooter';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -28,6 +29,13 @@ export default class Home extends Component <{}>{
       showLoader:true,
       search: '',
       showSearchForm:true,
+      categoryDropDownValue:'-1',
+      subCategoryListSelected:[],
+      subCategorySelected:'',
+      subCategorySelectedText:'',
+      subCategoryDropDownValue:'-1',
+      subCategorySelectedText:'',
+      searchQuery:'',
     }
   
   componentDidMount =()=> {
@@ -49,15 +57,6 @@ export default class Home extends Component <{}>{
   }
 
 
-  _open_search_form =()=>{
-    if(this.state.showSearchForm){
-      this.setState({showSearchForm:false});
-    }else{
-      this.setState({showSearchForm:true});
-    }
-    
-  }
-
 
   render(){
 
@@ -67,7 +66,7 @@ export default class Home extends Component <{}>{
       // <View style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',marginBottom:4,borderRadius:10,overflow:'hidden'}]}>
       //   <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item.image}}  style={{height: 150, width: '100%', flex: 1}}/>
       // </View>
-      <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',overflow:'hidden'}]}>
+      <View style={[custom_style.item_box,{width:'47%',margin:0, marginLeft:'2%',marginBottom:17,overflow:'hidden'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
         <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
@@ -86,7 +85,7 @@ export default class Home extends Component <{}>{
       </CardItem>
       
       </TouchableOpacity>
-    </Card>
+    </View>
 
 
   // <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',borderRadius:10,overflow:'hidden'}]}>
@@ -107,10 +106,11 @@ export default class Home extends Component <{}>{
   //     </TouchableOpacity>
   //   </Card>
     );
-
+        
+  
 
     const renderCategories = ({item}) => (
-      <Card style={custom_style.category_box}>
+      <View style={custom_style.category_box} >
       <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'SubCategories',JSON.stringify(item.subcategory))}>
       <CardItem cardBody style={{alignItems:'center',alignContent:'center',justifyContent:'center'}}>
         <Image source={{ uri: global.serverUrl+global.CategoryImageBaseUrl+item.image}}  style={{alignSelf:'center',width: 50,height:45}}/>
@@ -120,16 +120,18 @@ export default class Home extends Component <{}>{
       {/* <Text style={{textAlign:'center',fontFamily:'Rajdhani',color:'#2d2c2c'}}>{item.counted_category_products.counted}</Text>  */}
       </CardItem>
       </TouchableOpacity>
-    </Card>
+    </View>
     );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderTabBar = (props: any) => {
+  //alert(JSON.stringify(props));
   props.tabStyle = Object.create(props.tabStyle);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return <DefaultTabBar {...props} />;
+  return <DefaultTabBar />;
 };
+
+
+
 
     return(
   <Container style={{backgroundColor:'#fff'}}>
@@ -137,8 +139,8 @@ const renderTabBar = (props: any) => {
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
   {/* <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/> */}
   
-        <Tabs renderTabBar={renderTabBar} style={{backgroundColor:'#fff'}}>
-          <Tab  tabStyle={{ backgroundColor: "white" }} activeTabStyle={{ backgroundColor: "#c9e0f4"}} heading="Products">
+        <Tabs renderTabBar={renderTabBar}>
+          <Tab  tabStyle={{ backgroundColor: "#fff" }} activeTabStyle={{ backgroundColor: "#c9e0f4"}} heading="Products">
     {/* {this.state.showSearchForm ? (
     <View style={[custom_style.search_div_transparent,custom_style.textInputShadow,{backgroundColor:'transparent'}]}>
     <Item style={{borderWidth:0}}>
@@ -148,23 +150,19 @@ const renderTabBar = (props: any) => {
     </View>
   ):null} */}
 
-<View>
-<LinearGradient style={[{height:200,width:'100%',alignItems:'center',alignContent:'center',paddingTop:20,margin:0}]}
+
+<LinearGradient style={[{height:'auto',width:'100%',alignItems:'center',alignContent:'center',paddingTop:10,paddingBottom:30,margin:0}]}
         colors={['#c9e0f4', '#c9e0f4', '#fff']}
         start={{ x: 0.5, y: 0 }}>
      <Image source={require('../images/gnice_logo.png')}  style={{marginTop:5,height: 50, width:50,alignSelf:'center'}}/>     
     <Text style={custom_style.heading1}>What Are You Looking For?</Text>
-    <View style={[custom_style.formcontrol,{height:50,width:'90%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
-    <TextInput style={{width:'80%',fontSize:18,color:'#000',height:50,margin:0}} autoFocus={true}></TextInput>
-    <TouchableOpacity>
-    <Image source={require('../images/search_icon2.png')}  style={{marginHorizontal:5,marginTop:10,height: 30, width:30,alignSelf:'flex-start'}}/>
-    </TouchableOpacity>
-    <TouchableOpacity>
-    <Image source={require('../images/filter.png')}  style={{marginLeft:10,marginTop:15,height: 18, width:18}}/>
-    </TouchableOpacity>
-    </View>
+    {this.state.categories_and_sub ? (
+      <SearchBox state = {this}/>
+    ):null
+    }
+    
     </LinearGradient>
-  </View>  
+   
 
     <Text style={[custom_style.section_header,{marginLeft:25,marginTop:2}]}>Latest Ads</Text>  
     {this.state.showLoader ?(
@@ -173,20 +171,6 @@ const renderTabBar = (props: any) => {
         </View> 
     ):null} 
 
-{/* <View style={{flexDirection:'row',paddingLeft:20}}>
-  <TouchableOpacity style={custom_style.home_link_btn}>
-    <Text>Best Selling</Text>
-  </TouchableOpacity>
-
-  <TouchableOpacity style={custom_style.home_link_btn}>
-    <Text>Most Viewed</Text>
-  </TouchableOpacity>
-
-  <TouchableOpacity style={custom_style.home_link_btn}>
-    <Text>Top Rated</Text>
-  </TouchableOpacity>
-
-</View> */}
 <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
 <SafeAreaView>
     <FlatList
