@@ -22,7 +22,7 @@ export default class Home extends Component <{}>{
       products:[],
     //paramsValue:JSON.parse(this.props.route.params.paramsdata),   
       subcategories:[],
-      showLoader:false,
+      showLoader:true,
       search: '',
       showSearchForm:true,
       categoryDropDownValue:'-1',
@@ -32,6 +32,7 @@ export default class Home extends Component <{}>{
       subCategoryDropDownValue:'-1',
       subCategorySelectedText:'',
       searchQuery:'',
+      
 
     }
   
@@ -67,7 +68,11 @@ export default class Home extends Component <{}>{
           <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
           <Text style={custom_style.product_price}>NGN {item.price}</Text>  
-          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.location}</Text>
+          {item.land_mark!=''?(
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.land_mark}</Text>
+          ):
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.state}/{item.lga}</Text>
+          } 
           </Body>
         
       </CardItem>
@@ -89,8 +94,14 @@ export default class Home extends Component <{}>{
     }
   </View>
 
+  {this.state.showLoader ?(
+        <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+        <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
+        </View> 
+  ):null}
 
-{this.state.products.length!=0 ? (
+{!this.state.showLoader ? (        
+this.state.products.length!=0 ? (
   <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
   <SafeAreaView>
       <FlatList
@@ -110,7 +121,10 @@ export default class Home extends Component <{}>{
     <Text style={{fontSize:17,color:'#fff'}}>You can place your add</Text>
     </TouchableOpacity>
     </View>
-    )}
+    )
+):null}
+
+
 </View>
 <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 

@@ -65,12 +65,15 @@ export default class MyProfile extends Component <{}>{
             <Image source={{uri:this.state.resourcePath.uri}} style={{borderRadius:50,overflow:'hidden',width:100,height:100}} />
             </TouchableOpacity>
             
+            {this.state.showLoader ?(
+            <Image source={require('../../images/spinner4.gif')}  style={{alignSelf:'center',marginHorizontal:5,height: 45, width:45}}/> 
+            ):null}  
+
             <TouchableOpacity style={[custom_style.generic_btn,{alignSelf:'center'}]} onPress={this._do_profile_upload}>
             <Text style={{fontSize:13,color:'#fff',textAlign:'center'}}>
-            {this.state.showLoader ?(
-            <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
-            ):null}  Upload</Text>
+            Upload</Text>
             </TouchableOpacity>
+
             </View>
             ):null}
 

@@ -1070,10 +1070,12 @@ export const login = (that) =>{
         showLoader:false
       })
   }else{
+    
     let formData = new FormData();
     formData.append('username', that.state.username);
     formData.append('password', that.state.password);
     //alert(global.serverUrl);return;
+    //console.log(formData);return;
   fetch (global.serverUrl+'api/user_login',{
     method:'POST',
     headers: {
@@ -1083,7 +1085,7 @@ export const login = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));return
     //alert(JSON.stringify(res.token));
     //console.log(res);
     if(res.status =="1"){
@@ -1098,14 +1100,13 @@ export const login = (that) =>{
       that.props.navigation.navigate(that.props.route.params.paramsdata.revertTo,{paramsdata:that.props.route.params.paramsdata}); 
       }
       else{
-          that.props.navigation.navigate('UserArea',{paramsdata:null});
+      that.props.navigation.navigate('UserArea',{paramsdata:null});
       }
       that.setState({
         errorMsg:'',
         showLoader:false,
         username:'',
         password:'',
-        
       })
     }else{
       that.setState({
@@ -1210,6 +1211,10 @@ export const addProducts = (that) =>{
     Commons._showToast("Please Enter Ads Price!",ToastAndroid.LONG);
   }
   else{
+    that.setState({
+      showLoader:true
+    })
+
     if(that.state.negotiable_price){
       var negotiable = '1';
     }else{
@@ -1250,7 +1255,7 @@ export const addProducts = (that) =>{
     console.log(that.formData);
     fetch (global.serverUrl+'api/add_product',{
     method:'POST',
-    headers: {Accept: 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
+    headers: {'Accept': 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
     body: that.formData,
     
   })
@@ -1425,10 +1430,10 @@ export const updateProfileImage = (that) => {
   that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegSize+'MB'})
   return;
   }
-  console.log(formData);  
+  //console.log(that.state.resourcePath.fileName);  
   fetch (global.serverUrl+'api/upload_image',{
   method:'POST',
-  headers: {Accept: 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
+  headers: {'Accept': 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
   body: formData 
   })
   .then((response)=>response.json())

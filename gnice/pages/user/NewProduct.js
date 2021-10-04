@@ -269,7 +269,7 @@ export default class LandingScreen extends Component <{}>{
           </View>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Details</Text> 
-            <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Report" selectionColor={'#1688EA'}
+            <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Details" selectionColor={'#1688EA'}
             placeholderTextColor="grey" multiline={true} numberOfLines={4} onChangeText={(advert_details) =>this.setState({advert_details}) }
             />
             </View>
