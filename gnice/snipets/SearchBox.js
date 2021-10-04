@@ -10,7 +10,7 @@ import {Picker} from 'react-native-ui-lib'; //eslint-disable-line
 const RenderSearchBox = (props) =>{
     return (
     <View style={{alignContent:'center',alignItems:'center'}}>
-    <View style={[custom_style.formcontrol,custom_style.textInputShadow,{height:50,width:'90%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
+    <View style={[custom_style.formcontrol,custom_style.textInputShadow,{height:50,width:'80%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
     <TextInput style={{width:'80%',fontSize:18,color:'#000',height:50,margin:0}} selectionColor={'#1688EA'} onChangeText={(searchQuery) =>props.state.setState({searchQuery})}></TextInput>
     {props.state.state.showLoader ? (
     <Image source={require('../images/spinner.gif')}  style={{marginLeft:10,marginTop:15,height: 20, width:20}}/>
@@ -35,7 +35,7 @@ const RenderSearchBox = (props) =>{
               placeholder="Select Category"
               showSearch
               value={props.state.state.categoryDropDownValue}
-              onChange={item => Logic.onCategoryValueChange(item,props.state,update_view=false)}
+              onChange={item => Logic.onCategoryValueChange(item,props.state,false)}
               //onValueChange={Logic.onCategoryValueChange.bind(this,props.state)}
               searchStyle={{color: 'black', placeholderTextColor:'#000'}}
             >
@@ -55,7 +55,7 @@ const RenderSearchBox = (props) =>{
               showSearch
               placeholder="Select Sub Category"
               value={props.state.state.subCategoryDropDownValue}
-              onChange={item => Logic.onSubCategoryValueChange(item,props.state,update_view=false)}
+              onChange={item => Logic.onSubCategoryValueChange(item,props.state,false)}
             >
               {
                     Object.entries(props.state.state.subCategoryListSelected).map(([i, value]) => {

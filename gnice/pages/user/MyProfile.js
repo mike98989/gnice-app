@@ -16,7 +16,6 @@ import * as Requests from '../../methods/Requests';
 
 export default class MyProfile extends Component <{}>{
 
-
 	constructor(props){
     super(props);
     TimeAgo.addLocale(en);
@@ -24,7 +23,7 @@ export default class MyProfile extends Component <{}>{
   	}
 
     state = {
-      showLoader:true,
+      showLoader:false,
       userData:[],
       resourcePath:[],
       uploadImageCount:0,
@@ -56,18 +55,21 @@ export default class MyProfile extends Component <{}>{
         <View style={[custom_style.container,{justifyContent:'center', alignItems:'center'}]}>
         {this.state.uploadImageCount==0 ? (
             <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>
-            <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:30,overflow:'hidden',width:145,height:145}}/>
+            <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:50,overflow:'hidden',width:100,height:100}}/>
             </TouchableOpacity>
           ):null}
 
             {this.state.uploadImageCount>0 ? (
              <View style={{flexDirection:'column'}}> 
             <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>  
-            <Image source={{uri:this.state.resourcePath.uri}} style={{borderRadius:30,overflow:'hidden',width:145,height:145}} />
+            <Image source={{uri:this.state.resourcePath.uri}} style={{borderRadius:50,overflow:'hidden',width:100,height:100}} />
             </TouchableOpacity>
             
             <TouchableOpacity style={[custom_style.generic_btn,{alignSelf:'center'}]} onPress={this._do_profile_upload}>
-            <Text style={{fontSize:13,color:'#fff',textAlign:'center'}}>Upload</Text>
+            <Text style={{fontSize:13,color:'#fff',textAlign:'center'}}>
+            {this.state.showLoader ?(
+            <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
+            ):null}  Upload</Text>
             </TouchableOpacity>
             </View>
             ):null}
@@ -114,7 +116,10 @@ export default class MyProfile extends Component <{}>{
               <Text>Whatsapp Number: {this.state.userData.whatsapp}</Text>
             </ListItem>
             <ListItem>
-             <Text>Last Seen: {this.state.userData.last_login}</Text>
+             <Text>Last Seen: {this.timeAgo.format(new Date(Date.parse(this.state.userData.last_login.replace(/-/g, '/'))))}</Text>
+            </ListItem>
+            <ListItem>
+             <Text>Registered: {this.state.userData.signup_date}</Text>
             </ListItem>
             <ListItem style={{flexDirection:'column'}}>
             <TouchableOpacity style={[custom_style.login_btn,{alignSelf:'center'}]} onPress={Nav._openscreen.bind(this,this.props,'EditProfile',null)}>

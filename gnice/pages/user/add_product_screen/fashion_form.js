@@ -7,7 +7,7 @@ import {custom_style} from '../../../components/custom_style';
 const Fashion_form = (props) => (
     <View>    
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Size</Text> 
-            <TextInput style={[custom_style.formcontrol_product_screen]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Size" keyboardType="number-pad" selectionColor="#fff"
+            <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Size" keyboardType="number-pad" selectionColor={'#1688EA'}
             placeholderTextColor="grey" onChangeText={(size) =>props.that.setState({size}) }
             /> 
     </View>

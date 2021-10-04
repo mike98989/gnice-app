@@ -29,7 +29,6 @@ export default class LandingScreen extends Component <{}>{
       const unsubscribe = this.props.navigation.addListener('focus', () => {
         AsyncMethods._loadSessionState(this).done();
         });
-     
     }
     
       update_state=()=>{
@@ -42,6 +41,8 @@ export default class LandingScreen extends Component <{}>{
     render(){
     return(
     <Container style={{backgroundColor:'#fff'}}>
+      {this.state.userToken?(
+      <>
       <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'17%',paddingTop:5,}]}></ImageBackground>
         <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
@@ -69,7 +70,7 @@ export default class LandingScreen extends Component <{}>{
         colors={['#528ccf', '#6ba7ec', '#fff']}
         start={{ x: 0, y: 0 }}>
         <Text style={[custom_style.dashboard_box1_header]}>{this.state.products_count}</Text>
-        <Text style={[custom_style.dashboard_box1_sub_header]}>Total uploaded postings</Text>
+        <Text style={[custom_style.dashboard_box1_sub_header]}>Total uploaded ads</Text>
           </LinearGradient>
 
           <LinearGradient
@@ -95,6 +96,13 @@ export default class LandingScreen extends Component <{}>{
             <Icon name="add" style={{fontWeight:'bold'}}/>
           </Fab>
 
+      </>
+      ):
+      <View style={{flex:1,alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+        <Image source={require('../../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
+      </View> 
+      }
+      
     </Container>
 	);
 	}

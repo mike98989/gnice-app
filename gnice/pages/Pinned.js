@@ -45,6 +45,8 @@ export default class Pinned extends Component <{}>{
         <Container style={{backgroundColor:'#e1e5e7'}}>
           {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
+    {/* <ImageBackground source={require('../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:15, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground> */}
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>       
         <View style={[custom_style.container]}>
         <Image source={require('../images/bookmark_icon.png')}  style={{alignSelf:'center',height: 30, width:25}}/>
@@ -97,7 +99,7 @@ export default class Pinned extends Component <{}>{
         </ScrollView>
             
         </View>
-        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
+        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"
             /> 
         </Container>

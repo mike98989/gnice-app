@@ -30,7 +30,7 @@ export default class SellerPage extends Component <{}>{
 
     componentDidMount =()=> {
         this._loadInitialState().done();
-      const unsubscribe = this.props.navigation.addListener('focus', () => {
+        const unsubscribe = this.props.navigation.addListener('focus', () => {
         Requests.fetch_seller_products(this);
         });
     }
@@ -48,16 +48,16 @@ export default class SellerPage extends Component <{}>{
         <View style={[custom_style.formcontrol,{paddingHorizontal:0,paddingTop:0,borderRadius:0,height:100}]}>
         <List>
               <ListItem avatar>
-              
                 <Left style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
                   <Thumbnail source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.props.route.params.paramsdata.seller_image}}/>
                   <TouchableOpacity style={[custom_style.call_btn,{marginTop:-10,marginBottom:30}]} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}>
                       <Text style={{fontSize:13,fontWeight:'bold'}}>Call Now</Text></TouchableOpacity>
                 </Left>
-                <Body>
+                <Body style={{paddingTop:0}}>
                   <Text style={{fontWeight:'bold',fontSize:16}}>{this.props.route.params.paramsdata.seller_fullname}</Text>
                   <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_email}</Text>
                   <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text>
+                  <Text note style={{fontSize:12}}>Registered: <Text style={{color:'#f30'}}>{this.timeAgo.format(new Date(Date.parse(this.props.route.params.paramsdata.registered_date.replace(/-/g, '/'))))}</Text></Text>
                   <Text note style={{fontSize:12}}>Last seen: <Text style={{color:'#f30'}}>{this.timeAgo.format(new Date(Date.parse(this.props.route.params.paramsdata.last_seen.replace(/-/g, '/'))))}</Text></Text>
                 </Body>
                 <Right style={{justifyContent:'center',alignContent:'center',alignItems:'center'}}>
@@ -121,9 +121,9 @@ export default class SellerPage extends Component <{}>{
         
             
         </View>
-        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
-            pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active=""
+        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} active=""
             /> 
+          
         </Container>
 	);
 	}

@@ -20,7 +20,7 @@ export default class CardPaymentUi extends Component <{}>{
 
     state = {
       showLoader:false,
-      
+      transRef:null,
     }
 
     init =() =>{
@@ -35,7 +35,7 @@ export default class CardPaymentUi extends Component <{}>{
     render(){
       const webViewRef = React.createRef();
       const trans_status_url = 'https://gnice.com.ng/transactionstatus';
-      const url = 'https://localhost/gnice';
+      ///const url = 'https://localhost/gnice';
       // onNavigationStateChange = state => {
         
       //   const { url } = state;
@@ -54,12 +54,29 @@ export default class CardPaymentUi extends Component <{}>{
       source={{ uri: this.props.route.params.paramsdata.authorization_data.authorization_url }}
       style={{ marginTop: 40 }}
       onNavigationStateChange={(event) => {
-        var go_to_url = event.url.split('?')[0];
-        //alert(go_to_url);
-        if (go_to_url == trans_status_url) {
+        
+        console.log(event);
+        //return;
+        let url = event.url;
+        //let url = "https://gnice.com.ng/transactionstatus?trxref=dqylih826x&reference=dqylih826x";
+        if(url.indexOf('reference=') != -1){
           webViewRef.current.stopLoading();
-          Requests.update_user_account_type(this);
+          var split_url = url.split('?');
+          var go_to_url = split_url[0]; 
+          var split_further = split_url[1].split('=');
+          var reference = split_further[2]; 
+          if(reference!='' && go_to_url==trans_status_url){
+            this.setState({transRef:reference});
+            Requests.verify_transaction(this); 
+            }
+          //alert(reference);
+          return;
         }
+        return;
+        // if (go_to_url == trans_status_url) {
+        //   webViewRef.current.stopLoading();
+        //   Requests.update_user_account_type(this);
+        // }
       }}
       
     />

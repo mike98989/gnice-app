@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../components/global';
 import * as Logic from './Logic';
+import * as Commons from './Commons';
 
   //////SIGNUP METHOD
   export const signup = (that) => {
@@ -58,10 +59,10 @@ import * as Logic from './Logic';
     })
   .catch((error) => {
     console.error(error);
-    var message = "There was an error! Please check your connection";
-      alert(JSON.stringify(message));
+    //var message = "There was an error! Please check your connection";
+      Commons._showToast(error,ToastAndroid.LONG);
       that.setState({
-        errorMsg:message,
+        errorMsg:error,
         showLoader:false
       })
       
@@ -101,12 +102,12 @@ export const resend_confirmation_code = (that) => {
   .then((res) =>{
     //console.log(JSON.stringify(res));
     if(res.status =="1"){
-      alert(res.msg);
+      //alert(res.msg);
       that.setState({
         showConfirmationView:true,showConfirmationCodeBox:true,showConfirmationViewEmailAddress:true,Email:that.state.Email,errorMsg:''
       })
     }else{
-      alert(res.msg);
+      Commons._showToast(res.msg,ToastAndroid.LONG);
     }
     that.setState({
         errorMsg:res.msg,
@@ -116,9 +117,9 @@ export const resend_confirmation_code = (that) => {
   .catch((error) => {
     //console.log(error);
     var message = "There was an error! Please check your connection";
-      alert(JSON.stringify(message));
+      Commons._showToast(error,ToastAndroid.LONG);
       that.setState({
-        errorMsg:message,
+        errorMsg:error,
         showLoader:false
       })
       
@@ -175,7 +176,9 @@ export const confirm_signup = (that) => {
         password:'',
       })
     }else{
-      alert(JSON.stringify(res.msg));
+      //alert(JSON.stringify(res.msg));
+      Commons._showToast(res.msg,ToastAndroid.LONG);
+
     }
     that.setState({
         errorMsg:res.msg,
@@ -185,9 +188,10 @@ export const confirm_signup = (that) => {
   .catch((error) => {
     //console.log(error);
     var message = "There was an error! Please check your connection";
-      alert(JSON.stringify(message));
+      //alert(JSON.stringify(message));
+      Commons._showToast(error,ToastAndroid.LONG);
       that.setState({
-        errorMsg:message,
+        errorMsg:error,
         showLoader:false
       })
       
@@ -248,7 +252,8 @@ export const confirm_password_recovery_code = (that) => {
       
     })
   }else{
-    alert(JSON.stringify(res.msg));
+    //alert(JSON.stringify(res.msg));
+    Commons._showToast(res.msg,ToastAndroid.LONG);
   }
   that.setState({
       errorMsg:res.msg,
@@ -316,7 +321,8 @@ export const change_pass = (that) =>{
       })
     }
     else if(res.status=='-1'){
-      alert("You are not logged in.");
+      //alert("You are not logged in.");
+      Commons._showToast("You are not logged in.",ToastAndroid.LONG);
       that.props.navigation.push('UserLogin',null);
     }
     else{
@@ -370,7 +376,7 @@ export const send_recovery_code = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));
     //console.log(res);
     if(res.status =="1"){
 
@@ -641,7 +647,7 @@ export const fetch_all_products = (that) =>{
       that.setState({
         showLoader:true
       })
-
+    
     fetch (global.serverUrl+'api/fetch_product_by_term?query='+that.state.searchQuery+'&sub_category='+that.state.subCategorySelected,{
       method:'GET',
       headers: {
@@ -651,7 +657,7 @@ export const fetch_all_products = (that) =>{
     })
     .then((response)=>response.json())
     .then((res) =>{
-      //alert(JSON.stringify(res.data));
+      //alert(JSON.stringify(that.state.subCategorySelected));
       //if(res.status =="1"){
         that.setState({
           showLoader:false,
@@ -771,6 +777,39 @@ export const fetch_all_products = (that) =>{
           //console.error(error);
         });
       }
+    }
+
+    //////////DELETE ITEM
+    export const delete_item = (that,i) =>{
+      //let paramsValue = that.props.route.params.paramsdata;
+      //alert(that.state.userData.seller_id);return;
+      
+      fetch (global.serverUrl+'api/deleteProduct?product_id='+that.state.item_to_delete.id+'&seller_id='+that.state.userData.seller_id,{
+        method:'GET',
+        headers: {
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        
+        if(res.status=='1'){
+          var array = [...that.state.products]; // make a separate copy of the array
+          if (i!== -1) {
+          array.splice(i,1);
+          that.setState({products: array});
+          }  
+          Commons._showToast(res.message,ToastAndroid.LONG);
+        }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+      
     }
 
     //////////FETCH USER PRODUCTS
@@ -952,6 +991,38 @@ export const reportAbuse = (that) =>{
         });
     }
 
+
+
+    //////////FETCH RELATED PRODUCTS
+    export const get_account_packages = (that) =>{
+      fetch (global.serverUrl+'api/get_account_packages',{
+        method:'GET',
+        headers: {
+                    'gnice-authenticate': 'gnice-web'
+                },
+      
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        that.setState({
+          showLoader:false
+        })
+      if(res.status =="1"){
+      console.log(res.data);
+        that.setState({
+        packages: res.data,
+        })
+  
+    }else{
+    }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+        });
+    }
+
   
   export const fetch_all_categories_and_sub_categories = (that) =>{
     fetch (global.serverUrl+'api/fetch_all_categories_and_sub_categories',{
@@ -1009,7 +1080,6 @@ export const login = (that) =>{
                 'gnice-authenticate': 'gnice-web'
             },
     body: formData,
-    
   })
   .then((response)=>response.json())
   .then((res) =>{
@@ -1018,6 +1088,7 @@ export const login = (that) =>{
     //console.log(res);
     if(res.status =="1"){
       //alert('here is the problem333');return;
+      //alert(res.token);return;
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       AsyncStorage.setItem('user-token',res.token);
       //alert(JSON.stringify(that.props.route.params));return;
@@ -1061,6 +1132,10 @@ export const login = (that) =>{
 /////////////UPDATE USER ACCOUNT TYPE
 export const update_user_account_type = (that) =>{
   //alert(that.state.token);return;
+  // if(that.state.account_type!='new'){
+  //   that.setState({email_to_activate:that.state.userData.email}) 
+  // }
+
   that.setState({
         showLoader:true
       })
@@ -1069,7 +1144,9 @@ export const update_user_account_type = (that) =>{
     that.setState({
         showLoader:false
       })
+      return;
   }else{
+    //alert(that.state.selected_account_type);return;
     let formData = new FormData();
     formData.append('selectedOption', that.state.selected_account_type);
     formData.append('email_to_be_activated',that.state.email_to_activated)
@@ -1083,15 +1160,16 @@ export const update_user_account_type = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    //alert(JSON.stringify(res));
-    //console.log(res);
+    
+    console.log(res);
     if(res.status =="1"){
+      alert(JSON.stringify(res.data));
       AsyncStorage.removeItem('user-data');
       AsyncStorage.removeItem('selected_account_type');
       AsyncStorage.removeItem('email_to_activated');
       AsyncStorage.removeItem('token');
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
-      that.props.navigation.navigate('UserArea',{paramsdata:null});
+      that.props.navigation.navigate('TransactionStatus',{paramsdata:JSON.stringify(res.data),transRef:that.state.transRef,transStatus:'success'});
     }else{
       that.setState({
         errorMsg:res.msg,
@@ -1116,10 +1194,20 @@ export const update_user_account_type = (that) =>{
 /////////////ADD PRODUCTS
 export const addProducts = (that) =>{
   //alert(that.state.userToken);return;
-  if((that.state.uploadImageCount==0)){
-    alert('Please select an Image!');
-  }else if(!that.state.categorySelected){
-    alert('Please select Category!');
+  if(that.state.categorySelected=='0'){
+    Commons._showToast('Please select Category!',ToastAndroid.LONG);
+  }
+  else if((that.state.uploadImageCount==0)){
+    Commons._showToast('Please select an Image!',ToastAndroid.LONG);
+  }
+  else if(!that.state.advert_title){
+    Commons._showToast("Please Enter Title!",ToastAndroid.LONG);
+  }
+  else if(!that.state.land_mark){
+    Commons._showToast("Please Enter a Landmark!",ToastAndroid.LONG);
+  }
+  else if(!that.state.price){
+    Commons._showToast("Please Enter Ads Price!",ToastAndroid.LONG);
   }
   else{
     if(that.state.negotiable_price){
@@ -1127,14 +1215,23 @@ export const addProducts = (that) =>{
     }else{
       var negotiable='0';
     }
-    that.state.resourcePath.map((item, i) => (
+    var pegedSize = 5;  
+    that.state.resourcePath.map((item, i) => {
+    const imageSize = Logic.calculate_megabyte_from_byte(item.fileSize); 
+    var Size = imageSize*1;
+    if(Size<pegedSize){
     that.formData.append('files['+i+']', {
       uri: item.uri,
-      type: 'image/jpeg/jpg',
+      type: 'image/jpeg',
       name: item.fileName,
-      data: item.data,
+      //data: item.data,
     })
-    ));
+    }else{
+      Commons._showToast(item.fileName+'exceeds the maximum limit of '+pegedSize+'mb. Please try again!');
+      return;
+    }
+  });
+    
     that.formData.append('category', that.state.categorySelected);
     that.formData.append('sub_category',that.state.subCategorySelected);
 
@@ -1147,27 +1244,33 @@ export const addProducts = (that) =>{
     that.formData.append('price',that.state.price);
     that.formData.append('land_mark',that.state.land_mark);
     that.formData.append('negotiable',negotiable);
+    that.formData.append('description',that.state.userData.advert_details);
     that.formData.append('seller_id',that.state.userData.seller_id);
+
+    console.log(that.formData);
     fetch (global.serverUrl+'api/add_product',{
     method:'POST',
-    headers: {
-                'gnice-authenticate': that.state.userToken,
-            },
+    headers: {Accept: 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
     body: that.formData,
     
   })
   .then((response)=>response.json())
   .then((res) =>{
-    console.log(res);
-    alert(res);return;
+    //alert(JSON.stringify(res));
+    //return;
     if(res.status =="1"){
-      that.props.navigation.navigate('MyProducts',{paramsdata:null});
-      alert("Advert created successfully!");
+      Commons._showToast("Advert created successfully!",ToastAndroid.LONG);
+       setTimeout(()=>{ 
+          that.props.navigation.navigate('MyProducts',{paramsdata:null});
+        }, 2000);
+      
+     
     }else{
       that.setState({
-        errorMsg:res.msg,
+        errorMsg:res.message,
         showLoader:false
       })
+      
       //alert(res.message);
     }
   
@@ -1184,6 +1287,59 @@ export const addProducts = (that) =>{
 }
 
 
+//////////////////VERIFY TRANSACTION
+export const verify_transaction = (that) =>{
+  //alert(that.state.userToken);return;
+  
+  that.setState({
+        showLoader:true
+      })
+  //alert(JSON.stringify(that.state.selectedOption));return;    
+  if(that.state.transRef){
+    fetch (global.serverUrl+'api/verify_transaction?reference='+that.state.transRef,{
+      method:'GET',    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      //alert(JSON.stringify(res));
+      //console.log(res.data);
+      if(res.data.status=='success'){
+      //if(res.status =="1"){
+        //if(res.data.status==true){
+          update_user_account_type(that);
+        //   AsyncStorage.setItem('selected_account_type',that.state.selectedOption.toString());
+        //   AsyncStorage.setItem('email_to_activated',that.state.userData.email);
+        //   AsyncStorage.setItem('token',that.state.userToken);  
+        // that.setState({
+        //   authorization_data:JSON.parse(JSON.stringify(res.data.data)),
+        //   showLoader:false
+        // })
+        //that.props.navigation.navigate('TransactionSTatus',{paramsdata:that.state});
+        //}
+  
+      }else{
+        that.setState({
+          errorMsg:res.data.status,
+          showLoader:false
+        })
+        AsyncStorage.removeItem('user-data');
+        AsyncStorage.removeItem('selected_account_type');
+        AsyncStorage.removeItem('email_to_activated');
+        AsyncStorage.removeItem('token');
+        that.props.navigation.navigate('TransactionStatus',{paramsdata:null,transRef:that.state.transRef,transStatus:res.data.status});
+        Commons._showToast(res.data.status,ToastAndroid.LONG);
+      }
+      })
+    .catch((error) => {
+        that.setState({
+          showLoader:false
+        })
+        alert(error);
+        console.error(error);
+      });
+  }
+  
+}
 /////////////UPDATE USER ACCOUNT TYPE
 export const generate_paystack_checkout = (that) =>{
   //alert(that.state.userToken);return;
@@ -1191,17 +1347,19 @@ export const generate_paystack_checkout = (that) =>{
   that.setState({
         showLoader:true
       })
-  if((that.state.selectedOption==='')){
+  //alert(JSON.stringify(that.state.selectedOption));return;    
+  if((that.state.selected_account_type=='')){
     alert('Please select an accout type!');
     that.setState({
         showLoader:false
       })
+      return;
   }else{
-    //alert(that.state.userData.email);
+    //alert(that.state.email_to_activated);
     let formData = new FormData();
-    formData.append('email', that.state.userData.email);
-    formData.append('amount', that.state.selectedValue);
-    formData.append('selected_account_type', that.state.selectedOption);
+    formData.append('email', that.state.email_to_activated);
+    formData.append('amount', that.state.selectedValue+'00');
+    formData.append('selected_account_type', that.state.selected_account_type);
     
   fetch (global.serverUrl+'api/generate_paystack_checkout',{
     method:'POST',
@@ -1214,11 +1372,11 @@ export const generate_paystack_checkout = (that) =>{
   .then((response)=>response.json())
   .then((res) =>{
     //alert(JSON.stringify(res));return;
-    //console.log(res);
+    //console.log(res);return;
     if(res.status =="1"){
       if(res.data.status==true){
-        AsyncStorage.setItem('selected_account_type',that.state.selectedOption.toString());
-        AsyncStorage.setItem('email_to_activated',that.state.userData.email);
+        AsyncStorage.setItem('selected_account_type',that.state.selected_account_type);
+        AsyncStorage.setItem('email_to_activated',that.state.email_to_activated);
         AsyncStorage.setItem('token',that.state.userToken);  
       that.setState({
         authorization_data:JSON.parse(JSON.stringify(res.data.data)),
@@ -1249,7 +1407,7 @@ export const generate_paystack_checkout = (that) =>{
 export const updateProfileImage = (that) => { 
   const formData = new FormData();
   if(that.state.uploadImageCount>0){
-  var pegedSize = 2;  
+  var pegedSize = 4;  
   const imageSize = Logic.calculate_megabyte_from_byte(that.state.resourcePath.fileSize); 
   var Size = imageSize*1;
   if(Size<pegedSize){
@@ -1258,31 +1416,27 @@ export const updateProfileImage = (that) => {
       });
     formData.append('files[0]', {
       uri: that.state.resourcePath.uri,
-      type: 'image/jpeg/jpg',
+      type: 'image/jpeg',
       name: that.state.resourcePath.fileName,
-      data: that.state.resourcePath.data,
+      //data: that.state.resourcePath.data,
     })
 
   }else{    
   that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegSize+'MB'})
   return;
   }
-    
+  console.log(formData);  
   fetch (global.serverUrl+'api/upload_image',{
   method:'POST',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'gnice-authenticate': that.state.userToken
-  },
+  headers: {Accept: 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
   body: formData 
   })
   .then((response)=>response.json())
   .then((res) =>{
     //alert(res);return;
-    //console.log(res);
-    if(res.status =="1"){
-      alert("Profile image updated successfully");
+    console.log(res);
+    if(res.data.status =="1"){
+      Commons._showToast("Profile image updated successfully", ToastAndroid.LONG);
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       that.setState({
         userData:res.data,

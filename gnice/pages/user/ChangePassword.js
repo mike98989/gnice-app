@@ -64,11 +64,11 @@ export default class Home extends Component <{}>{
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="New Password" keyboardType="default" selectionColor={'#1688EA'}
         value={this.state.password} onChangeText={(password) =>this.setState({password}) }
-        placeholderTextColor="grey" autoFocus={true}
+        placeholderTextColor="grey" autoFocus={true} secureTextEntry={true}
         /> 
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm New Password" keyboardType="default" selectionColor={'#1688EA'} value={this.state.confirm_password}
         onChangeText={(confirm_password) =>this.setState({confirm_password})}
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" secureTextEntry={true}
         /> 
         <TouchableOpacity style={[custom_style.login_btn,{marginTop:30,flexDirection:'row'}]} onPress={this._change_password}>
         {this.state.showLoader ?(

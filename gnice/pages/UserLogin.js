@@ -50,7 +50,7 @@ export default class Home extends Component <{}>{
         <View>
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(username) =>this.setState({username}) }
-        placeholderTextColor="grey" autoFocus={true} selectionColor={'#1688EA'}
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="********" secureTextEntry={true}  onChangeText={(password) =>this.setState({password}) }
         placeholderTextColor="grey" selectionColor={'#1688EA'}

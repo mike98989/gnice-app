@@ -1,12 +1,24 @@
 import {StyleSheet,Dimensions} from 'react-native';
-
+const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
 const custom_style = StyleSheet.create({
   container:{
     flex:1,
     alignContent:'center',
+    
+  },
+  searchImageStyle:{
+    marginTop:5,height: 50, width:50,alignSelf:'center', 
+  },
+  status_bar_header:{
+    paddingTop: STATUS_BAR_HEIGHT,
   },
   heading1:{
     fontSize:22,
+    fontFamily:'cicle',
+    textAlign:'center'
+  },
+  heading2:{
+    fontSize:15,
     fontFamily:'cicle',
     textAlign:'center'
   },
@@ -213,7 +225,7 @@ back_curved_btn:{
 },
 generic_btn:{
   width:80,
-  height:40,
+  height:'auto',
   borderRadius:20,
   backgroundColor:'#2c7ab2',
   textAlign:'center',
@@ -223,6 +235,7 @@ generic_btn:{
   alignContent:'center',
   justifyContent:'center',
   marginTop:5,
+  paddingVertical:7,
 },
 
 right_border_radius:{
@@ -434,7 +447,14 @@ dashboard_box1_sub_header:{
   fontFamily:'Cicle',
   marginTop:5,
 },
-
+image_overlay: {
+  flex: 1,
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  opacity: 0.5,
+  backgroundColor: 'black',
+},  
 
 
 });

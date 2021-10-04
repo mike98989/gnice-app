@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {View,Text,StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Home from './pages/Home';
+import Home from './pages/Home4';
 import Pinned from './pages/Pinned';
 import Product from './pages/Product';
 import Products from './pages/Products';
 import SearchResults from './pages/Search';
 import SellerPage from './pages/SellerPage';
 import ReportAbuse from './pages/ReportAbuse';
+import Review from './pages/Review';
 import SubCategories from './pages/SubCategories';
 import UserLogin from './pages/UserLogin';
 import UserSignup from './pages/UserSignup';
@@ -19,10 +20,10 @@ import NewProduct from './pages/user/NewProduct';
 import MyProfile from './pages/user/MyProfile';
 import EditProfile from './pages/user/EditProfile';
 import ChangePassword from './pages/user/ChangePassword';
-import AuthScreen from './pages/user/AuthScreen';
 import ForgotPasswordScreen from './pages/ForgotPasswordScreen';
 import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_preview';
 import CardPaymentUi from './pages/CardPaymentUi';
+import TransactionStatus from './pages/TransactionStatus';
 
 
 import UserCustomDrawerContent from './components/UserScreenCustomDrawer'
@@ -36,7 +37,7 @@ function UserArea() {
   return (
 
     
-    <Drawer.Navigator initialRouteName='AuthScreen' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
+    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
     activeTintColor: '#e91e63',
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
@@ -45,7 +46,6 @@ function UserArea() {
     <Drawer.Screen name="MyProfile" options={{ drawerLabel: 'MyProfile' }} component={MyProfile} />
     <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />
     <Drawer.Screen name="ChangePassword" options={{ drawerLabel: 'ChangePassword' }} component={ChangePassword} />
-    <Drawer.Screen name="AuthScreen"  options={{ drawerLabel: 'AuthScreen' }} component={AuthScreen}/>
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>
@@ -73,8 +73,10 @@ export default function Routes() {
       <Stack.Screen name="CardPaymentUi" component={CardPaymentUi} />
       <Stack.Screen name="NewProduct" component={NewProduct} />
       <Stack.Screen name="ReportAbuse" component={ReportAbuse} />
+      <Stack.Screen name="Review" component={Review} />
       <Stack.Screen name="SearchResults" component={SearchResults} />
       <Stack.Screen name="SellerPage" component={SellerPage} />
+      <Stack.Screen name="TransactionStatus" component={TransactionStatus} />
 
     </Stack.Navigator>
     </NavigationContainer>

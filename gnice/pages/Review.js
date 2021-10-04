@@ -21,14 +21,11 @@ export default class ReportAbuse extends Component <{}>{
 
     state = {
         userData:[],
-        report_reasons:[],
-        reportReasonDropDownValue:'0',
-        abuseContent:'',
         alertMsg:'',
     }
   
     _report_abuse=()=>{
-      Requests.reportAbuse(this);
+      Requests.review_and_rating(this);
     }
 
     componentDidMount =()=> {
@@ -40,23 +37,9 @@ export default class ReportAbuse extends Component <{}>{
     
       }
       update_state =()=>{
-        Requests.fetch_report_reasons(this);  
+        return null;  
       }
 
-      // onreportReasonChange(props,value) {
-      //   let objectval = JSON.parse(JSON.stringify(this.state.report_reasons[value]));   
-      //   this.setState({
-      //   reportReasonSelected:this.state.report_reasons[value].reason,  
-      //   reportReasonDropDownValue:value,
-      //   //subCategoryListSelected: objectval.subcategory,
-      //   });
-
-      //   // let objectval = JSON.parse(JSON.stringify(this.state.carModelListSelected[value]));   
-      //   //  this.setState({
-      //   // carModelSelected:value,  
-      //   //  });
-      //  }
-    
 
     render(){
     return(
@@ -70,33 +53,14 @@ export default class ReportAbuse extends Component <{}>{
         
         {/* <View style={[{flex:1,paddingHorizontal:20}]}> */}
         <Image source={require('../images/alert_icon.png')}  style={{alignSelf:'center',height: 45, width:45}}/> 
-        <Text style={[custom_style.section_header,{textAlign:'center',marginTop:3}]}>Report Abuse For</Text> 
+        <Text style={[custom_style.section_header,{textAlign:'center',marginTop:3}]}>Give your rating</Text> 
         <Text style={[custom_style.section_header,{textAlign:'center',fontSize:20,marginTop:5,marginBottom:50}]}>{this.props.route.params.paramsdata.name}</Text>
         
         <Text style={custom_style.errorMsg}>{this.state.alertMsg}</Text>
               
-        <Picker
-              title="Select Reason"
-              style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
-              placeholder="Select Reason"
-              showSearch
-              value={this.state.reportReasonDropDownValue}
-              onChange={item => Logic.onreportReasonChange(item,this)}
-              searchStyle={{color: 'black', placeholderTextColor:'#000'}}
-            >
-            {this.state.report_reasons !== [] ? (
-                    Object.entries(this.state.report_reasons).map(([i, value]) => {
-                        return <Picker.Item key={i} label={value.reason} value={i} />;
-                    })
-                ) : (
-                    null
-                )}    
-             
-            </Picker>
-
-            <Text style={[{marginBottom:5,paddingLeft:10}]}>Report</Text> 
+            <Text style={[{marginBottom:5,paddingLeft:10}]}>Review</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Report" selectionColor={'#1688EA'}
-            placeholderTextColor="grey" multiline={true} numberOfLines={4} onChangeText={(abuseContent) =>this.setState({abuseContent}) }
+            placeholderTextColor="grey" multiline={true} numberOfLines={4} onChangeText={(review) =>this.setState({review}) }
             />
 
         <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',alignSelf:'center'}]} onPress={this._report_abuse}>
@@ -114,7 +78,6 @@ export default class ReportAbuse extends Component <{}>{
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
   />
-  
         </Container>
 	);
 	}

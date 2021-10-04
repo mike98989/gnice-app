@@ -1,4 +1,4 @@
-import React, {Component,useRef, useEffect} from 'react';
+import React, {Component,useRef, useEffect, useState} from 'react';
 import { StyleSheet,SafeAreaView,FlatList,ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground,Animated } from 'react-native';
 import { Container, Badge, Header, Content, Tab, Tabs,DefaultTabBar,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Footer, FooterTab, Item,Input} from 'native-base';
 import {custom_style} from '../components/custom_style';
@@ -22,14 +22,6 @@ export default class Home extends Component <{}>{
     super(props);
 
     this.state = {
-      scrollY: new Animated.Value(0),
-      animatedOpacityValue: new Animated.Value(1),
-      showSearchView:true
-    };
-    
-    }
-
-    state = {
       userData:[],
       products:[],
       categories_and_sub:[],
@@ -43,16 +35,22 @@ export default class Home extends Component <{}>{
       subCategoryDropDownValue:'-1',
       subCategorySelectedText:'',
       searchQuery:'',
+      scrollY: new Animated.Value(0),
+      animatedOpacityValue: new Animated.Value(1),
+      showSearchView:true,
+      headerShown:true,
+      setHeaderShown:false,
       
     }
-  
-  componentDidMount =()=> {
-    //AsyncMethods._loadSessionState(this).done();
 
+    }
+    
+    
+  
+    
+  componentDidMount =()=> {
     this._loadInitialState().done();
     const unsubscribe = this.props.navigation.addListener('focus', () => {
-      //this.setState({showLoader:true})
-      //AsyncMethods._loadSessionState(this).done();
         Requests.fetch_all_products(this); 
         Requests.fetch_all_categories_and_sub_categories(this);  
       });
@@ -64,35 +62,71 @@ export default class Home extends Component <{}>{
   Requests.fetch_all_categories_and_sub_categories(this);
   }
 
+  _getHeaderImageOpacity = () => {
+    const {scrollY} = this.state;
+    return scrollY.interpolate({
+        inputRange: [0, 140],
+        outputRange: [1, 0],
+        extrapolate: 'clamp',
+        useNativeDriver: true,
+    });
+};
 
-  handleScroll = (event) => {
-    const { animatedOpacityValue, showBlueView } = this.state;
-    const scrollPosition = event.nativeEvent.contentOffset.y;
+_getHeaderImageSize = () => {
+    const {scrollY} = this.state;
+    return scrollY.interpolate({
+        inputRange: [0, 140],
+        outputRange: [50, 0],
+        extrapolate: 'clamp',
+        useNativeDriver: true,
+    });
+};
 
-    if (scrollPosition > 5) {
-      Animated.timing(animatedOpacityValue, {
-        toValue: 1,
-        duration: 1,
-        useNativeDriver:true
-      }).start(() => this.setState({ showSearchView: false }))
-    }
+_getHeaderTextOpacity = () => {
+    const {scrollY} = this.state;
+    return scrollY.interpolate({
+        inputRange: [0, 140],
+        outputRange: [15, 0],
+        extrapolate: 'clamp',
+        useNativeDriver: true,
+    });
+};
+_getFooterOpacity = () => {
+    const {scrollY} = this.state;
+    return scrollY.interpolate({
+        inputRange: [0, 140],
+        outputRange: [1, 0],
+        extrapolate: 'clamp',
+        useNativeDriver: true,
+    });
+};
+_getFooterHeight = () => {
+    const {scrollY} = this.state;
+    return scrollY.interpolate({
+        inputRange: [0, 140],
+        outputRange: [50, 0],
+        extrapolate: 'clamp',
+        useNativeDriver: true,
+    });
+};
 
-    if (scrollPosition < 5) {
-      Animated.timing(animatedOpacityValue, {
-        toValue: 0,
-        duration: 1,
-        useNativeDriver:true
-      }).start(() => this.setState({ showSearchView: true }))
-    }
-  }
   render(){
-    const { animatedOpacityValue } = this.state;
+    const headerImageOpacity = this._getHeaderImageOpacity();
+    const headerTextOpacity = this._getHeaderTextOpacity();
+    const headerImageSize = this._getHeaderImageSize();
+    const foooterOpacity = this._getFooterOpacity();
+    const foooterHeight = this._getFooterHeight();
+
+//   useEffect(() => {
+//     Animated.timing(translation, {
+//       toValue: headerShown ? 0 : -100,
+//       duration: 250,
+//       useNativeDriver: true,
+//     }).start();
+//   }, [headerShown]);
+
     const renderProductItems = ({ item }) => (
       image_value = Logic.split_value(item.image, ','),
-      //alert(JSON.stringify(image_value)),
-      // <View style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',marginBottom:4,borderRadius:10,overflow:'hidden'}]}>
-      //   <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item.image}}  style={{height: 150, width: '100%', flex: 1}}/>
-      // </View>
       <View style={[custom_style.item_box,{width:'47%',margin:0, marginLeft:'2%',marginBottom:17,overflow:'hidden'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
@@ -114,24 +148,6 @@ export default class Home extends Component <{}>{
       </TouchableOpacity>
     </View>
 
-
-  // <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%',borderRadius:10,overflow:'hidden'}]}>
-  //       <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
-  //     <CardItem cardBody>
-  //       <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
-  //     </CardItem>
-  //     <CardItem>
-        
-  //         <Body>
-  //         <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
-  //         <Text style={custom_style.product_price}>NGN {item.price}</Text>  
-          
-  //         </Body>
-        
-  //     </CardItem>
-      
-  //     </TouchableOpacity>
-  //   </Card>
     );
         
   
@@ -150,77 +166,34 @@ export default class Home extends Component <{}>{
     </View>
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderTabBar = (props: any) => {
-  //alert(JSON.stringify(props));
   props.tabStyle = Object.create(props.tabStyle);
   return <DefaultTabBar />;
 };
 
 
-
-  const HEADER_MAX_HEIGHT = 200;
-  const HEADER_MIN_HEIGHT = 60;
-  const NAVBAR_HEIGHT = 64;
-const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
-  const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-  const headerHeight = this.state.scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-    extrapolate: 'clamp',
-  });
-  const navbarTranslate = this.state.scrollY.interpolate({
-    inputRange: [0, NAVBAR_HEIGHT - STATUS_BAR_HEIGHT],
-    outputRange: [0, -(NAVBAR_HEIGHT - STATUS_BAR_HEIGHT)],
-    extrapolate: 'clamp',
-  });
-  const headerDisplay = this.state.scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-    outputRange: [1, 1, 0],
-    extrapolate: 'clamp',
-  });
-  const headerHeightDisplay = this.state.scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE / 2,],
-    outputRange: [0, 40,],
-    extrapolate: 'clamp',
-  });
-  const imageOpacity = this.state.scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
-    outputRange: [1, 1, 0],
-    extrapolate: 'clamp',
-  });
-  const imageTranslate = this.state.scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, -50],
-    extrapolate: 'clamp',
-  });
-
   
-    return(
+return(
   <Container style={{backgroundColor:'#fff'}}>
-  {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
-  {/* <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/> */}
-  
+
         <Tabs renderTabBar={renderTabBar}>
           <Tab  tabStyle={{ backgroundColor: "#fff" }} activeTabStyle={{ backgroundColor: "#c9e0f4"}} heading="Products">
-    {/* {this.state.showSearchForm ? (
-    <View style={[custom_style.search_div_transparent,custom_style.textInputShadow,{backgroundColor:'transparent'}]}>
-    <Item style={{borderWidth:0}}>
-      <TextInput style={[custom_style.formcontrol,{height:40,paddingLeft:0,paddingTop:10,width:'90%',backgroundColor:'transparent',paddingLeft:10,fontSize:18,marginBottom:0}]} placeholder="Search" />
-      <TouchableOpacity><Icon name="ios-search" /></TouchableOpacity>
-    </Item>
-    </View>
-  ):null} */}
+    
 
-{this.state.showSearchView ? (
-<Animated.View style={{opacity: animatedOpacityValue}}>
-{/* <Animated.View style={{opacity: headerDisplay,transform: [{translateY: imageTranslate}]}}> */}
-<LinearGradient style={[{height:'auto',width:'100%',alignItems:'center',alignContent:'center',paddingTop:10,paddingBottom:30,margin:0}]}
+    {/* <Animated.View style={{transform: [
+            { translateX: this.state.setHeaderShown ? 0 : - 100 },
+          ],}}> */}
+            
+    {/* <Animated.View style={{opacity: headerDisplay,transform: [{translateY: imageTranslate}]}}> */}
+    <LinearGradient style={[{height:'auto',width:'100%',alignItems:'center',alignContent:'center',paddingTop:0,paddingBottom:0,margin:0}]}
         colors={['#c9e0f4', '#c9e0f4', '#fff']}
         start={{ x: 0.5, y: 0 }}>
-     <Image source={require('../images/gnice_logo.png')}  style={{marginTop:5,height: 50, width:50,alignSelf:'center'}}/>     
-    <Text style={custom_style.heading2}>What Are You Looking For?</Text>
+     <Animated.Image style={[custom_style.searchImageStyle, {opacity: headerImageOpacity,height:headerImageSize,width:headerImageSize}]}
+        source={require('../images/gnice_logo.png')} />
+                           
+     {/* <Image source={require('../images/gnice_logo.png')}  style={{marginTop:5,height: 50, width:50,alignSelf:'center'}}/>      */}
+    <Animated.Text style={[custom_style.heading2,{fontSize:headerTextOpacity,opacity: headerImageOpacity}]}>What Are You Looking For?</Animated.Text>
+    {/* <Text>{JSON.stringify(this.state.categories_and_sub)}</Text> */}
     {this.state.categories_and_sub ? (
       //this.state.showSearchView ? (
         <SearchBox state = {this}/>
@@ -228,14 +201,9 @@ const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
       
     ):null
     }
-    
-</LinearGradient>
-    
-</Animated.View>
-):null
-}
-
-    <Text style={[custom_style.section_header,{marginLeft:25,marginTop:2}]}>Latest Ads</Text>  
+    </LinearGradient>
+  
+    <Animated.Text style={[custom_style.section_header,{marginLeft:25,marginTop:2,fontSize:headerTextOpacity,opacity: headerImageOpacity}]}>Latest Ads</Animated.Text>  
     {this.state.showLoader ?(
         <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
         <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
@@ -248,12 +216,14 @@ const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
       data={this.state.products}
       renderItem={renderProductItems}
       keyExtractor={(item, index) => String(index)}
-      horizontal={false}
+      horizontal={false} 
       numColumns={2}
-      onScroll={this.handleScroll}
-      // onScroll={Animated.event(
-      //   [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
-      // )}
+    //   onScroll={this.handleScroll}
+      onScroll={Animated.event(
+      [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false}
+      )}
+    
+
     />
 </SafeAreaView>  
 </View>
@@ -285,7 +255,7 @@ const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
   </Tabs>
   <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
-  active="home"
+  active="home"  opacity={foooterOpacity}  height={foooterHeight}
   />
 
   </Container>

@@ -1,5 +1,5 @@
-var url="gnice.com.ng/";
-//var url="192.168.124.132/gnice/";
+//var url="gnice.com.ng/";
+var url="192.168.205.132/gnice/";
 //var url="127.0.0.1/gnice/";
 global.serverUrl = "http://"+url;
 global.UploadImageBaseUrl = 'public/assets/images/uploads/products/';

@@ -20,7 +20,6 @@ export default class Search extends Component <{}>{
 
     state = {
       showLoader:true,
-      subcategories:[],
       showLoader:false,
       search: '',
       showSearchForm:true,
@@ -116,6 +115,8 @@ export default class Search extends Component <{}>{
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
   />
+
+  
   </Container>
   );
   }
