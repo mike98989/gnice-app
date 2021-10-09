@@ -110,7 +110,7 @@ export default class Home extends Component <{}>{
       
     image_value = Logic.split_value(this.props.route.params.paramsdata.image,',');  
     return(
-    <Container style={{backgroundColor:'#efefefe',paddingTop:20}}>
+    <Container style={{backgroundColor:'#efefefe'}}>
       {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0, width: '100%',height:'50%',}]}></ImageBackground>  */}
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
@@ -118,7 +118,7 @@ export default class Home extends Component <{}>{
         
         </View> */}
 
-        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,marginTop:20,borderRadius:20,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
+        <View style={[custom_style.item_box,{margin:10,height:null,marginBottom:7,marginTop:40,borderRadius:20,borderWidth:1,borderColor:'#fff',overflow:'hidden'}]}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
               data={image_value}
@@ -168,25 +168,25 @@ export default class Home extends Component <{}>{
         <View style={{flexDirection:'row',justifyContent:'center',}}>
         {this.state.save_button?(
           <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow,{alignSelf:'flex-start',flexDirection:'row',width:'50%',marginTop:15,marginRight:'15%'}]} onPress={this._save_for_later}>
-          <Icon style={{fontSize:18}} name="pin" />
+          <Image source={require('../images/bookmark_icon.png')}  style={{height: 13, width:12,marginRight:5}}/>
           <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Save for later</Text>
           </TouchableOpacity>
         ):null}
 
         <TouchableOpacity style={[custom_style.signup_btn,custom_style.left_border_radius,custom_style.textInputShadow,{alignSelf:'flex-end',flexDirection:'row',width:'50%',marginTop:15}]} onPress={Nav._openscreen.bind(this,this.props,'ReportAbuse',this.props.route.params.paramsdata)}>
-          <Icon style={{fontSize:18}} name="pin" />
+          <Image source={require('../images/alert_icon.png')}  style={{height: 20, width:20,marginRight:5}}/>
           <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Report Abuse</Text>
           </TouchableOpacity>
         </View>
 
-      <View style={{flexDirection:'row',justifyContent:'center',marginTop:20}}> 
+  <View style={{flexDirection:'row',justifyContent:'center',marginTop:20,paddingHorizontal:10}}> 
     <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} 
       style={[custom_style.action_call_btn,{marginRight:15,flexDirection:'row',height:50}]} 
       start={{ y: 1.5, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
         <Image source={require('../images/chat.png')}  style={{alignSelf:'center',height: 20, width:30}}/> 
           <Text style={{fontSize:16,color:'#fff'}}>Make an offer</Text>
     </LinearGradient>
-    <LinearGradient colors={['#94e8f0', '#4983b5', '#388db1']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
+    <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
       style={[custom_style.action_call_btn,{height:50}]} 
       start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
       <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone)}>
@@ -194,6 +194,8 @@ export default class Home extends Component <{}>{
       <Image source={require('../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 50, width:30}}/> 
       </TouchableOpacity>
     </LinearGradient>
+
+    
 
 
     {/* <LinearGradient colors={['#94e8f0', '#4983b5', '#388db1']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
@@ -209,28 +211,62 @@ export default class Home extends Component <{}>{
       </View> 
       {this.props.route.params.paramsdata.seller_fullname ?(
         <View style={{marginTop:20,borderTopWidth:.5,borderTopColor:'#ccc'}}>
+          
         <List>
               <ListItem avatar>
+              <TouchableOpacity  style={{flexDirection:'row'}} onPress={Nav._openscreen.bind(this,this.props,'SellerPage',this.props.route.params.paramsdata)}>
+
                 <Left>
                   <Thumbnail source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.props.route.params.paramsdata.seller_image}}/>
                 </Left>
                 <Body>
                   <Text style={{fontWeight:'bold',fontSize:16}}>{this.props.route.params.paramsdata.seller_fullname}</Text>
                   <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_email}</Text>
-                  <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text>
+                  {/* <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text> */}
                   <Text note style={{fontSize:12}}>Last seen: <Text style={{color:'#f30'}}>{this.timeAgo.format(new Date(Date.parse(this.props.route.params.paramsdata.last_seen.replace(/-/g, '/'))))}</Text></Text>
                 </Body>
-                <Right>
-                  <Text>Products</Text>
-                  <Text>0</Text>
-                </Right>
                 
+                </TouchableOpacity>
               </ListItem>
+              
             </List>
+            
         </View>
       ):null}
+      <View style={[custom_style.formcontrol,{paddingLeft:0,paddingRight:0,borderRadius:0,paddingBottom:0,marginLeft:10,marginRight:10,width:'auto'}]}>
       
-      <Text style={[custom_style.section_header,{marginTop:10}]}>Related Products</Text>  
+      <List style={{paddingLeft:0,marginLeft:0}}>
+          <ListItem style={{paddingLeft:10,marginLeft:0}}>
+              <Body style={{flexDirection:'row'}}>
+              <Image source={require('../images/safety_icon.png')}  style={{height: 20, width:20,marginRight:5,marginTop:4}}/>
+              <Text style={[custom_style.section_header,{marginTop:0,marginLeft:0}]}>Safety Tips</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={{paddingLeft:10,marginLeft:0}}>
+              <Body>
+                <Text>Do not Pay in advance even for the delivery</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={{paddingLeft:10,marginLeft:0}}>
+              <Body>
+                <Text>Try to meet at a safe, public location</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={{paddingLeft:10,marginLeft:0}}>
+              <Body>
+                <Text>Check the item Before you buy it</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={{paddingLeft:10,marginLeft:0}}>
+              <Body>
+                <Text>Check the item Before you buy it</Text>
+              </Body>
+            </ListItem>
+            
+          </List>
+        </View>
+
+      <Text style={[custom_style.section_header,{marginTop:10,marginLeft:10}]}>Related Products</Text>  
       <View>
       {this.state.relatedProducts.map((product, i) => (
         image_value = Logic.split_value(product.image, ','),
@@ -257,12 +293,12 @@ export default class Home extends Component <{}>{
   </View>
        
   </ScrollView>
-  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
+  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
   />
 
-    </Container>
+  </Container>
 	);
 	}
 }

@@ -46,26 +46,29 @@ export default class Home extends Component <{}>{
     //this._check_render_view();    
     return(
     <Container style={{backgroundColor:'#c9e0f4'}}>
+       
+       <KeyboardAvoidingView>
+        <ScrollView>
+
         <ImageBackground source={require('../../images/gnice_top_login_bg.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:10000000,top:-5, width: '100%',height:'50%',paddingTop:5,}]}>	
-    
-        <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
+    position:'absolute',zIndex:0, width: '100%',height:'50%',paddingTop:0,}]}></ImageBackground>	
         
+        <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
-        <Image source={require('../../images/gnice_logo_only.png')}  style={{alignSelf:'center',marginTop:270,height: 70, width:58}}/>  
+        <Image source={require('../../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:100,height: 50, width:50}}/>  
           
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Change Password</Text>
         {this.state.showEmailView ? (
         <View style={{paddingHorizontal:30,paddingVertical:30,justifyContent:'center',alignContent:'center',alignItems:'center'}}>
         <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}>Please new enter passwords.</Text>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="New Password" keyboardType="default" selectionColor="#fff"
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="New Password" keyboardType="default" selectionColor={'#1688EA'}
         value={this.state.password} onChangeText={(password) =>this.setState({password}) }
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" autoFocus={true} secureTextEntry={true}
         /> 
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm New Password" keyboardType="default" selectionColor="#fff" value={this.state.confirm_password}
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm New Password" keyboardType="default" selectionColor={'#1688EA'} value={this.state.confirm_password}
         onChangeText={(confirm_password) =>this.setState({confirm_password})}
-        placeholderTextColor="grey"
+        placeholderTextColor="grey" secureTextEntry={true}
         /> 
         <TouchableOpacity style={[custom_style.login_btn,{marginTop:30,flexDirection:'row'}]} onPress={this._change_password}>
         {this.state.showLoader ?(
@@ -92,13 +95,14 @@ export default class Home extends Component <{}>{
          
         
         
-        </ImageBackground>
+        
 
         {/* <ImageBackground source={require('../images/gnice_bottom_login_bg.png')} style={[{resizeMode: "cover",
         position:'absolute',bottom:0, width: '100%',height:'40%',}]}>
 
         </ImageBackground> */}
-        
+        </ScrollView>
+        </KeyboardAvoidingView>
     </Container>
 	);
 	}

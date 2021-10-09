@@ -73,8 +73,8 @@ export default class MyProducts extends Component <{}>{
 
 
     render(){
-    
-      const renderProductItems = ({ item }) => (
+      //renderItem={({item, index}) => this._renderItemOptions(item, index)}
+      const renderProductItems = ({ item, index }) => (
         image_value = Logic.split_value(item.image, ','),
 
         <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%'}]}>
@@ -86,14 +86,20 @@ export default class MyProducts extends Component <{}>{
           <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
           <Text style={custom_style.product_price}>NGN {item.price}</Text>  
-          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.location}</Text>
+          {item.land_mark!=''?(
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.land_mark}</Text>
+          ):
+          <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.state}/{item.lga}</Text>
+          } 
           </Body>
         </CardItem>
         </TouchableOpacity>
         <CardItem footer bordered>
-          <Body><Text><Icon name='edit' style={{color:'#000',fontSize:12}} />Edit</Text></Body> 
+          <Body><Text style={{fontSize:12}}>Edit</Text></Body> 
           <Right>
-          <Text><Icon name='times' style={{color:'#000',fontSize:12}} />Delete</Text>
+          <TouchableOpacity onPress={()=>Logic.delete_item(index,item,this)}>  
+          <Text style={{fontSize:12}}>Delete</Text>
+          </TouchableOpacity>
           </Right>  
         </CardItem>
         
@@ -113,7 +119,13 @@ export default class MyProducts extends Component <{}>{
         <View style={[custom_style.container,{paddingHorizontal:10}]}>
           
     <View style={{marginTop:30}}>
-    <Text style={[custom_style.section_header,{marginLeft:5,marginVertical:10}]}>My Products</Text>  
+    <Text style={[custom_style.section_header,{marginLeft:5,marginTop:20}]}>My Products</Text> 
+    {this.state.showLoader ? (
+    <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+    <Image source={require('../../images/spinner4.gif')}  style={{height: 45, width:45}}/>
+    </View>
+    ):
+    <>
     {this.state.products.length!=0 ? (
       <SafeAreaView>
       <FlatList
@@ -133,14 +145,16 @@ export default class MyProducts extends Component <{}>{
     </TouchableOpacity>
     </View>
     )}
+    </>
+    } 
     
     
      
     </View>
         </View>
-        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
+        {/* <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"
-            /> 
+            />  */}
         </Container>
 	);
 	}

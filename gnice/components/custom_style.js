@@ -1,12 +1,24 @@
 import {StyleSheet,Dimensions} from 'react-native';
-
+const STATUS_BAR_HEIGHT = Platform.select({ ios: 20, android: 24 });
 const custom_style = StyleSheet.create({
   container:{
     flex:1,
     alignContent:'center',
+    
+  },
+  searchImageStyle:{
+    marginTop:5,height: 50, width:50,alignSelf:'center', 
+  },
+  status_bar_header:{
+    paddingTop: STATUS_BAR_HEIGHT,
   },
   heading1:{
     fontSize:22,
+    fontFamily:'cicle',
+    textAlign:'center'
+  },
+  heading2:{
+    fontSize:15,
     fontFamily:'cicle',
     textAlign:'center'
   },
@@ -20,7 +32,7 @@ const custom_style = StyleSheet.create({
     borderRadius:5,
     width:'32%',
     padding:3,
-    margin:'1%',
+    marginLeft:'1%',
     alignContent:'center',
     justifyContent:'center',
     alignItems:'center',
@@ -29,8 +41,8 @@ const custom_style = StyleSheet.create({
   item_box:{
   elevation:4,
   backgroundColor: '#FFF',
-  shadowOpacity: 0.2,
-  shadowRadius: 5,shadowOffset: { width: 5, height: 5 },
+  shadowOpacity: 0.5,
+  shadowRadius: 10,shadowOffset: { width: 5, height: 5 },
   zIndex:999,
   borderRadius:10,
   },
@@ -57,7 +69,7 @@ fullHeight:{
     },
     
 section_header:{
-    fontSize:22,
+    fontSize:20,
     color:'#313030',
     fontFamily:'Cicle',
 },
@@ -174,6 +186,19 @@ login_btn:{
     justifyContent:'center',
     marginTop:5,
 },
+call_btn:{
+  width:'auto',
+  height:'auto',
+  borderRadius:5,
+  paddingHorizontal:7,
+  paddingVertical:3,
+  backgroundColor:'lightblue',
+  textAlign:'center',
+  alignItems:'center',
+  alignContent:'center',
+  justifyContent:'center',
+},
+
 signup_btn:{
     width:130,
     height:45,
@@ -185,12 +210,22 @@ signup_btn:{
     fontWeight:'bold',
     alignContent:'center',
     justifyContent:'center',
-    alignContent:'center',
     marginTop:20,
+},
+back_curved_btn:{
+  width:90,
+  height:35,
+  backgroundColor:'#fff',
+  color:'black',
+  fontWeight:'bold',
+  justifyContent:'center',
+  paddingLeft:20,
+  marginTop:10,
+  marginBottom:10,
 },
 generic_btn:{
   width:80,
-  height:40,
+  height:'auto',
   borderRadius:20,
   backgroundColor:'#2c7ab2',
   textAlign:'center',
@@ -200,6 +235,7 @@ generic_btn:{
   alignContent:'center',
   justifyContent:'center',
   marginTop:5,
+  paddingVertical:7,
 },
 
 right_border_radius:{
@@ -321,8 +357,8 @@ formcontrol_login_username:{
   footer_container:{
   elevation:4,
   backgroundColor: '#FFF',
-  shadowOpacity: 0.4,
-  shadowRadius: 15,shadowOffset: { width: 5, height: 5 },
+  shadowOpacity: 1.8,
+  shadowRadius: 15,shadowOffset: { width: 0, height: 5 },
   zIndex:999,
   },
   color_blue:{
@@ -411,7 +447,14 @@ dashboard_box1_sub_header:{
   fontFamily:'Cicle',
   marginTop:5,
 },
-
+image_overlay: {
+  flex: 1,
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  opacity: 0.5,
+  backgroundColor: 'black',
+},  
 
 
 });

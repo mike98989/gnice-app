@@ -27,8 +27,7 @@ export default class Home extends Component <{}>{
     render(){
     return(
     <Container style={{backgroundColor:'#fff'}}>
-      <KeyboardAvoidingView>
-        <ScrollView>
+      
         <ImageBackground source={require('../images/gnice_top_login_bg.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>	 
         {/* <ImageBackground source={require('../images/gnice_burble_backgroud.png')} style={[{resizeMode: "cover",
@@ -43,16 +42,17 @@ export default class Home extends Component <{}>{
         <Image source={require('../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:100,height: 60, width:60}}/>
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:40,marginBottom:0}]}>Login</Text>
         <Text style={{alignSelf:'center',color:'#484747'}}>Login with your email and password</Text>
-        
-        
+         
+        <KeyboardAvoidingView>
+        <ScrollView>
         <View style={{flexDirection:'column',paddingHorizontal:20,marginTop:20}}>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <View>
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address" selectionColor="#fff"
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="email-address"
         onSubmitEditing = {()=>this.password.focus()} onChangeText={(username) =>this.setState({username}) }
-        placeholderTextColor="grey" autoFocus={true} selectionColor={'#1688EA'}
+        placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="********" secureTextEntry={true} selectionColor="#fff" onChangeText={(password) =>this.setState({password}) }
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="********" secureTextEntry={true}  onChangeText={(password) =>this.setState({password}) }
         placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
         </View>

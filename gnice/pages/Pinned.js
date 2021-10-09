@@ -42,18 +42,28 @@ export default class Pinned extends Component <{}>{
 
     render(){
     return(
-        <Container style={{backgroundColor:'#fff'}}>
+        <Container style={{backgroundColor:'#e1e5e7'}}>
           {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
-        <MainHeader profile_image = {this.state.userData.image} header_type="transparent" nav_type="complete" title="Latest" searchImageClick={this._open_search_form} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-       
+    {/* <ImageBackground source={require('../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:15, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground> */}
+        <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>       
         <View style={[custom_style.container]}>
-        <Text style={[custom_style.section_header,{marginLeft:25,marginTop:20}]}>Saved</Text> 
+        <Image source={require('../images/bookmark_icon.png')}  style={{alignSelf:'center',height: 30, width:25}}/>
+        <Text style={[custom_style.section_header,{textAlign:'center',marginTop:20}]}>Saved Ads</Text> 
 
-          {this.state.saved_products.length!=0?(
+        {this.state.showLoader ?(
+        <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+        <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
+        </View> 
+        ):null}
+        
+        <ScrollView>
+        {!this.state.showLoader ? (
+          this.state.saved_products.length!=0?(
            this.state.saved_products.map((product, i) => (
             image_value = Logic.split_value(product.image, ','),
-            <List>
+            <List key={i}>
             <ListItem thumbnail>
               <Left>
                 <Thumbnail round source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}/>
@@ -84,11 +94,12 @@ export default class Pinned extends Component <{}>{
           <Text style={{fontSize:17,color:'#fff'}}>Go to home</Text>
           </TouchableOpacity>
           </View>
-          }
-            
+          
+        ):null}
+        </ScrollView>
             
         </View>
-        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
+        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"
             /> 
         </Container>

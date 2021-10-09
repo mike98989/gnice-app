@@ -8,6 +8,7 @@ import * as AsyncMethods from '../../methods/AsyncMethods';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Requests from '../../methods/Requests';
+import { Fab } from 'native-base';
 
 
 export default class LandingScreen extends Component <{}>{
@@ -28,7 +29,6 @@ export default class LandingScreen extends Component <{}>{
       const unsubscribe = this.props.navigation.addListener('focus', () => {
         AsyncMethods._loadSessionState(this).done();
         });
-     
     }
     
       update_state=()=>{
@@ -41,11 +41,13 @@ export default class LandingScreen extends Component <{}>{
     render(){
     return(
     <Container style={{backgroundColor:'#fff'}}>
+      {this.state.userToken?(
+      <>
       <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'17%',paddingTop:5,}]}></ImageBackground>
         <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
         <View style={[custom_style.container,{paddingTop:20}]}>
-        <Image source={require('../../images/gnice_logo_only.png')}  style={{height: 34, width:25,marginBottom:5,marginTop:30,marginLeft:25}}/>
+        <Image source={require('../../images/gnice_logo.png')}  style={{height: 45, width:45,marginBottom:5,marginTop:30,marginLeft:25}}/>
         <Text style={[custom_style.section_header,{marginLeft:25,marginTop:10}]}>My Dashboard</Text>
         <Text style={[custom_style.section_header,{marginLeft:25,fontSize:13,fontWeight:'bold',color:'#e37a17'}]}>{new Date().toLocaleString()}</Text>
         {this.state.userData.seller_account_details ?(
@@ -68,7 +70,7 @@ export default class LandingScreen extends Component <{}>{
         colors={['#528ccf', '#6ba7ec', '#fff']}
         start={{ x: 0, y: 0 }}>
         <Text style={[custom_style.dashboard_box1_header]}>{this.state.products_count}</Text>
-        <Text style={[custom_style.dashboard_box1_sub_header]}>Total uploaded postings</Text>
+        <Text style={[custom_style.dashboard_box1_sub_header]}>Total uploaded ads</Text>
           </LinearGradient>
 
           <LinearGradient
@@ -87,6 +89,20 @@ export default class LandingScreen extends Component <{}>{
         ):null}
         </View>
         
+        <Fab
+            style={{ backgroundColor: '#f5610a' }}
+            position="bottomRight"
+            onPress={Nav._openscreen.bind(this,this.props,'NewProduct',null)}>
+            <Icon name="add" style={{fontWeight:'bold'}}/>
+          </Fab>
+
+      </>
+      ):
+      <View style={{flex:1,alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
+        <Image source={require('../../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
+      </View> 
+      }
+      
     </Container>
 	);
 	}
