@@ -1539,3 +1539,35 @@ export const updateProfile = (that) => {
 
 
 
+  export const chooseMultipleImage = (that) => {  
+    ImagePicker.launchImageLibrary(
+      {
+        noData: true,  
+        mediaType: 'photo',
+        storageOptions: {
+            cameraRoll: true,
+            waitUntilSaved: true,
+            privateDirectory: true,
+            path:'images',
+            skipBackup: true
+        },
+        includeBase64: false,
+        quality: 1,
+        selectionLimit:1
+        
+      },
+      (response) => {
+        console.log(response);
+        if(!response['didCancel']){
+        let responseValue = JSON.parse(JSON.stringify(response['assets']));
+        that.state.uploadImageCount++;
+        //that.setState({resourcePath: responseValue[0]});
+        that.setState({ resourcePath: [...that.state.resourcePath, responseValue[0]] }) //another array
+        }
+        
+
+      },
+    )
+}
+
+

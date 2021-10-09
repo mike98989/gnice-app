@@ -215,6 +215,8 @@ export const delete_item = (index,item,that)=>{
   );
   
 }
+
+
 export const chooseMultipleImage = (that) => {  
     ImagePicker.launchImageLibrary(
       {

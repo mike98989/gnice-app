@@ -32,8 +32,6 @@ export default class Home extends Component <{}>{
       subCategoryDropDownValue:'-1',
       subCategorySelectedText:'',
       searchQuery:'',
-      
-
     }
   
   componentDidMount =()=> {
