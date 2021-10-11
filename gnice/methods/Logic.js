@@ -231,7 +231,7 @@ export const chooseMultipleImage = (that) => {
           },
         includeBase64: false,
         quality: 1,
-        selectionLimit:1
+        selectionLimit:0
         
       },
       (response) => {
@@ -240,7 +240,7 @@ export const chooseMultipleImage = (that) => {
         let responseValue = JSON.parse(JSON.stringify(response['assets']));
         that.state.uploadImageCount++;
         //that.setState({resourcePath: responseValue[0]});
-        that.setState({ resourcePath: [...that.state.resourcePath, responseValue[0]] }) //another array
+        that.setState({ resourcePath: [...that.state.resourcePath, ...responseValue] }) //another array
         }
         
 
