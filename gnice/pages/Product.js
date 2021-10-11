@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Linking,Dimensions,AsyncStorage, ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground } from 'react-native';
+import {Linking,Dimensions,AsyncStorage, ActivityIndicator,Modal,Pressable,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground } from 'react-native';
 import {custom_style} from '../components/custom_style';
 import { Container,ListItem,List, Header, Content, Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Row } from 'native-base';
 import MainHeader from '../components/MainHeader';
@@ -29,10 +29,11 @@ export default class Home extends Component <{}>{
 
   state = {
     relatedProducts:[],
-    showLoader:true,
+    showLoader:false,
     showSearchForm:true,
     activeSlide:0,
     save_button:true,
+    modalVisible:false,
   }
   
   componentDidMount =()=> {
@@ -76,6 +77,8 @@ export default class Home extends Component <{}>{
   
   get pagination () {
     const { content, activeSlide } = this.state;
+    
+
     return (
         <Pagination
           dotsLength={image_value.length}
@@ -154,7 +157,7 @@ export default class Home extends Component <{}>{
           <ScrollView>
         <View style={custom_style.product_details_container}>
         {/* <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text> */}
-        <View style={{marginTop:10,borderTopWidth:.5,borderTopColor:'#ccc',paddingLeft:20}}>
+        <View style={{marginTop:10,borderTopWidth:.5,borderTopColor:'#ccc',paddingLeft:20,paddingTop:10}}>
         <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text>
         <Text style={[custom_style.product_details_price,{color:'#aaa'}]}>N{this.props.route.params.paramsdata.price}</Text>
         </View>
@@ -183,8 +186,11 @@ export default class Home extends Component <{}>{
     <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} 
       style={[custom_style.action_call_btn,{marginRight:15,flexDirection:'row',height:50}]} 
       start={{ y: 1.5, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
+        
+        <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => {this.setState({modalVisible:true})}}>
         <Image source={require('../images/chat.png')}  style={{alignSelf:'center',height: 20, width:30}}/> 
           <Text style={{fontSize:16,color:'#fff'}}>Make an offer</Text>
+          </TouchableOpacity>
     </LinearGradient>
     <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
       style={[custom_style.action_call_btn,{height:50}]} 
@@ -298,6 +304,41 @@ export default class Home extends Component <{}>{
   active="home"
   />
 
+<Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          //setModalVisible(!modalVisible);
+          {this.setState({modalVisible:false})}
+        }}
+      >
+        <View style={custom_style.modal_centeredView}>
+          <View style={custom_style.modalView}>
+            <Text>Make an Offer for:</Text>
+            <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text>
+            <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:15}]} underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(offer) =>this.setState({offer}) } placeholder="Offer" placeholderTextColor="grey" selectionColor={'#1688EA'}
+        />
+          <View style={{flexDirection:'column'}}>
+          <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',alignSelf:'center'}]}>
+        {!this.state.showLoader ?(
+        <Image source={require('../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
+        ):null}  
+        <Text style={{fontSize:14,fontWeight:'bold',color:'#fff'}}>Submit</Text>
+        
+        </TouchableOpacity>
+
+            <Pressable
+              style={[custom_style.modal_button, custom_style.modal_buttonClose]}
+              onPress={() => {this.setState({modalVisible:false})}}
+            >
+              <Text>Hide Modal</Text>
+            </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
   </Container>
 	);
 	}

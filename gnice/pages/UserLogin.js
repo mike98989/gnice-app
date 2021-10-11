@@ -33,18 +33,19 @@ export default class Home extends Component <{}>{
         {/* <ImageBackground source={require('../images/gnice_burble_backgroud.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:0, width: '100%',height:'30%',paddingTop:5,}]}>
         </ImageBackground>  */}
-
+      
         <TouchableOpacity transparent style={{marginLeft:20,marginTop:50}} onPress={Nav._openscreen.bind(this,this.props,'Home',null)}>
           <Image source={require('../images/drawer4.png')} style={{width:35,height:35}}/>
         </TouchableOpacity>
 
+        {/* <KeyboardAvoidingView> */}
+        <ScrollView>
         {/* <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="complete"/> */}
         <Image source={require('../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:100,height: 60, width:60}}/>
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:40,marginBottom:0}]}>Login</Text>
         <Text style={{alignSelf:'center',color:'#484747'}}>Login with your email and password</Text>
          
-        <KeyboardAvoidingView>
-        <ScrollView>
+        
         <View style={{flexDirection:'column',paddingHorizontal:20,marginTop:20}}>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <View>
@@ -67,8 +68,7 @@ export default class Home extends Component <{}>{
         </View>
         
         </View>
-        </ScrollView>
-        </KeyboardAvoidingView>
+       
        
 
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'ForgotPasswordScreen',null)}>
@@ -82,6 +82,8 @@ export default class Home extends Component <{}>{
         <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserSignup',null)}>
             <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Register</Text>
         </TouchableOpacity>
+        </ScrollView>
+        {/* </KeyboardAvoidingView> */}
 
         {/* </ImageBackground> */}
 
