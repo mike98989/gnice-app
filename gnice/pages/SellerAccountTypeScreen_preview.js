@@ -18,10 +18,6 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
     itemWidth=280;
     this.init_carousel_content();
   	}
-    
-    state={
-    packages:[],   
-    }
 
      _update_user_account =()=>{
          Requests.update_user_account_type(this);
@@ -75,7 +71,9 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
     userData:[],    
     activeSlide:2, 
     selectedOption:null,  
-    selectedValue:null,   
+    selectedValue:null, 
+    //packages:[],   
+    showLoader2:true,  
     }
     }
 
@@ -168,6 +166,13 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
         <Image source={require('../images/gnice_logo.png')}  style={{alignSelf:'center',marginBottom:10,height: 40, width:40}}/>  
         <Text style={custom_style.preview_header}>Welcome! You are just a click away from a whole world of possiblities.</Text>
         <Text style={custom_style.preview_header_title}>CHOOSE A SELLER ACCOUNT TYPE</Text>
+
+        {this.state.showLoader2 ?(
+        <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center',height:'auto'}}>
+        <Image source={require('../images/spinner.gif')}  style={{marginHorizontal:5,height: 35, width:35}}/>
+        </View> 
+        ):
+        <>
         <View style={{height:'auto'}}>
         {this.state.packages ? (
              <Carousel layout={'default'} layoutCardOffset={18}
@@ -209,6 +214,10 @@ export default class SellerAccountTypeScreen_preview extends Component <{}>{
          
         ):null
         }
+        </>
+        }
+
+    
         </View>  
        </ScrollView>
       </LinearGradient>    

@@ -38,7 +38,7 @@ export default class LandingScreen extends Component <{}>{
       conditionSelected:'0',
       propertyTypeSelected:'0',
       subCategoryListSelected:[],
-      subCategorySelected:'',
+      subCategorySelected:'0',
       carModelListSelected:[],
       phoneModelListSelected:[],
       lgalListSelected:[],
@@ -143,7 +143,7 @@ export default class LandingScreen extends Component <{}>{
                 )}    
              
             </Picker>
-  
+            {this.state.subCategoryListSelected.length!=0 ?(      
             <Picker style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               title="Select Sub Category"
               showSearch
@@ -157,6 +157,7 @@ export default class LandingScreen extends Component <{}>{
                     })
                 }    
             </Picker>
+            ):null}
 
             {this.state.showProductForm ? (
             <View>

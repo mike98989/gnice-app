@@ -34,8 +34,8 @@ const CustomDrawerContent = (props) => (
       <Text>My Products</Text>
       </ListItem>
 
-      <ListItem noIndent onPress={() => props.navigation.navigate('ClientsResponse')}>
-      <Text>Client's Response</Text>
+      <ListItem noIndent onPress={() => props.navigation.navigate('Messages')}>
+      <Text>Messages</Text>
       </ListItem>
 
 

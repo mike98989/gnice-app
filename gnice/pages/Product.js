@@ -30,10 +30,17 @@ export default class Home extends Component <{}>{
   state = {
     relatedProducts:[],
     showLoader:false,
+    save_showLoader:false,
     showSearchForm:true,
     activeSlide:0,
     save_button:true,
     modalVisible:false,
+    isShowNumber:false,
+    errorMsg:'',
+    visitor_name:'',
+    visitor_phone:'',
+    visitor_email:'',
+    visitor_message:'',
   }
   
   componentDidMount =()=> {
@@ -116,6 +123,8 @@ export default class Home extends Component <{}>{
     <Container style={{backgroundColor:'#efefefe'}}>
       {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0, width: '100%',height:'50%',}]}></ImageBackground>  */}
+    <ImageBackground source={require('../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:15, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground>
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
         {/* <View style={custom_style.container}>
         
@@ -157,9 +166,9 @@ export default class Home extends Component <{}>{
           <ScrollView>
         <View style={custom_style.product_details_container}>
         {/* <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text> */}
-        <View style={{marginTop:10,borderTopWidth:.5,borderTopColor:'#ccc',paddingLeft:20,paddingTop:10}}>
+        <View style={{marginTop:10,borderTopWidth:.5,borderTopColor:'#ccc',paddingLeft:20,paddingRight:20,paddingTop:10}}>
         <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text>
-        <Text style={[custom_style.product_details_price,{color:'#aaa'}]}>N{this.props.route.params.paramsdata.price}</Text>
+        <Text style={[custom_style.product_details_price]}>N{this.props.route.params.paramsdata.price}</Text>
         </View>
         <View style={{paddingHorizontal:20}}>
         
@@ -171,10 +180,18 @@ export default class Home extends Component <{}>{
         <View style={{flexDirection:'row',justifyContent:'center',}}>
         {this.state.save_button?(
           <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow,{alignSelf:'flex-start',flexDirection:'row',width:'50%',marginTop:15,marginRight:'15%'}]} onPress={this._save_for_later}>
+          {this.state.save_showLoader ?(
+          <Image source={require('../images/spinner.gif')}  style={{marginLeft:5,height: 20, width:20}}/> 
+          ):null} 
           <Image source={require('../images/bookmark_icon.png')}  style={{height: 13, width:12,marginRight:5}}/>
           <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Save for later</Text>
           </TouchableOpacity>
-        ):null}
+        ):
+        <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow,{alignSelf:'flex-start',flexDirection:'row',width:'50%',marginTop:15,marginRight:'15%',backgroundColor:'#ccc'}]}>
+          <Image source={require('../images/bookmark_icon.png')}  style={{height: 13, width:12,marginRight:5}}/>
+          <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Saved</Text>
+          </TouchableOpacity>
+        }
 
         <TouchableOpacity style={[custom_style.signup_btn,custom_style.left_border_radius,custom_style.textInputShadow,{alignSelf:'flex-end',flexDirection:'row',width:'50%',marginTop:15}]} onPress={Nav._openscreen.bind(this,this.props,'ReportAbuse',this.props.route.params.paramsdata)}>
           <Image source={require('../images/alert_icon.png')}  style={{height: 20, width:20,marginRight:5}}/>
@@ -182,22 +199,27 @@ export default class Home extends Component <{}>{
           </TouchableOpacity>
         </View>
 
-  <View style={{flexDirection:'row',justifyContent:'center',marginTop:20,paddingHorizontal:10}}> 
+  <View style={{flexDirection:'row',justifyContent:'center',marginTop:20,paddingHorizontal:6}}> 
     <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} 
-      style={[custom_style.action_call_btn,{marginRight:15,flexDirection:'row',height:50}]} 
+      style={[custom_style.action_call_btn,{marginRight:45,flexDirection:'row',height:40}]} 
       start={{ y: 1.5, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
         
-        <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => {this.setState({modalVisible:true})}}>
+        <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => {this.setState({modalVisible:true,errorMsg:''})}}>
         <Image source={require('../images/chat.png')}  style={{alignSelf:'center',height: 20, width:30}}/> 
-          <Text style={{fontSize:16,color:'#fff'}}>Make an offer</Text>
+          <Text style={{fontSize:13,color:'#fff'}}>Send Message</Text>
           </TouchableOpacity>
     </LinearGradient>
-    <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
-      style={[custom_style.action_call_btn,{height:50}]} 
+    <LinearGradient colors={['#6fb4d9', '#186684', '#15b3ef']} 
+    // onPress={()=>{Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone);}}
+      style={[custom_style.action_call_btn,{height:40}]} 
       start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
-      <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone)}>
-      <Text style={{fontSize:16,color:'#fff'}}> Place a call </Text>
-      <Image source={require('../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 50, width:30}}/> 
+      <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={() => !this.state.isShowNumber? this.setState({isShowNumber:true}) :Linking.openURL('tel:'+this.props.route.params.paramsdata.seller_phone)}>
+      {/* <Text style={{fontSize:13,color:'#fff'}}> Place a call </Text> */}
+      {this.state.isShowNumber ? (
+        <Text style={{fontSize:13,color:'#fff'}}> {this.props.route.params.paramsdata.seller_phone} </Text>
+      ): <Text style={{fontSize:13,color:'#fff'}}> Show Number </Text>
+      }
+      <Image source={require('../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 40, width:25}}/> 
       </TouchableOpacity>
     </LinearGradient>
 
@@ -316,26 +338,37 @@ export default class Home extends Component <{}>{
       >
         <View style={custom_style.modal_centeredView}>
           <View style={custom_style.modalView}>
-            <Text>Make an Offer for:</Text>
+            <Text>Send a Message to Seller Regarding:</Text>
             <Text style={custom_style.product_details_title}>{this.props.route.params.paramsdata.name}</Text>
-            <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:15}]} underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(offer) =>this.setState({offer}) } placeholder="Offer" placeholderTextColor="grey" selectionColor={'#1688EA'}
+            <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
+            <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:15}]} underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(visitor_name) =>this.setState({visitor_name}) } placeholder="Your Name" placeholderTextColor="grey" selectionColor={'#1688EA'}
         />
+         <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:15}]} underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(visitor_email) =>this.setState({visitor_email}) } placeholder="Your Email" placeholderTextColor="grey" selectionColor={'#1688EA'} keyboardType="email-address"
+        />
+
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{marginTop:15}]} underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(visitor_phone) =>this.setState({visitor_phone}) } placeholder="Phone Number" placeholderTextColor="grey" selectionColor={'#1688EA'} keyboardType="phone-pad"
+        />
+
+          <Text style={[{marginBottom:5,paddingLeft:10}]}>Details</Text> 
+            <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Message" selectionColor={'#1688EA'}
+            placeholderTextColor="grey" multiline={true} numberOfLines={4} onChangeText={(visitor_message) =>this.setState({visitor_message}) }
+            />
           <View style={{flexDirection:'column'}}>
-          <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',alignSelf:'center'}]}>
-        {!this.state.showLoader ?(
+        <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',alignSelf:'center'}]} onPress={()=>{Requests.message_product_seller(this)}}>
+        {this.state.showLoader ?(
         <Image source={require('../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}  
         <Text style={{fontSize:14,fontWeight:'bold',color:'#fff'}}>Submit</Text>
         
         </TouchableOpacity>
-
+        </View>
             <Pressable
-              style={[custom_style.modal_button, custom_style.modal_buttonClose]}
+              style={[custom_style.modal_buttonClose,{marginTop:20,alignSelf:'flex-end'}]}
               onPress={() => {this.setState({modalVisible:false})}}
             >
-              <Text>Hide Modal</Text>
+              <Text style={{alignSelf:'flex-end'}}>Hide Modal</Text>
             </Pressable>
-            </View>
+            
           </View>
         </View>
       </Modal>

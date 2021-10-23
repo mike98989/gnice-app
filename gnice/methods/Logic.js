@@ -120,7 +120,7 @@ export const onConditionValueChange = (value, that) => {
  }
 
  export  const onCarModelValueChange = (value,that) => {
-  alert(JSON.stringify(value.value));
+  //alert(JSON.stringify(value.value));
   //let objectval = JSON.parse(JSON.stringify(this.state.carModelListSelected[value.value]));   
   that.setState({
   carModelArraySelected:value,  

@@ -56,7 +56,8 @@ export default class EditProfile extends Component <{}>{
             <Text>{this.state.userData.fullname}'s Profile</Text>
         </View>
 
-        <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingHorizontal:20,paddingTop:0,height:350,}]}>
+        <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingHorizontal:20,paddingTop:0,height:'auto',}]}>
+        
         <ScrollView>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Full Name</Text> 
@@ -86,11 +87,13 @@ export default class EditProfile extends Component <{}>{
             <Text style={{fontSize:17,color:'#fff'}}>Update Profile</Text>
             </TouchableOpacity>
           </ScrollView>
+          
           </View>
         </View>
-        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
+        
+        {/* <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"
-            /> 
+        />      */}
         </Container>
 	);
 	}

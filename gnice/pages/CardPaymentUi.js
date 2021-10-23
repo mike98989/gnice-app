@@ -10,8 +10,6 @@ import { WebView } from 'react-native-webview';
 import * as AsyncMethods from '../methods/AsyncMethods';
 import * as Requests from '../methods/Requests';
 
-
-
 export default class CardPaymentUi extends Component <{}>{
 	constructor(props){
     super(props);

@@ -495,6 +495,7 @@ export const send_recovery_code = (that) =>{
 // }
 
 export const fetch_all_products = (that) =>{
+  
     fetch (global.serverUrl+'api/fetch_all_product',{
       method:'GET',
       headers: {
@@ -504,7 +505,7 @@ export const fetch_all_products = (that) =>{
     })
     .then((response)=>response.json())
     .then((res) =>{
-    
+    console.log(res);
       //alert(JSON.stringify(res));
       //return;
       that.setState({
@@ -515,6 +516,41 @@ export const fetch_all_products = (that) =>{
         products: JSON.parse(JSON.stringify(res.data)),
       })
       return;
+  }else{
+  }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
+  
+  export const fetch_all_user_messages = (that) =>{
+    that.setState({
+      showLoader:true
+    })
+    fetch (global.serverUrl+'api/fetch_all_messages_to_seller?seller_id='+that.state.userData.seller_id,{
+      method:'GET',
+      headers: {
+        'gnice-authenticate': that.state.userToken,
+      },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      //alert(JSON.stringify(res.data));
+      that.setState({
+        showLoader:false
+      })
+  if(res.status =="1"){
+    that.setState({
+        messages: JSON.parse(JSON.stringify(res.data)),
+      })
+
   }else{
   }
       })
@@ -565,6 +601,10 @@ export const fetch_all_products = (that) =>{
 
   export const save_products = (that) =>{
 
+    that.setState({
+      save_showLoader:true,
+    })
+
     let formData = new FormData();
     formData.append('product_id', that.props.route.params.paramsdata.id);
     formData.append('user_id', that.state.userData.id);
@@ -581,15 +621,10 @@ export const fetch_all_products = (that) =>{
       // alert(JSON.stringify(res));
       // return;
       that.setState({
-        showLoader:false
-      })
-  if(res.status =="1"){
-    that.setState({
+        save_showLoader:false,
         save_button:false,
       })
-
-  }else{
-  }
+    Commons._showToast(res.message,ToastAndroid.LONG);
       })
     .catch((error) => {
         console.error(error);
@@ -1005,7 +1040,7 @@ export const reportAbuse = (that) =>{
       .then((response)=>response.json())
       .then((res) =>{
         that.setState({
-          showLoader:false
+          showLoader2:false
         })
       if(res.status =="1"){
       console.log(res.data);
@@ -1198,6 +1233,9 @@ export const addProducts = (that) =>{
   if(that.state.categorySelected=='0'){
     Commons._showToast('Please select Category!',ToastAndroid.LONG);
   }
+  if(that.state.subCategorySelected=='0'){
+    Commons._showToast('Please select Sub Category!',ToastAndroid.LONG);
+  }
   else if((that.state.uploadImageCount==0)){
     Commons._showToast('Please select an Image!',ToastAndroid.LONG);
   }
@@ -1267,15 +1305,13 @@ export const addProducts = (that) =>{
       Commons._showToast("Advert created successfully!",ToastAndroid.LONG);
        setTimeout(()=>{ 
           that.props.navigation.navigate('MyProducts',{paramsdata:null});
-        }, 2000);
+        }, 500);
       
-     
     }else{
       that.setState({
         errorMsg:res.message,
         showLoader:false
       })
-      
       //alert(res.message);
     }
   
@@ -1345,6 +1381,62 @@ export const verify_transaction = (that) =>{
   }
   
 }
+
+export const message_product_seller =(that)=>{
+ 
+if((that.state.visitor_email=='')||(that.state.visitor_phone=='')||(that.state.visitor_name=='')||(that.state.visitor_message=='')){
+  alert('All Fields are required');
+  return;
+}else{
+  that.setState({
+    showLoader:true
+  })  
+//alert(that.state.email_to_activated);
+let formData = new FormData();
+formData.append('sender_email', that.state.visitor_email);
+formData.append('sender_phone', that.state.visitor_phone);
+formData.append('sender_name', that.state.visitor_name);
+formData.append('message', that.state.visitor_message);
+formData.append('seller_id', that.props.route.params.paramsdata.seller_id);
+formData.append('product_code', that.props.route.params.paramsdata.product_code);
+fetch (global.serverUrl+'api/message_product_seller',{
+method:'POST',
+headers: {
+            'gnice-authenticate': that.state.userToken
+        },
+body: formData,
+
+})
+.then((response)=>response.json())
+.then((res) =>{
+//alert(JSON.stringify(res));
+//console.log(res);return;
+that.setState({
+  showLoader:false
+})
+if(res.status =="1"){
+  that.setState({
+    errorMsg:res.message,
+    modalVisible:false,
+  })
+  Commons._showToast(res.message,ToastAndroid.LONG);
+}else{
+  that.setState({
+    errorMsg:res.message,
+  })
+}
+
+})
+.catch((error) => {
+  that.setState({
+    showLoader:false
+  })
+  alert(error);
+  console.error(error);
+});
+}
+
+}
 /////////////UPDATE USER ACCOUNT TYPE
 export const generate_paystack_checkout = (that) =>{
   //alert(that.state.userToken);return;
@@ -1395,7 +1487,7 @@ export const generate_paystack_checkout = (that) =>{
         errorMsg:res.msg,
         showLoader:false
       })
-      alert(res.msg);
+      //alert(res.msg);
     }
     })
   .catch((error) => {

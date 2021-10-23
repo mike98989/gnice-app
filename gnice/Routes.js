@@ -17,6 +17,7 @@ import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
 import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
+import Messages from './pages/user/Messages';
 import MyProfile from './pages/user/MyProfile';
 import EditProfile from './pages/user/EditProfile';
 import ChangePassword from './pages/user/ChangePassword';
@@ -46,6 +47,7 @@ function UserArea() {
     <Drawer.Screen name="MyProfile" options={{ drawerLabel: 'MyProfile' }} component={MyProfile} />
     <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />
     <Drawer.Screen name="ChangePassword" options={{ drawerLabel: 'ChangePassword' }} component={ChangePassword} />
+    <Drawer.Screen name="Messages" options={{ drawerLabel: 'Messages' }} component={Messages} />
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>

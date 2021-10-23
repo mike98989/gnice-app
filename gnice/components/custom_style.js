@@ -76,7 +76,7 @@ section_header:{
 product_name:{
   color:'#15495d',
   fontSize:17,
-  fontFamily:'Rajdhani',
+  fontFamily:'Rajdhani-Medium',
 },
 product_price:{
   color:'#000',
@@ -143,11 +143,12 @@ product_details_title:{
   fontFamily:'Cicle',
 },
 product_details_price:{
-  fontSize:18,
+  fontSize:14,
   fontWeight:'bold',
   color:'#000',
   marginTop:5,
   fontFamily:'Cicle',
+  fontStyle:'italic',
 },
 search_div_search_icon:{
 width:35,
@@ -477,11 +478,7 @@ modal_centeredView: {
   alignItems: "center",
   marginTop: 22
 },
-modal_button: {
-  borderRadius: 20,
-  padding: 10,
-  elevation: 2
-},
+
 modal_buttonOpen: {
   backgroundColor: "#F194FF",
 },
