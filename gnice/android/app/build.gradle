@@ -187,7 +187,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.facebook.fresco:fresco:1.+'
 
@@ -197,6 +197,9 @@ dependencies {
 // For WebP support, including animated WebP
     implementation 'com.facebook.fresco:animated-webp:1.+'
     implementation 'com.facebook.fresco:webpsupport:1.+'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

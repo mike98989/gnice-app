@@ -17,6 +17,7 @@ import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
 import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
+import EditProduct from './pages/user/EditProduct';
 import Messages from './pages/user/Messages';
 import MyProfile from './pages/user/MyProfile';
 import EditProfile from './pages/user/EditProfile';
@@ -43,6 +44,7 @@ function UserArea() {
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
     <Drawer.Screen name="NewProduct" options={{ drawerLabel: 'NewProduct' }} component={NewProduct} />
+    <Drawer.Screen name="EditProduct" options={{ drawerLabel: 'EditProduct' }} component={EditProduct} />
     <Drawer.Screen name="MyProducts" options={{ drawerLabel: 'MyProducts' }} component={MyProducts} />
     <Drawer.Screen name="MyProfile" options={{ drawerLabel: 'MyProfile' }} component={MyProfile} />
     <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />

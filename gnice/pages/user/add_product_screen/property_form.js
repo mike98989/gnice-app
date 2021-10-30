@@ -12,7 +12,7 @@ const Property_form = (props) => (
               style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               placeholder="Select Property Type"
               showSearch
-              value={props.that.state.propertyTypeSelected}
+              value={props.that.state.propertyTypeDropDownValue}
               onChange={item => Logic.onPropertyTypeValueChange(item,props.that)}
               searchStyle={{color: 'black', placeholderTextColor:'#000'}}
             >
@@ -26,10 +26,9 @@ const Property_form = (props) => (
              
             </Picker>
 
-
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Square Meters</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Square Meters" keyboardType="number-pad" selectionColor="#fff"
-            placeholderTextColor="grey"  selectionColor={'#1688EA'} onChangeText={(sqare_meters) =>props.that.setState({sqare_meters}) }
+            placeholderTextColor="grey"  selectionColor={'#1688EA'} value={props.that.state.square_meters} onChangeText={(square_meters) =>props.that.setState({sqare_meters}) }
             />
     </View>
 )

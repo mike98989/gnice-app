@@ -23,72 +23,81 @@ import MainHeader from '../../components/MainHeader'
 
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default class LandingScreen extends Component <{}>{
+export default class EditProduct extends Component <{}>{
 
 	constructor(props){
     super(props);
+    //alert(JSON.stringify(props.route.params.paramsdata));
+    this.state = {
+        update_edit_view:true,  
+        userData:[],
+        categoryDropDownValue:null,
+        categories_and_sub:[],
+        categorySelected:'0',
+        conditionDropDownValue:null,
+        conditionSelected:'0',
+        propertyTypeSelected:null,
+        propertyTypeDropDownValue:null,
+        subCategoryListSelected:[],
+        subCategorySelected:'0',
+        carModelListSelected:[],
+        phoneModelListSelected:[],
+        lgalListSelected:[],
+        carMakeSelected:null,
+        carMakeDropDownValue:null,
+        carModelDropDownValue:null,
+        carModelSelected:null,
+        carModelArraySelected:'0',
+        phoneMakeSelected:'0',
+        phoneModelSelected:'0',
+        phoneModelArraySelected:'0',
+        required_tables:[],
+        formGroup:null,
+        formValues:[],
+        stateSelected:null,
+        stateDropDownValue:null,
+        lgaDropDownValue:null,
+        lgaSelected:null,
+        lgaArraySelected:'0',
+        resourcePath:[],
+        uploadImageCount:0,
+        color:'',
+        showLoader:true,
+        showSubmitLoader:false,
+        images:[],
+      }
   	}
 
     
-    state = {
-      userData:[],
-      categories_and_sub:[],
-      categorySelected:'0',
-      conditionDropDownValue:'-1',
-      conditionSelected:'0',
-      propertyTypeSelected:'0',
-      subCategoryListSelected:[],
-      subCategorySelected:'0',
-      carModelListSelected:[],
-      phoneModelListSelected:[],
-      lgalListSelected:[],
-      carMakeSelected:'0',
-      carModelSelected:'0',
-      carModelArraySelected:'0',
-      phoneMakeSelected:'0',
-      phoneModelSelected:'0',
-      phoneModelArraySelected:'0',
-      required_tables:[],
-      formGroup:null,
-      formValues:[],
-      stateSelected:'',
-      lgaSelected:null,
-      lgaArraySelected:'0',
-      stateDropDownValue:null,
-      lgaDropDownValue:null,
-      resourcePath:[],
-      uploadImageCount:0,
-      color:'',
-      showLoader:true,
-      showSubmitLoader:false
-    }
+    
 
     formData = new FormData();
 
     componentDidMount =()=> {
         AsyncMethods._loadSessionState(this).done();
-        //this._loadInitialState().done();
         const unsubscribe = this.props.navigation.addListener('focus', () => {
           AsyncMethods._loadSessionState(this).done();
           });
       }
       
-      // _loadInitialState = async()=>{  
-      // Requests.fetch_all_categories_and_sub_categories(this);
-      // Requests.fetch_required_table(this);
-      // }
-     
+    
       update_state =()=>{
-        Requests.fetch_all_categories_and_sub_categories(this);  
-        Requests.fetch_required_table(this);
+           
+        Requests.fetch_all_categories_and_sub_categories(this)
+        Requests.fetch_required_table(this,this.state.update_edit_view);
+        
+        // {!this.state.showLoader ?(
+        //     Logic.fetch_picker_selected_values(this)
+        // ):null}
+        //let categoryObject = {value:this.props.route.params.paramsdata.category,label:'Property'};
+        //this.setState({categoryDropDownValue:categoryObject})
       }
 
-      _add_products=()=>{
-        Requests.addProducts(this);
+      _update_products=()=>{
+        Requests.updateProducts(this);
       }
 
     render(){
-
     function CurrencyTextInput() {
       const [price, setPrice] = React.useState(0); // can also be null
       return (
@@ -109,21 +118,23 @@ export default class LandingScreen extends Component <{}>{
     
     return(
         
+        
     <Container style={{backgroundColor:'#e1e5e7'}}>
       <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:15, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground>
         {/* <UserScreenHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/> */}
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         <View style={[custom_style.container,{paddingHorizontal:0,paddingTop:30}]}>
-        <Text style={[custom_style.section_header,{textAlign:'center',marginTop:10,fontWeight:'bold'}]}>Upload Product/Service</Text>
+        <Text style={[custom_style.section_header,{textAlign:'center',marginTop:10,fontWeight:'bold'}]}>Edit Product/Service</Text>
+        <Text style={[custom_style.section_header,{textAlign:'center',fontSize:13,marginBottom:10,fontWeight:'bold'}]}>{this.props.route.params.paramsdata.name}</Text>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
-        
+        {/* <Text>{JSON.stringify(this.state.categories_and_sub)}</Text> */}
         <ScrollView style={{marginBottom:50}}>
         <KeyboardAvoidingView
         >
         {this.state.showLoader ?(
         <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
-        <Image source={require('../../images/spinner4.gif')}  style={{height: 45, width:45}}/>
+        <Image source={require('../../images/spinner4.gif')}  style={{height: 55, width:55}}/>
         </View> 
       ):null} 
         <Form style={{paddingHorizontal:20}}>
@@ -146,7 +157,7 @@ export default class LandingScreen extends Component <{}>{
                 )}    
              
             </Picker>
-            {this.state.subCategoryListSelected.length!=0 ?(      
+                  
             <Picker style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               title="Select Sub Category"
               showSearch
@@ -160,7 +171,7 @@ export default class LandingScreen extends Component <{}>{
                     })
                 }    
             </Picker>
-            ):null}
+            
 
             {this.state.showProductForm ? (
             <View>
@@ -237,13 +248,13 @@ export default class LandingScreen extends Component <{}>{
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Nearest land mark</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Nearest Land mark" keyboardType="default"
-            placeholderTextColor="grey" onChangeText={(land_mark) =>this.setState({land_mark})} selectionColor={'#1688EA'}
+            placeholderTextColor="grey" value={this.state.land_mark} onChangeText={(land_mark) =>this.setState({land_mark})} selectionColor={'#1688EA'}
             />
 
   
            <Text style={[{marginBottom:5,paddingLeft:10}]}>Title</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor={'#1688EA'}
-            placeholderTextColor="grey" onChangeText={(advert_title) =>this.setState({advert_title}) }
+            placeholderTextColor="grey" value={this.state.advert_title} onChangeText={(advert_title) =>this.setState({advert_title}) }
             />
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
@@ -268,30 +279,44 @@ export default class LandingScreen extends Component <{}>{
             </View>
 
             <View style={{flexDirection:'row',marginVertical:15}}>
-            <CheckBox value={false} onValueChange={(negotiable_price) => {this.setState({negotiable_price})}} style={custom_style.signup_checkbox}/>
+            <CheckBox value={this.state.negotiable_price} onValueChange={(negotiable_price) => {this.setState({negotiable_price})}} style={custom_style.signup_checkbox}/>
             <Text style={{fontSize:16,color:'#555'}}>Price is negotiable</Text>
           </View>
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Details</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Details" selectionColor={'#1688EA'}
-            placeholderTextColor="grey" multiline={true} numberOfLines={4} onChangeText={(advert_details) =>this.setState({advert_details}) }
+            placeholderTextColor="grey" multiline={true}  value={this.state.advert_details} numberOfLines={4} onChangeText={(advert_details) =>this.setState({advert_details}) }
             />
             </View>
             ):null}
             
             
-            <Text>Name</Text> 
+            {/* <Text>Name</Text> 
             <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
             value={this.state.userData.fullname} editable={false}
             />
             <Text>Phone Number</Text> 
             <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{backgroundColor:'#eee'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor="#fff"
             value={this.state.userData.phone} editable={false}
-            />
+            /> */}
 
           
             <View style={{flexDirection:'row', flexWrap: 'wrap',}}>
             {/* <Text>{JSON.stringify(this.state.resourcePath)}</Text> */}
+
+            {this.state.images.length !=0 ? (
+            this.state.images.map((item, i) => ( 
+            <TouchableOpacity key={i} onPress={()=>Logic.deleteUploadedImage(i,item,this)}>  
+            <View style={{flexDirection:'column',height:80,width:80,justifyContent:'center',}}>
+            <View style={[custom_style.image_pick,{paddingHorizontal:5,opacity:0.7,backgroundColor:'#000',position:'relative'}]}> 
+            <Image  source={{ uri: global.serverUrl+global.UploadImageBaseUrl+item}} style={custom_style.advert_images} />
+            </View>
+            <Text style={{textAlign:'center',fontWeight:'bold',fontSize:12,position:'absolute',alignSelf:'center', color:'#fff'}}>X Cancel</Text>  
+            </View>
+            </TouchableOpacity>
+            ))
+            ):null}
+
             {this.state.uploadImageCount>0 ? (
             this.state.resourcePath.map((item, i) => ( 
             <TouchableOpacity key={i} onPress={()=>Logic.deleteItemFromLoop(this,i)}>  
@@ -317,11 +342,11 @@ export default class LandingScreen extends Component <{}>{
     <LinearGradient colors={['#266469', '#4983b5', '#388db1']}
       style={[custom_style.action_call_btn,{height:40}]} 
       start={{ y: 2, x: 0.5 }} end={{ y: 0.0, x: 1.0 }}>
-      <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={this._add_products}>
+      <TouchableOpacity style={{flexDirection:'row',height:20}} onPress={this._update_products}>
       {this.state.showSubmitLoader ?(
         <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
         ):null}
-      <Text style={{fontSize:16,color:'#fff'}}>POST ADS </Text>
+      <Text style={{fontSize:16,color:'#fff'}}>UPDATE ADS </Text>
       <Image source={require('../../images/hand_holding_phone.png')}  style={{alignSelf:'center',height: 40, width:30}}/> 
       </TouchableOpacity>
     </LinearGradient>

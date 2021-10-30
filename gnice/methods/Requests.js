@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../components/global';
 import * as Logic from './Logic';
 import * as Commons from './Commons';
+import { min } from 'react-native-reanimated';
 
   //////SIGNUP METHOD
   export const signup = (that) => {
@@ -494,6 +495,42 @@ export const send_recovery_code = (that) =>{
   
 // }
 
+
+export const fetch_trending_product = (that) =>{
+  
+  fetch (global.serverUrl+'api/fetch_trending_product',{
+    method:'GET',
+    headers: {
+      'gnice-authenticate': 'gnice-web'
+            },
+  
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+  console.log(res);
+    // alert(JSON.stringify(res));
+    // return;
+    that.setState({
+      showLoader:false
+    })
+if(res.status =="1"){
+  that.setState({
+      products: JSON.parse(JSON.stringify(res.data)),
+    })
+    return;
+}else{
+}
+    })
+  .catch((error) => {
+      console.error(error);
+    var message = "There was an error! Please check your connection";
+      alert(JSON.stringify(message));
+   
+      //console.error(error);
+    });
+}
+
+
 export const fetch_all_products = (that) =>{
   
     fetch (global.serverUrl+'api/fetch_all_product',{
@@ -506,8 +543,8 @@ export const fetch_all_products = (that) =>{
     .then((response)=>response.json())
     .then((res) =>{
     console.log(res);
-      //alert(JSON.stringify(res));
-      //return;
+      // alert(JSON.stringify(res));
+      // return;
       that.setState({
         showLoader:false
       })
@@ -847,6 +884,71 @@ export const fetch_all_products = (that) =>{
       
     }
 
+
+    export const disable_enable_item = (that,i,value) =>{
+      that.setState({showLoader:true})
+      fetch (global.serverUrl+'api/disableEnableProduct?product_id='+that.state.item_to_disable.id+'&seller_id='+that.state.userData.seller_id+'&value='+value,{
+        method:'GET',
+        headers: {
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        
+        if(res.status=='1'){
+          // var array = [...that.state.products]; // make a separate copy of the array
+          // if (i!== -1) {
+          // array.splice(i,1);
+          // that.setState({products: array});
+          // }  
+          Commons._showToast(res.message,ToastAndroid.LONG);
+          //fetch_seller_products(that);
+        }
+        that.setState({showLoader:false})
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+      
+    }
+
+
+    ///////////DELETE PRODUCT IMAGE
+    export const delete_product_image = (that,index) =>{
+      
+      fetch (global.serverUrl+'api/deleteProductImage?product_id='+that.props.route.params.paramsdata.id+'&index='+index,{
+        method:'GET',
+        headers: {
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        
+        if(res.status=='1'){
+          var array = [...that.state.images]; // make a separate copy of the array
+          if (index !== -1) {
+          array.splice(index,1);
+          that.setState({images: array});
+          }  
+          Commons._showToast(res.message,ToastAndroid.LONG);
+        }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+      
+    }
+
     //////////FETCH USER PRODUCTS
     export const fetch_all_messages_to_user = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
@@ -987,7 +1089,7 @@ export const reportAbuse = (that) =>{
 
 
     //////////FETCH RELATED PRODUCTS
-    export const fetch_required_table = (that) =>{
+    export const fetch_required_table = (that,update_edit_view) =>{
       //let paramsValue = that.props.route.params.paramsdata;
       
       fetch (global.serverUrl+'api/fetch_required_table',{
@@ -1011,7 +1113,7 @@ export const reportAbuse = (that) =>{
         required_tables: res.data,
         //car_makes: JSON.parse(JSON.stringify(res.car_makes)),
         })
-        
+        update_edit_view ? Logic.update_edit_view_and_picker_value(that):null
         //alert(JSON.stringify(that.state.required_tables));
   
     }else{
@@ -1069,20 +1171,15 @@ export const reportAbuse = (that) =>{
     })
     .then((response)=>response.json())
     .then((res) =>{
-    
-      //alert(JSON.stringify(res.data[1].subcategory[0].counted_sub_category_products.counted));
-      //return;
-      that.setState({
-        showLoader:false
-      })
-  if(res.status =="1"){
+
+    if(res.status =="1"){
     that.setState({
       categories_and_sub: JSON.parse(JSON.stringify(res.data)),
       })
       //alert(JSON.stringify(that.state.categories_and_sub));
-
-  }else{
-  }
+    
+    }else{
+    }
       })
     .catch((error) => {
         console.error(error);
@@ -1227,6 +1324,113 @@ export const update_user_account_type = (that) =>{
 }
 
 
+/////////////UPDATE PRODUCTS
+export const updateProducts = (that) =>{
+  //alert(that.state.userToken);return;
+  if(that.state.categorySelected=='0'){
+    Commons._showToast('Please select Category!',ToastAndroid.LONG);
+  }
+  if(that.state.subCategorySelected=='0'){
+    Commons._showToast('Please select Sub Category!',ToastAndroid.LONG);
+  }
+  else if(!that.state.advert_title){
+    Commons._showToast("Please Enter Title!",ToastAndroid.LONG);
+  }
+  else if((that.state.uploadImageCount==0)&&(that.state.images.length==0)){
+    Commons._showToast('Please select an Image!',ToastAndroid.LONG);
+  }
+  else if(!that.state.land_mark){
+    Commons._showToast("Please Enter a Landmark!",ToastAndroid.LONG);
+  }
+  else if(!that.state.price){
+    Commons._showToast("Please Enter Ads Price!",ToastAndroid.LONG);
+  }
+  else{
+    that.setState({
+      showLoader:true,
+      showSubmitLoader:true,
+    })
+
+    if(that.state.negotiable_price){
+      var negotiable = '1';
+    }else{
+      var negotiable='0';
+    }
+    ///////////IF NEW IMAGES ARE ADDED
+    if(that.state.uploadImageCount>0){
+    var pegedSize = 5;  
+    that.state.resourcePath.map((item, i) => {
+    const imageSize = Logic.calculate_megabyte_from_byte(item.fileSize); 
+    var Size = imageSize*1;
+    if(Size<pegedSize){
+    that.formData.append('files['+i+']', {
+      uri: item.uri,
+      type: 'image/jpeg',
+      name: item.fileName,
+      //data: item.data,
+    })
+    }else{
+      Commons._showToast(item.fileName+'exceeds the maximum limit of '+pegedSize+'mb. Please try again!');
+      return;
+    }
+  });
+  }
+    
+    that.formData.append('category', that.state.categorySelected);
+    that.formData.append('sub_category',that.state.subCategorySelected);
+
+    Logic.update_new_product_subcategory_view(that.state.subCategorySelected,that);
+    
+    that.formData.append('state',that.state.stateSelected);
+    that.formData.append('lga',that.state.lgaSelected);
+    that.formData.append('condition_state',that.state.conditionSelected);
+    that.formData.append('name',that.state.advert_title);
+    that.formData.append('price',that.state.price);
+    that.formData.append('land_mark',that.state.land_mark);
+    that.formData.append('negotiable',negotiable);
+    that.formData.append('description',that.state.advert_details);
+    that.formData.append('seller_id',that.state.userData.seller_id);
+    that.formData.append('edit',that.props.route.params.paramsdata.id);
+    that.formData.append('product_code',that.props.route.params.paramsdata.product_code);
+    console.log(that.formData);
+    fetch (global.serverUrl+'api/update_product',{
+    method:'POST',
+    headers: {'Accept': 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
+    body: that.formData,
+    
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    //alert(JSON.stringify(res));
+    //return;
+    if(res.status =="1"){
+      Commons._showToast("Ads updated successfully!",ToastAndroid.LONG);
+       setTimeout(()=>{ 
+          that.props.navigation.navigate('MyProducts',{paramsdata:null});
+        }, 500);
+      
+    }else{
+      that.setState({
+        errorMsg:res.message,
+        showLoader:false,
+        showSubmitLoader:false,
+      })
+      //alert(res.message);
+    }
+  
+
+  })
+  .catch((error) => {
+      that.setState({
+        showLoader:false,
+        showSubmitLoader:false,
+      })
+      console.error(error);
+    });
+}
+  
+}
+
 /////////////ADD PRODUCTS
 export const addProducts = (that) =>{
   //alert(that.state.userToken);return;
@@ -1250,7 +1454,8 @@ export const addProducts = (that) =>{
   }
   else{
     that.setState({
-      showLoader:true
+      showLoader:true,
+      showSubmitLoader:true,
     })
 
     if(that.state.negotiable_price){
@@ -1287,10 +1492,9 @@ export const addProducts = (that) =>{
     that.formData.append('price',that.state.price);
     that.formData.append('land_mark',that.state.land_mark);
     that.formData.append('negotiable',negotiable);
-    that.formData.append('description',that.state.userData.advert_details);
+    that.formData.append('description',that.state.advert_details);
     that.formData.append('seller_id',that.state.userData.seller_id);
 
-    console.log(that.formData);
     fetch (global.serverUrl+'api/add_product',{
     method:'POST',
     headers: {'Accept': 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
@@ -1310,7 +1514,8 @@ export const addProducts = (that) =>{
     }else{
       that.setState({
         errorMsg:res.message,
-        showLoader:false
+        showLoader:false,
+        showSubmitLoader:false,
       })
       //alert(res.message);
     }
@@ -1319,7 +1524,8 @@ export const addProducts = (that) =>{
   })
   .catch((error) => {
       that.setState({
-        showLoader:false
+        showLoader:false,
+        showSubmitLoader:false,
       })
       console.error(error);
     });
@@ -1519,7 +1725,8 @@ export const updateProfileImage = (that) => {
     })
 
   }else{    
-  that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegSize+'MB'})
+  that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegedSize+'MB'});
+  Commons._showToast('Sorry, Image Size greater than '+pegedSize+'MB', ToastAndroid.LONG);
   return;
   }
   //console.log(that.state.resourcePath.fileName);  

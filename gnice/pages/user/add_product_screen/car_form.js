@@ -13,7 +13,7 @@ const Car_form = (props) => (
               style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               placeholder="Select Make"
               showSearch
-              value={props.that.state.carMakeSelected}
+              value={props.that.state.carMakeDropDownValue}
               onChange={item => Logic.onCarMakeValueChange(item,props.that)}
               searchStyle={{color: 'black', placeholderTextColor:'#000'}}
             >
@@ -32,7 +32,7 @@ const Car_form = (props) => (
               style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               placeholder="Select Model"
               showSearch
-              value={props.that.state.carModelArraySelected}
+              value={props.that.state.carModelDropDownValue}
               onChange={item => Logic.onCarModelValueChange(item,props.that)}
               searchStyle={{color: 'black', placeholderTextColor:'#000'}}
             >
@@ -69,7 +69,7 @@ const Car_form = (props) => (
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Color</Text> 
         <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Color" keyboardType="default" selectionColor={'#1688EA'}
-        placeholderTextColor="grey" selectionColor={'#1688EA'} onChangeText={(color) =>props.that.setState({color}) }
+        placeholderTextColor="grey" selectionColor={'#1688EA'} value={props.that.state.color} onChangeText={(color) =>props.that.setState({color})}
         /> 
     </View>
 )

@@ -51,14 +51,14 @@ export default class Home extends Component <{}>{
   componentDidMount =()=> {
     this._loadInitialState().done();
     const unsubscribe = this.props.navigation.addListener('focus', () => {
-        Requests.fetch_all_products(this); 
+        Requests.fetch_trending_product(this); 
         Requests.fetch_all_categories_and_sub_categories(this);  
       });
   
   }
   
   _loadInitialState = async()=>{  
-  Requests.fetch_all_products(this);
+  Requests.fetch_trending_product(this);
   Requests.fetch_all_categories_and_sub_categories(this);
   }
 

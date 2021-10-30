@@ -1,8 +1,8 @@
-var url="www.gnice.com.ng/";
-//var url="192.168.38.132/gnice/";
+//var url="www.gnice.com.ng/";
+var url="192.168.75.132/gnice/";
 //var url="127.0.0.1/gnice/";
-var protocol="https:";
-//var protocol="http:";
+//var protocol="https:";
+var protocol="http:";
 global.serverUrl = protocol+"//"+url;
 global.UploadImageBaseUrl = 'public/assets/images/uploads/products/';
 global.ProfileImageBaseUrl = 'public/assets/images/uploads/profile/';

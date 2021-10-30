@@ -82,7 +82,7 @@ export default class MyProducts extends Component <{}>{
         <CardItem cardBody>
           <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
         </CardItem>
-        <CardItem>
+        <CardItem style={{paddingLeft:10,paddingRight:10}}>
           <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
           <Text style={custom_style.product_price}>NGN {item.price}</Text>  
@@ -95,10 +95,26 @@ export default class MyProducts extends Component <{}>{
         </CardItem>
         </TouchableOpacity>
         <CardItem footer bordered>
-          <Body><Text style={{fontSize:12}}>Edit</Text></Body> 
+          <Body style={{flexDirection:'row'}}>
+          <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'EditProduct',item)}>  
+          <Text style={{fontSize:12}}>Edit</Text>
+          </TouchableOpacity>
+          
+          {item.status=='0'?(
+          <TouchableOpacity onPress={()=>Logic.disable_enable_item(index,item,this,'1')}>  
+          <Text style={{marginLeft:15,fontSize:12,color:'blue'}}>Enable</Text>
+          </TouchableOpacity>
+          ):
+          <TouchableOpacity onPress={()=>Logic.disable_enable_item(index,item,this,'0')}>  
+          <Text style={{marginLeft:15,fontSize:12}}>Disable</Text>
+          </TouchableOpacity>
+          }
+          
+
+          </Body>
           <Right>
           <TouchableOpacity onPress={()=>Logic.delete_item(index,item,this)}>  
-          <Text style={{fontSize:12}}>Delete</Text>
+          <Text style={{fontSize:12,color:'#f30'}}>Delete</Text>
           </TouchableOpacity>
           </Right>  
         </CardItem>
@@ -116,7 +132,7 @@ export default class MyProducts extends Component <{}>{
      <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground>
         <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
-        <View style={[custom_style.container,{paddingHorizontal:10}]}>
+        <View style={[custom_style.container,{paddingHorizontal:10,paddingBottom:100}]}>
           
     <View style={{marginTop:30}}>
     <Text style={[custom_style.section_header,{marginLeft:5,marginTop:20}]}>My Products</Text> 
@@ -152,6 +168,14 @@ export default class MyProducts extends Component <{}>{
      
     </View>
         </View>
+
+        <Fab
+            style={{ backgroundColor: '#f5610a' }}
+            position="bottomRight"
+            onPress={Nav._openscreen.bind(this,this.props,'NewProduct',null)}>
+            <Icon name="add" style={{fontWeight:'bold'}}/>
+          </Fab>
+
         {/* <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"
             />  */}
