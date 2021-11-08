@@ -20,7 +20,8 @@ export default class LandingScreen extends Component <{}>{
     state = {
       userData:[],
       messages_count:'',
-      products_count:''
+      products_count:'',
+      transactions:'',
     }
 
     componentDidMount =()=> {
@@ -34,6 +35,7 @@ export default class LandingScreen extends Component <{}>{
       update_state=()=>{
         Requests.fetch_all_user_products(this);
         Requests.fetch_all_messages_to_user(this);
+        Requests.fetch_all_user_transactions(this);
       }
 
     
@@ -49,20 +51,24 @@ export default class LandingScreen extends Component <{}>{
         <View style={[custom_style.container,{paddingTop:20}]}>
         <Image source={require('../../images/gnice_logo.png')}  style={{height: 45, width:45,marginBottom:5,marginTop:30,marginLeft:25}}/>
         <Text style={[custom_style.section_header,{marginLeft:25,marginTop:10}]}>My Dashboard</Text>
-        <Text style={[custom_style.section_header,{marginLeft:25,fontSize:13,fontWeight:'bold',color:'#e37a17'}]}>{new Date().toLocaleString()}</Text>
+        <Text style={[custom_style.section_header,{marginLeft:25,fontSize:13,fontWeight:'bold',color:'#aaa'}]}>{new Date().toLocaleString()}</Text>
         {this.state.userData.seller_account_details ?(
         <View style={{flexDirection:'column',paddingHorizontal:20}}>
-
+        <ScrollView>
         <LinearGradient
           style={[custom_style.dashboard_box2,{marginRight:30}]}
         colors={['#528ccf', '#6ba7ec', '#fff']}
         start={{ x: 0.5, y: 0 }}>
         <Text style={[custom_style.dashboard_box1_header,{fontSize:20}]}>{this.state.userData.seller_account_details.title} account package</Text>
-        <Text style={[custom_style.dashboard_box1_sub_header]}>You have <Text style={{fontWeight:'bold',fontSize:18}}>{this.state.user_remaining_product_slot}</Text> ads slot left and 14 days left</Text>
+        {this.state.user_remaining_product_slot !=0 && this.state.slot_remaining_duration >0?(
+          <Text style={[custom_style.dashboard_box1_sub_header]}>You have <Text style={{fontWeight:'bold',fontSize:18}}>{this.state.user_remaining_product_slot}</Text> ads slot(s) and {this.state.slot_remaining_duration} days left</Text>
+        ):
+        <Text style={[custom_style.dashboard_box1_sub_header]}>You have <Text style={{fontWeight:'bold',fontSize:18}}>{this.state.user_remaining_product_slot}</Text> ads slot left</Text>}
+    
         <TouchableOpacity style={[custom_style.login_btn,{width:'30%'}]} onPress={Nav._openscreen.bind(this,this.props,'SellerAccountTypeScreen_preview',null)}>
         <Text style={{fontSize:14,color:'#fff'}}>Upgrade</Text>
         </TouchableOpacity>
-          </LinearGradient>
+        </LinearGradient>
 
           <View style={{flexDirection:'row'}}>
           <LinearGradient
@@ -83,8 +89,24 @@ export default class LandingScreen extends Component <{}>{
 
           </LinearGradient>
           </View>
-          
+
+          <View style={{flexDirection:'column'}}>
+          <LinearGradient
+          style={[custom_style.dashboard_box2,{marginRight:30}]}
+        colors={['#528ccf', '#6ba7ec', '#fff']}
+        start={{ x: 0.5, y: 0 }}>
+        <Text style={[custom_style.dashboard_box1_header,{fontSize:16}]}>Payments History</Text>
+        <View style={{flexDirection:'row'}}>
+        <Text style={[custom_style.dashboard_box1_sub_header]}>Total payment count <Text style={{fontWeight:'bold',fontSize:18}}>{this.state.transactions.length}</Text></Text>
+        <TouchableOpacity style={[custom_style.login_btn,{width:'30%',marginTop:-10,marginLeft:20}]} onPress={Nav._openscreen.bind(this,this.props,'Transactions',null)}>
+        <Text style={{fontSize:14,color:'#fff'}}>Details</Text>
+        </TouchableOpacity>
         </View>
+        </LinearGradient>
+          </View>
+        </ScrollView> 
+        </View>
+        
         
         ):null}
         </View>

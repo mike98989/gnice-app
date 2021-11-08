@@ -24,6 +24,7 @@ export default class Messages extends Component <{}>{
   	}
 
     state = {
+      userData:[],
       messages:[],
       showLoader:false,
     }

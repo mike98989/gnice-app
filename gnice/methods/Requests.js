@@ -565,7 +565,39 @@ export const fetch_all_products = (that) =>{
       });
   }
 
-  
+  export const fetch_all_user_transactions = (that) =>{
+    that.setState({
+      showLoader:true
+    })
+    fetch (global.serverUrl+'api/fetch_all_user_transactions?user_email='+that.state.userData.email,{
+      method:'GET',
+      headers: {
+        'gnice-authenticate': that.state.userToken,
+      },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      //alert(JSON.stringify(res.data));return;
+      that.setState({
+        showLoader:false
+      })
+    if(res.status =="1"){
+      that.setState({
+          transactions: JSON.parse(JSON.stringify(res.data)),
+        })
+
+    }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
   export const fetch_all_user_messages = (that) =>{
     that.setState({
       showLoader:true
@@ -583,13 +615,11 @@ export const fetch_all_products = (that) =>{
       that.setState({
         showLoader:false
       })
-  if(res.status =="1"){
-    that.setState({
-        messages: JSON.parse(JSON.stringify(res.data)),
-      })
-
-  }else{
-  }
+      if(res.status =="1"){
+        that.setState({
+            messages: JSON.parse(JSON.stringify(res.data)),
+          })
+      }
       })
     .catch((error) => {
         console.error(error);
@@ -886,6 +916,7 @@ export const fetch_all_products = (that) =>{
 
 
     export const disable_enable_item = (that,i,value) =>{
+      //alert(that.state.products[i].status);return;
       that.setState({showLoader:true})
       fetch (global.serverUrl+'api/disableEnableProduct?product_id='+that.state.item_to_disable.id+'&seller_id='+that.state.userData.seller_id+'&value='+value,{
         method:'GET',
@@ -903,6 +934,8 @@ export const fetch_all_products = (that) =>{
           // that.setState({products: array});
           // }  
           Commons._showToast(res.message,ToastAndroid.LONG);
+          that.state.products[i].status=value;
+          //that.setState({products[index].status})
           //fetch_seller_products(that);
         }
         that.setState({showLoader:false})
@@ -975,7 +1008,7 @@ export const fetch_all_products = (that) =>{
           console.error(error);
         var message = "There was an error! Please check your connection";
           alert(JSON.stringify(message));
-       
+        
           //console.error(error);
         });
       }
@@ -994,6 +1027,9 @@ export const fetch_all_products = (that) =>{
         Difference_In_Time / (1000 * 3600 * 24)
       );
       var slot_remaining_duration = that.state.userData.seller_account_details.duration_in_days * 1 - Difference_In_Days;
+      if(user_remaining_product_slot<1){
+        user_remaining_product_slot=0;
+      }
       //alert(Difference_In_Days);
       //$scope.$apply();
       that.setState({
@@ -1293,10 +1329,10 @@ export const update_user_account_type = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    
+    //alert(JSON.stringify(res));return;
     console.log(res);
     if(res.status =="1"){
-      alert(JSON.stringify(res.data));
+      //alert(JSON.stringify(res.data));
       AsyncStorage.removeItem('user-data');
       AsyncStorage.removeItem('selected_account_type');
       AsyncStorage.removeItem('email_to_activated');
@@ -1494,6 +1530,7 @@ export const addProducts = (that) =>{
     that.formData.append('negotiable',negotiable);
     that.formData.append('description',that.state.advert_details);
     that.formData.append('seller_id',that.state.userData.seller_id);
+    that.formData.append('hierarchy',that.state.userData.account_type);
 
     fetch (global.serverUrl+'api/add_product',{
     method:'POST',
@@ -1548,7 +1585,7 @@ export const verify_transaction = (that) =>{
     })
     .then((response)=>response.json())
     .then((res) =>{
-      //alert(JSON.stringify(res));
+      //alert(JSON.stringify(res));return;
       //console.log(res.data);
       if(res.data.status=='success'){
       //if(res.status =="1"){

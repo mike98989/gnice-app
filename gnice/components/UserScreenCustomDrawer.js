@@ -38,6 +38,9 @@ const CustomDrawerContent = (props) => (
       <Text>Messages</Text>
       </ListItem>
 
+      <ListItem noIndent onPress={() => props.navigation.navigate('Transactions')}>
+      <Text>Payment History</Text>
+      </ListItem>
 
       <ListItem noIndent onPress={() => props.navigation.navigate('MyProfile')}>
       <Text>My Profile</Text>

@@ -45,7 +45,7 @@ export default class SellerPage extends Component <{}>{
     position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>   */}
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>       
         <View style={[custom_style.container,{paddingTop:30}]}>
-        <View style={[custom_style.formcontrol,{paddingHorizontal:0,paddingTop:0,borderRadius:0,height:100}]}>
+        <View style={[custom_style.formcontrol,{paddingHorizontal:0,paddingTop:0,borderRadius:0,height:'auto'}]}>
         <List>
               <ListItem avatar>
                 <Left style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
@@ -59,6 +59,16 @@ export default class SellerPage extends Component <{}>{
                   <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text>
                   <Text note style={{fontSize:12}}>Registered: <Text style={{color:'#f30'}}>{this.timeAgo.format(new Date(Date.parse(this.props.route.params.paramsdata.registered_date.replace(/-/g, '/'))))}</Text></Text>
                   <Text note style={{fontSize:12}}>Last seen: <Text style={{color:'#f30'}}>{this.timeAgo.format(new Date(Date.parse(this.props.route.params.paramsdata.last_seen.replace(/-/g, '/'))))}</Text></Text>
+                  {/* THIS FEATURE IS FOR PAID SERVICES */}
+                  {(this.props.route.params.paramsdata.seller_account_type*1) >1 ?(
+                    <TouchableOpacity onPress={()=>{Linking.openURL("whatsapp://send?text=Hello "+this.props.route.params.paramsdata.seller_fullname+", I got your contact from Gnice Market Place&phone=234"+this.props.route.params.paramsdata.seller_phone)}} style={{marginTop:5,flexDirection:'row'}}>
+                    <Image source={require('../images/whatsapp_icon.png')}  style={{marginTop:3,marginRight:3,height: 15, width:15}}/>
+                    <Text  note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text>
+                    <Text  note style={{fontSize:8,marginTop:5,marginLeft:10,color:"#0f619b"}}>Tap to open</Text>
+                </TouchableOpacity>
+                  ):null}
+                  
+
                 </Body>
                 <Right style={{justifyContent:'center',alignContent:'center',alignItems:'center'}}>
                   <Text style={{fontSize:10}}>Products</Text>

@@ -10,6 +10,10 @@ const Fashion_form = (props) => (
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Size" keyboardType="number-pad" selectionColor={'#1688EA'}
             placeholderTextColor="grey" value={props.that.state.size} onChangeText={(size) =>props.that.setState({size}) }
             /> 
+        <Text style={[{marginBottom:5,paddingLeft:10}]}>Brand</Text> 
+            <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Size" keyboardType="number-pad" selectionColor={'#1688EA'}
+            placeholderTextColor="grey" value={props.that.state.brand} onChangeText={(size) =>props.that.setState({brand}) }
+            /> 
     </View>
 )
 

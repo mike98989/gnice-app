@@ -10,19 +10,19 @@ import {Picker} from 'react-native-ui-lib'; //eslint-disable-line
 const RenderSearchBox = (props) =>{
     return (
     <View style={{alignContent:'center',alignItems:'center'}}>
-    <View style={[custom_style.formcontrol,custom_style.textInputShadow,{height:50,width:'80%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
-    <TextInput style={{width:'80%',fontSize:18,color:'#000',height:50,margin:0}} selectionColor={'#1688EA'} onChangeText={(searchQuery) =>props.state.setState({searchQuery})}></TextInput>
+    <View style={[custom_style.formcontrol,custom_style.textInputShadow,{height:40,width:'80%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
+    <TextInput style={{width:'80%',fontSize:14,color:'#000',height:40,margin:0}} selectionColor={'#1688EA'} onChangeText={(searchQuery) =>props.state.setState({searchQuery})}  placeholder="Search for anything" placeholderTextColor="grey"></TextInput>
     {props.state.state.showLoader ? (
-    <Image source={require('../images/spinner.gif')}  style={{marginLeft:10,marginTop:15,height: 20, width:20}}/>
+    <Image source={require('../images/spinner.gif')}  style={{marginLeft:10,marginTop:10,height: 20, width:20}}/>
     ):null}
     
     {!props.state.state.showLoader && !props.state.state.showCatAndSub ? (
     <TouchableOpacity onPress={()=>{Requests.search(props.state)}}> 
-    <Image source={require('../images/search_icon2.png')}  style={{marginHorizontal:5,marginTop:10,height: 30, width:30,alignSelf:'flex-start'}}/>
+    <Image source={require('../images/search_icon2.png')}  style={{marginHorizontal:5,marginTop:7,height: 25, width:25,alignSelf:'flex-start'}}/>
     </TouchableOpacity>
     ):null}
     <TouchableOpacity onPress={()=>{props.state.state.showCatAndSub ? props.state.setState({showCatAndSub:false}):props.state.setState({showCatAndSub:true})}}>
-    <Image source={require('../images/filter.png')}  style={{marginLeft:10,marginTop:15,height: 18, width:18}}/>
+    <Image source={require('../images/filter.png')}  style={{marginLeft:10,marginTop:15,height: 14, width:14}}/>
     </TouchableOpacity>
     </View>
     {props.state.state.showCatAndSub ? (

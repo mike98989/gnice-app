@@ -80,7 +80,7 @@ export default class Home extends Component <{}>{
          </TouchableOpacity>  
         
         <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserSignup',null)}>
-            <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Register</Text>
+            <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:15}}>Register</Text>
         </TouchableOpacity>
         </ScrollView>
         {/* </KeyboardAvoidingView> */}

@@ -322,7 +322,13 @@ export const update_new_product_category_view = (value,that)=>{
 
 }
 
-
+export const currency_convert = (price)=>{
+  let dollarUS = Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+  alert(dollarUS.format(price));
+}
 export const disable_enable_item = (index,item,that,value)=>{
   {value=='1'? title="Enabled":title="Disable"}
   Alert.alert(

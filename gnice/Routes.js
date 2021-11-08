@@ -19,6 +19,7 @@ import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
 import EditProduct from './pages/user/EditProduct';
 import Messages from './pages/user/Messages';
+import Transactions from './pages/user/Transactions';
 import MyProfile from './pages/user/MyProfile';
 import EditProfile from './pages/user/EditProfile';
 import ChangePassword from './pages/user/ChangePassword';
@@ -50,6 +51,7 @@ function UserArea() {
     <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />
     <Drawer.Screen name="ChangePassword" options={{ drawerLabel: 'ChangePassword' }} component={ChangePassword} />
     <Drawer.Screen name="Messages" options={{ drawerLabel: 'Messages' }} component={Messages} />
+    <Drawer.Screen name="Transactions" options={{ drawerLabel: 'Transactions' }} component={Transactions} />
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>
@@ -81,6 +83,8 @@ export default function Routes() {
       <Stack.Screen name="SearchResults" component={SearchResults} />
       <Stack.Screen name="SellerPage" component={SellerPage} />
       <Stack.Screen name="TransactionStatus" component={TransactionStatus} />
+      <Stack.Screen name="Messages" component={Messages} />
+
 
     </Stack.Navigator>
     </NavigationContainer>

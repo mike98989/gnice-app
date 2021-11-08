@@ -252,6 +252,14 @@ export default class Home extends Component <{}>{
                   <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_email}</Text>
                   {/* <Text note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text> */}
                   <Text note style={{fontSize:12}}>Last seen: <Text style={{color:'#f30'}}>{this.timeAgo.format(new Date(Date.parse(this.props.route.params.paramsdata.last_seen.replace(/-/g, '/'))))}</Text></Text>
+                  {/* THIS FEATURE IS FOR PAID SERVICES */}
+                  {(this.props.route.params.paramsdata.seller_account_type*1) >1 ?(
+                    <TouchableOpacity onPress={()=>{Linking.openURL("whatsapp://send?text=Hello "+this.props.route.params.paramsdata.seller_fullname+", I got your contact from Gnice Market Place&phone=234"+this.props.route.params.paramsdata.seller_phone)}} style={{marginTop:5,flexDirection:'row'}}>
+                    <Image source={require('../images/whatsapp_icon.png')}  style={{marginTop:3,marginRight:3,height: 15, width:15}}/>
+                    <Text  note style={{fontSize:13}}>{this.props.route.params.paramsdata.seller_phone}</Text>
+                    <Text  note style={{fontSize:8,marginTop:5,marginLeft:10,color:"#0f619b"}}>Tap to open</Text>
+                </TouchableOpacity>
+                  ):null}
                 </Body>
                 
                 </TouchableOpacity>

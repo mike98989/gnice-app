@@ -1,5 +1,5 @@
 //var url="www.gnice.com.ng/";
-var url="192.168.75.132/gnice/";
+var url="192.168.92.132/gnice/";
 //var url="127.0.0.1/gnice/";
 //var protocol="https:";
 var protocol="http:";

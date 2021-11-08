@@ -28,7 +28,7 @@ const Property_form = (props) => (
 
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Square Meters</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Square Meters" keyboardType="number-pad" selectionColor="#fff"
-            placeholderTextColor="grey"  selectionColor={'#1688EA'} value={props.that.state.square_meters} onChangeText={(square_meters) =>props.that.setState({sqare_meters}) }
+            placeholderTextColor="grey"  selectionColor={'#1688EA'} value={props.that.state.square_meters} onChangeText={(square_meters) =>props.that.setState({square_meters}) }
             />
     </View>
 )

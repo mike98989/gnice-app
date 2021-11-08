@@ -58,13 +58,17 @@ export default class CardPaymentUi extends Component <{}>{
         let url = event.url;
         //let url = "https://gnice.com.ng/transactionstatus?trxref=dqylih826x&reference=dqylih826x";
         if(url.indexOf('reference=') != -1){
+          //console.log("reference is not empty");
           webViewRef.current.stopLoading();
           var split_url = url.split('?');
           var go_to_url = split_url[0]; 
           var split_further = split_url[1].split('=');
           var reference = split_further[2]; 
-          if(reference!='' && go_to_url==trans_status_url){
+          //console.log("reference",reference);
+          if(reference && go_to_url==trans_status_url){
+            this.state.transRef=reference;
             this.setState({transRef:reference});
+            //console.log("refe",this.state.transRef);
             Requests.verify_transaction(this); 
             }
           //alert(reference);

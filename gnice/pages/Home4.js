@@ -13,6 +13,7 @@ import * as Requests from '../methods/Requests';
 // import { SearchBar } from 'react-native-elements';
 import MainFooter from '../components/MainFooter';
 import LinearGradient from 'react-native-linear-gradient';
+import NumberFormat from 'react-number-format';
 
 
 export default class Home extends Component <{}>{
@@ -127,6 +128,8 @@ _getFooterHeight = () => {
 
     const renderProductItems = ({ item }) => (
       image_value = Logic.split_value(item.image, ','),
+      //currency_price = Logic.currency_convert(item.price),
+
       <View style={[custom_style.item_box,{width:'47%',margin:0, marginLeft:'2%',marginBottom:17,overflow:'hidden'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
@@ -135,7 +138,7 @@ _getFooterHeight = () => {
       <CardItem cardBody style={{paddingHorizontal:10,paddingBottom:10}}>
           <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
-          <Text style={custom_style.product_price}>NGN {item.price}</Text> 
+          <NumberFormat value={2456981} displayType={'text'} renderText={formattedValue => <Text>{formattedValue}</Text>} thousandSeparator={true} prefix={'NGN'}/>
           {item.land_mark!=''?(
           <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.land_mark}</Text>
           ):
@@ -253,7 +256,7 @@ return(
 
           </Tab> 
   </Tabs>
-  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
+  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} messageButtonClick={Nav._openscreen.bind(this,this.props,'Messages',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"  opacity={foooterOpacity}  height={foooterHeight}
   />
