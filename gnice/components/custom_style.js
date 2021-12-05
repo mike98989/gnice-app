@@ -72,10 +72,12 @@ section_header:{
     fontSize:20,
     color:'#313030',
     fontFamily:'Cicle',
+    paddingLeft:20,
+    
 },
 product_name:{
   color:'#15495d',
-  fontSize:17,
+  fontSize:15,
   fontFamily:'Rajdhani-Medium',
 },
 product_price:{
@@ -130,17 +132,43 @@ search_div:{
   flexDirection:'row',
 },
 product_details_container:{
-  marginTop:4,
-  paddingHorizontal:0,
+  elevation:4,
+  backgroundColor: '#FFF',
+  shadowOpacity: 0.5,
+  shadowRadius: 10,shadowOffset: { width: 5, height: 5 },
+  zIndex:999,
+  borderRadius:0,
+  marginHorizontal:7,
+  paddingHorizontal:15,
+  paddingVertical:10,
+  marginTop:7
 },
+
 product_details_image:{
   borderBottomRightRadius:30,
   borderBottomLeftRadius:30,
 },
+hr:{
+  borderTopWidth:0.5,
+  height:5,
+  marginVertical:5,
+  borderTopColor:'#fff',
+  width:'100%',
+},
 product_details_title:{
-  fontSize:22,
+  fontSize:16,
   fontWeight:'bold',
   fontFamily:'Cicle',
+},
+details_icon:{
+  alignItems:'center',
+  alignContent:'center',
+  justifyContent:'center',
+  borderColor:'#ccc',
+  borderWidth:0.5,
+  borderRadius:25,
+  height:50,
+  width:50,
 },
 product_details_price:{
   fontSize:14,
@@ -386,7 +414,6 @@ formcontrol_login_username:{
     backgroundColor: 'transparent',
   },
   blurView:{
-    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
@@ -416,15 +443,28 @@ formcontrol_login_username:{
   borderTopRightRadius:30,
   borderTopLeftRadius:30,
   padding:10,
+  marginTop:20,
+  marginBottom:20,
+  paddingBottom:30,
+  borderBottomRightRadius:30,
+  borderBottomLeftRadius:30,
   },
   dashboard_box1:{
     width:'48%',
     height:'auto',
     backgroundColor:'#ccc',
     marginTop:10,
-    borderRadius:20,
+    borderRadius:10,
     paddingHorizontal:30,
-    paddingVertical:30
+    paddingVertical:30,
+    shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5
 },
 
 dashboard_box2:{
@@ -432,14 +472,22 @@ dashboard_box2:{
   height:'auto',
   backgroundColor:'#ccc',
   marginTop:10,
-  borderRadius:20,
+  borderRadius:10,
   paddingHorizontal:30,
-  paddingVertical:30
+  paddingVertical:30,
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5
 },
 
 dashboard_box1_header:{
   fontSize:30,
-  color:'#fff',
+  color:'#000',
   fontFamily:'Cicle',
 },
 dashboard_box1_sub_header:{
@@ -493,6 +541,14 @@ modal_textStyle: {
 modal_modalText: {
   marginBottom: 15,
   textAlign: "center"
+},
+split_form_left:{
+  width:'47.5%',
+  marginRight:'2.5%',
+},
+split_form_right:{
+  width:'47.5%',
+  marginLeft:'2.5%',
 }
 
 });

@@ -54,22 +54,25 @@ export default class Home extends Component <{}>{
     position:'absolute',zIndex:0, width: '100%',height:'50%',paddingTop:0,}]}></ImageBackground>	
         
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
-        <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}>  
+        <View style={[{flex:1,justifyContent:'center',marginBottom:0}]}> 
+         
         <Image source={require('../../images/gnice_logo.png')}  style={{alignSelf:'center',marginTop:100,height: 50, width:50}}/>  
-          
         <Text style={[custom_style.section_header,{alignSelf:'center',marginTop:20,marginBottom:0}]}>Change Password</Text>
         {this.state.showEmailView ? (
         <View style={{paddingHorizontal:30,paddingVertical:30,justifyContent:'center',alignContent:'center',alignItems:'center'}}>
         <Text style={{lineHeight:25,fontSize:16,textAlign:'center'}}>Please new enter passwords.</Text>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="New Password" keyboardType="default" selectionColor={'#1688EA'}
-        value={this.state.password} onChangeText={(password) =>this.setState({password}) }
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="New Password" keyboardType="default" selectionColor={'#1688EA'}
+        onChangeText={(password) =>this.setState({password}) }
         placeholderTextColor="grey" autoFocus={true} secureTextEntry={true}
         /> 
-        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow,{textAlign:'center'}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm New Password" keyboardType="default" selectionColor={'#1688EA'} value={this.state.confirm_password}
+        <TextInput style={[custom_style.formcontrol,custom_style.textInputShadow]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Confirm New Password" keyboardType="default" selectionColor={'#1688EA'}
         onChangeText={(confirm_password) =>this.setState({confirm_password})}
         placeholderTextColor="grey" secureTextEntry={true}
-        /> 
+        />
+
+        
+
         <TouchableOpacity style={[custom_style.login_btn,{marginTop:30,flexDirection:'row'}]} onPress={this._change_password}>
         {this.state.showLoader ?(
         <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 

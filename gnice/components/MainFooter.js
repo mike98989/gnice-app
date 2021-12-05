@@ -15,13 +15,13 @@ const MainFooter = (props) => (
             <Button>
             <TouchableOpacity onPress={props.homeButtonClick} style={{alignItems:'center'}}>
             <Image source={require('../images/drawer5.png')}  style={{height: 13, width:12}}/>
-              <Text style={[props.active=='home' ? custom_style.color_blue : custom_style.color_black, {textTransform:'capitalize'}]} >Home</Text>
+              <Text style={[props.active=='home' ? custom_style.color_blue : custom_style.color_black, {textTransform:'capitalize',fontSize:10}]} >Homes</Text>
             </TouchableOpacity>
             </Button>
             <Button vertical style={{marginRight:20}}>
             <TouchableOpacity onPress={props.pinnedButtonClick} style={{alignItems:'center'}}>
             <Image source={require('../images/bookmark_icon.png')}  style={{height: 13, width:12}}/>
-              <Text style={[props.active=='pinned' ? custom_style.color_blue : custom_style.color_black,{textTransform:'capitalize'}]}>Saved</Text>
+              <Text style={[props.active=='pinned' ? custom_style.color_blue : custom_style.color_black,{textTransform:'capitalize',fontSize:10}]}>Saved</Text>
               </TouchableOpacity>
               </Button>
             
@@ -32,13 +32,13 @@ const MainFooter = (props) => (
             <Button vertical style={{marginLeft:20}}>
             <TouchableOpacity onPress={props.messageButtonClick} style={{alignItems:'center',width:100}}>  
             <Image source={require('../images/chat_black.png')}  style={{height: 17, width:16}}/>
-              <Text style={{color:'#000',textAlign:'center'}}>Messages</Text>
+              <Text style={{color:'#000',textAlign:'center',fontSize:10}}>Messages</Text>
               </TouchableOpacity>
             </Button>
             <Button vertical>
             <TouchableOpacity onPress={props.userButtonClick} style={{alignItems:'center'}}>  
             <Image source={require('../images/user_icon.png')}  style={{height: 17, width:16}}/>
-              <Text style={{textTransform:'capitalize',color:'#000'}}>User</Text>
+              <Text style={{textTransform:'capitalize',color:'#000',fontSize:10}}>User</Text>
               </TouchableOpacity>
             </Button>
             </LinearGradient>

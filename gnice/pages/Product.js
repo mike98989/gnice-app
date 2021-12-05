@@ -123,7 +123,7 @@ export default class Home extends Component <{}>{
     <Container style={{backgroundColor:'#efefefe'}}>
       {/* <ImageBackground source={require('../images/gnice_bg_product_area.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0, width: '100%',height:'50%',}]}></ImageBackground>  */}
-    <ImageBackground source={require('../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
+    <ImageBackground source={require('../images/gnice_user_layout.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:15, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground>
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
         {/* <View style={custom_style.container}>
@@ -146,21 +146,6 @@ export default class Home extends Component <{}>{
           <View style={{bottom:0,height:40,width:'100%',position:'absolute'}}>
           {this.pagination }
           </View>
-
-           {/* <View style={{marginTop:220,height:80,width:'100%',position:'absolute'}}>
-            <BlurView style={[custom_style.blurView,{borderTopColor:'#fff',borderTopWidth:2}]}
-            reducedTransparencyFallbackColor="white"
-            blurType="light"
-            blurAmount={5}>
-              <View style={{flexDirection:'column',paddingLeft:30,paddingTop:5}}>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={[custom_style.product_details_title,{color:'#000'}]}>{this.props.route.params.paramsdata.name}</Text>
-              <Text>NGN {this.props.route.params.paramsdata.price}</Text>
-              </View>
-              <View>
-              {this.pagination }
-              </View>
-            </BlurView>
-          </View>  */}
           
           </View>
           <ScrollView>
@@ -329,7 +314,7 @@ export default class Home extends Component <{}>{
   </View>
        
   </ScrollView>
-  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
+  <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} messageButtonClick={Nav._openscreen.bind(this,this.props,'Messages',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
   />

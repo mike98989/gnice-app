@@ -10,6 +10,9 @@ import Car_form from './add_product_screen/car_form';
 import Property_form from './add_product_screen/property_form';
 import Phones_form from './add_product_screen/phones_form';
 import Fashion_form from './add_product_screen/fashion_form';
+import Seeking_work_form from './add_product_screen/seeking_work_form';
+import Services_form from './add_product_screen/services_form';
+import Jobs_form from './add_product_screen/jobs_form';
 import CheckBox from '@react-native-community/checkbox';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Logic from '../../methods/Logic';
@@ -27,7 +30,8 @@ export default class EditProduct extends Component <{}>{
 
 	constructor(props){
     super(props);
-    //alert(JSON.stringify(props.route.params.paramsdata));
+    //alert(JSON.stringify(props.route.params.paramsdata.category));
+    
     this.state = {
         update_edit_view:true,  
         userData:[],
@@ -35,6 +39,11 @@ export default class EditProduct extends Component <{}>{
         categories_and_sub:[],
         categorySelected:'0',
         conditionDropDownValue:null,
+        secondConditionDropDownValue:null,
+        carBodyTypeDropDownValue:null,
+        carTransmissionDropDownValue:null,
+        carDriveTrainDropDownValue:null,
+        carFuelDropDownValue:null,
         conditionSelected:'0',
         propertyTypeSelected:null,
         propertyTypeDropDownValue:null,
@@ -62,8 +71,12 @@ export default class EditProduct extends Component <{}>{
         resourcePath:[],
         uploadImageCount:0,
         color:'',
+        trim:'',
+        seats:null,
         showLoader:true,
+        showForm:false,
         showSubmitLoader:false,
+        showDatePicker:false,
         images:[],
       }
   	}
@@ -76,13 +89,18 @@ export default class EditProduct extends Component <{}>{
     componentDidMount =()=> {
         AsyncMethods._loadSessionState(this).done();
         const unsubscribe = this.props.navigation.addListener('focus', () => {
+          //alert(JSON.stringify(this.props.route.params.paramsdata.category));
+          this.setState({showLoader:true,showForm:false,categoryDropDownValue:null,showSubmitLoader:false});
           AsyncMethods._loadSessionState(this).done();
           });
       }
-      
+    
+    // componentWillUnmount() {
+    //   this.props.route.params=null
+    // }
     
       update_state =()=>{
-           
+       
         Requests.fetch_all_categories_and_sub_categories(this)
         Requests.fetch_required_table(this,this.state.update_edit_view);
         
@@ -97,6 +115,7 @@ export default class EditProduct extends Component <{}>{
         Requests.updateProducts(this);
       }
 
+      
     render(){
     function CurrencyTextInput() {
       const [price, setPrice] = React.useState(0); // can also be null
@@ -120,24 +139,31 @@ export default class EditProduct extends Component <{}>{
         
         
     <Container style={{backgroundColor:'#e1e5e7'}}>
-      <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:15, width: '100%',height:'15%',paddingTop:3,}]}></ImageBackground>
+      <ImageBackground source={require('../../images/gnice_user_layout2.png')} style={[{resizeMode: "cover",
+    position:'absolute', left: 0,top: 0,zIndex:0,top:15, width: '100%',height:140,paddingTop:3,}]}></ImageBackground>
         {/* <UserScreenHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/> */}
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
-        <View style={[custom_style.container,{paddingHorizontal:0,paddingTop:30}]}>
-        <Text style={[custom_style.section_header,{textAlign:'center',marginTop:10,fontWeight:'bold'}]}>Edit Product/Service</Text>
-        <Text style={[custom_style.section_header,{textAlign:'center',fontSize:13,marginBottom:10,fontWeight:'bold'}]}>{this.props.route.params.paramsdata.name}</Text>
+        <Text style={[custom_style.section_header,{color:'#fff',marginTop:20}]}>Edit Product/Service</Text>
+        <Text style={[custom_style.section_header,{marginLeft:2,color:'#fff',fontSize:13,marginBottom:10}]}>{this.props.route.params.paramsdata.name}</Text>
+        <View style={[custom_style.container,{paddingHorizontal:0,paddingTop:0}]}>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         {/* <Text>{JSON.stringify(this.state.categories_and_sub)}</Text> */}
-        <ScrollView style={{marginBottom:50}}>
-        <KeyboardAvoidingView
-        >
+        
         {this.state.showLoader ?(
         <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
         <Image source={require('../../images/spinner4.gif')}  style={{height: 55, width:55}}/>
         </View> 
-      ):null} 
+      ):null}
+        <ScrollView style={{marginBottom:30}}>
+        <KeyboardAvoidingView>
+         {this.state.showForm ?( 
         <Form style={{paddingHorizontal:20}}>
+          <Text style={[{marginBottom:5,paddingLeft:10}]}>Title</Text> 
+          <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor={'#1688EA'}
+          placeholderTextColor="grey" value={this.state.advert_title} onChangeText={(advert_title) =>this.setState({advert_title}) }
+          />
+
+
         <Picker
               title="Select Category"
               style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
@@ -202,8 +228,29 @@ export default class EditProduct extends Component <{}>{
             </View>
             ):null
             }
-           
-           
+
+            {this.state.formGroup == 'seeking_work_form' ? (
+            <View>  
+            <Seeking_work_form that={this}/>
+            </View>
+            ):null
+            }
+
+            {this.state.formGroup == 'services_form' ? (
+            <View>  
+            <Services_form that={this}/>
+            </View>
+            ):null
+            }
+
+            {this.state.formGroup == 'jobs_form' ? (
+            <View>  
+            <Jobs_form that={this}/>
+            </View>
+            ):null
+            }
+          
+           {this.state.subCategorySelected=='44' || this.state.subCategorySelected=='45' || this.state.categorySelectedObject.grouped=='1'?(
             <Picker style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               title="Select Condition"
               showSearch
@@ -217,6 +264,24 @@ export default class EditProduct extends Component <{}>{
                     })
                 }    
             </Picker>
+            ):null}
+
+           
+            {this.state.categorySelected=='1' || this.state.categorySelected=='3' || this.state.categorySelected=='8' || this.state.categorySelected=='9' || this.state.categorySelected=='26'?(
+            <Picker style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
+              title="Select Second Condition"
+              showSearch
+              placeholder="Select Second Condition"
+              value={this.state.secondConditionDropDownValue}
+              onChange={item => Logic.onSecondConditionValueChange(item,this)}
+            >
+              {
+                    Object.entries(this.state.required_tables.second_conditions).map(([i, value]) => {
+                        return <Picker.Item key={i} label={value.state} value={i} />;
+                    })
+                }    
+            </Picker>
+            ):null}
 
            <Picker style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
               title="Select State"
@@ -233,9 +298,9 @@ export default class EditProduct extends Component <{}>{
             </Picker>
 
               <Picker style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}
-              title="Select Local Region"
+              title="Select City"
               showSearch
-              placeholder="Select Local Region"
+              placeholder="Select City"
               value={this.state.lgaDropDownValue}
               onChange={item => Logic.onlgaValueChange(item,this)}
             >
@@ -250,18 +315,12 @@ export default class EditProduct extends Component <{}>{
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Nearest Land mark" keyboardType="default"
             placeholderTextColor="grey" value={this.state.land_mark} onChangeText={(land_mark) =>this.setState({land_mark})} selectionColor={'#1688EA'}
             />
-
-  
-           <Text style={[{marginBottom:5,paddingLeft:10}]}>Title</Text> 
-            <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,marginBottom:0,marginTop:0}]}  underlineColorAndroid='rgba(0,0,0,0)' placeholder="Title" keyboardType="default" selectionColor={'#1688EA'}
-            placeholderTextColor="grey" value={this.state.advert_title} onChangeText={(advert_title) =>this.setState({advert_title}) }
-            />
-
+            {this.state.categorySelected!='23'?(
+            <>
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Price</Text> 
             <View style={{flexDirection:'row'}}>
             <View style={[custom_style.formcontrol_product_screen,{backgroundColor:'#ccc',width:40,borderRadius:0,alignItems:'center',alignContent:'center',paddingLeft:0}]}>
               <Text style={{fontWeight:'bold',paddingTop:9}}>N</Text></View>
-
               <CurrencyInput
               value={this.state.price}
               onChangeValue={(price) =>this.setState({price}) }
@@ -270,23 +329,32 @@ export default class EditProduct extends Component <{}>{
               separator="."
               precision={0}
               style={[custom_style.formcontrol,{height:40,paddingTop:13,paddingLeft:8,borderTopLeftRadius:0,borderBottomLeftRadius:0,borderTopRightRadius:10,borderBottomRightRadius:10,width:280}]}
-              
-            />
-    
-              {/* <TextInput style={[custom_style.formcontrol,{height:40,paddingTop:13,paddingLeft:8,borderTopLeftRadius:0,borderBottomLeftRadius:0,borderTopRightRadius:10,borderBottomRightRadius:10,width:280}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Price" keyboardType="number-pad" selectionColor={'#1688EA'}
-            placeholderTextColor="grey" onChangeText={(price) =>this.setState({price}) }
-            /> */}
+              />
             </View>
+            </>
+            ):null}
+            
 
             <View style={{flexDirection:'row',marginVertical:15}}>
             <CheckBox value={this.state.negotiable_price} onValueChange={(negotiable_price) => {this.setState({negotiable_price})}} style={custom_style.signup_checkbox}/>
             <Text style={{fontSize:16,color:'#555'}}>Price is negotiable</Text>
           </View>
 
+          <View style={{flexDirection:'row',marginVertical:15}}>
+            <CheckBox value={this.state.delivery_available} onValueChange={(delivery_available) => {this.setState({delivery_available})}} style={custom_style.signup_checkbox}/>
+            <Text style={{fontSize:16,color:'#555'}}>Delivery Available</Text>
+          </View>
+
+
             <Text style={[{marginBottom:5,paddingLeft:10}]}>Details</Text> 
             <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Details" selectionColor={'#1688EA'}
             placeholderTextColor="grey" multiline={true}  value={this.state.advert_details} numberOfLines={4} onChangeText={(advert_details) =>this.setState({advert_details}) }
             />
+
+          <Text style={[{marginBottom:5,paddingLeft:10}]}>Store/Office</Text>
+          <TextInput style={[custom_style.formcontrol,{paddingLeft:8,borderRadius:10,paddingTop:10,width:'100%',borderColor:'#ddd8d8',textAlignVertical: 'top',}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Store/Office Address" selectionColor={'#1688EA'}
+        placeholderTextColor="grey" multiline={true} numberOfLines={4}  value={this.state.store_address} onChangeText={(store_address) =>this.setState({store_address}) }
+        />
             </View>
             ):null}
             
@@ -355,7 +423,8 @@ export default class EditProduct extends Component <{}>{
     
       </View> 
 
-          </Form>
+      </Form>
+      ):null}
         
 
 

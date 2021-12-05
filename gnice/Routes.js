@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component,useState,useEffect} from 'react';
 import {View,Text,StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './pages/Home4';
 import Pinned from './pages/Pinned';
-import Product from './pages/Product';
+import Product from './pages/Product3';
 import Products from './pages/Products';
 import SearchResults from './pages/Search';
 import SellerPage from './pages/SellerPage';
@@ -28,19 +28,43 @@ import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_pre
 import CardPaymentUi from './pages/CardPaymentUi';
 import TransactionStatus from './pages/TransactionStatus';
 
-
 import UserCustomDrawerContent from './components/UserScreenCustomDrawer'
-import { createDrawerNavigator,DrawerContentScrollView,
-    DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import { createDrawerNavigator,DrawerContentScrollView,DrawerItemList, DrawerItem, useIsDrawerOpen } from '@react-navigation/drawer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const Drawer = createDrawerNavigator();
 
 const Stack = createStackNavigator();
 
-function UserArea() {
-  return (
+// export default function DrawerContent({ state, navigation, ...props }) {
+//   //function Example() {
+//   const [data, setCount] = useState('asdfasdfasdf');
+//   return (
+//   <View style={{paddingTop:100}}><Text>{JSON.stringify(data)}</Text></View>
+//   )
+//   }
 
-    
-    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
+const UserArea = () => {
+  const [userData, setUserData] = useState([]);
+  useEffect( () => { 
+      async function fetchData() {
+          try {
+            //alert('asdfasgoooooogoogodf');
+            //var token = await AsyncStorage.getItem('user-token');
+            var datavalue = await AsyncStorage.getItem('user-data');
+            var dataObject = JSON.parse(datavalue);
+            setUserData(dataObject);
+            //alert(JSON.stringify(dataObject));
+          } catch (err) {
+              console.log(err);
+          }
+      }
+      fetchData();
+  }, []);
+
+  return (
+    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <UserCustomDrawerContent {...props} userData={userData}/>} drawerContentOptions={{
     activeTintColor: '#e91e63',
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
@@ -62,6 +86,9 @@ function UserArea() {
 
 
 export default function Routes() {
+  
+//alert('asdfasdf');
+//setUserData(dataObject);
   return (
     <NavigationContainer>
     <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>

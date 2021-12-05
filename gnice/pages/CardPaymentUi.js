@@ -32,7 +32,7 @@ export default class CardPaymentUi extends Component <{}>{
 
     render(){
       const webViewRef = React.createRef();
-      const trans_status_url = 'https://gnice.com.ng/transactionstatus';
+      const trans_status_url = 'https://gnice.com.ng/transactionstatus/';
       ///const url = 'https://localhost/gnice';
       // onNavigationStateChange = state => {
         

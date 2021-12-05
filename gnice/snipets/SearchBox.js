@@ -10,8 +10,8 @@ import {Picker} from 'react-native-ui-lib'; //eslint-disable-line
 const RenderSearchBox = (props) =>{
     return (
     <View style={{alignContent:'center',alignItems:'center'}}>
-    <View style={[custom_style.formcontrol,custom_style.textInputShadow,{height:40,width:'80%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
-    <TextInput style={{width:'80%',fontSize:14,color:'#000',height:40,margin:0}} selectionColor={'#1688EA'} onChangeText={(searchQuery) =>props.state.setState({searchQuery})}  placeholder="Search for anything" placeholderTextColor="grey"></TextInput>
+    <View style={[custom_style.formcontrol,custom_style.textInputShadow,{paddingLeft:20,height:40,width:'80%',flexDirection:'row',alignContent:'flex-start',paddingVertical:0}]}>
+    <TextInput style={{width:'85%',fontSize:14,color:'#000',height:40,margin:0}} selectionColor={'#1688EA'} onChangeText={(searchQuery) =>props.state.setState({searchQuery})}  placeholder="Search Categories,Products" placeholderTextColor="grey"></TextInput>
     {props.state.state.showLoader ? (
     <Image source={require('../images/spinner.gif')}  style={{marginLeft:10,marginTop:10,height: 20, width:20}}/>
     ):null}
@@ -65,7 +65,7 @@ const RenderSearchBox = (props) =>{
             </Picker>
     </View>
     <View>
-    <TouchableOpacity onPress={()=>{Requests.search(props.state)}} style={[custom_style.login_btn,{alignSelf:'center',width:'30%'}]}>
+    <TouchableOpacity onPress={()=>{Requests.search(props.state)}} style={[custom_style.login_btn,{alignSelf:'center',width:'30%',marginTop:0}]}>
     <Text style={{fontSize:17,color:'#fff'}}>Search</Text>
     </TouchableOpacity>
     </View>

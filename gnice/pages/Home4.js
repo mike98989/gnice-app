@@ -1,6 +1,6 @@
 import React, {Component,useRef, useEffect, useState} from 'react';
-import { StyleSheet,SafeAreaView,FlatList,ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground,Animated } from 'react-native';
-import { Container, Badge, Header, Content, Tab, Tabs,DefaultTabBar,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Footer, FooterTab, Item,Input} from 'native-base';
+import { StyleSheet,SafeAreaView,FlatList,ActivityIndicator,Modal,Text,ScrollView,View, Image, TextInput, TouchableOpacity, StatusBar, KeyboardAvoidingView,ImageBackground,Animated, Alert } from 'react-native';
+import { Container, Badge, Header, Content, Tab, Tabs,DefaultTabBar,Card, CardItem, Thumbnail, Button, Left, Body,Icon, Right, Footer, FooterTab, Item,Input,Fab} from 'native-base';
 import {custom_style} from '../components/custom_style';
 import MainHeader from '../components/MainHeader'
 import SearchBox from '../snipets/SearchBox'
@@ -14,19 +14,26 @@ import * as Requests from '../methods/Requests';
 import MainFooter from '../components/MainFooter';
 import LinearGradient from 'react-native-linear-gradient';
 import NumberFormat from 'react-number-format';
-
+import { Dropdown } from 'react-native-material-dropdown-v2'
 
 export default class Home extends Component <{}>{
 
 
   constructor(props){
     super(props);
-
+    //const flatListRef = React.useRef();
+    this.flatListRef = React.createRef();
+    
     this.state = {
       userData:[],
       products:[],
+      active_request_label:'trending',
       categories_and_sub:[],
       showLoader:true,
+      currentPage: 1,
+      nextPage:2,
+      fetch_limit:10,
+      showPaginationLoader:false,
       search: '',
       showSearchForm:true,
       categoryDropDownValue:'-1',
@@ -48,18 +55,31 @@ export default class Home extends Component <{}>{
     
     
   
-    
+  
   componentDidMount =()=> {
     this._loadInitialState().done();
     const unsubscribe = this.props.navigation.addListener('focus', () => {
-        Requests.fetch_trending_product(this); 
+      if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
+        //Requests.fetch_trending_product(this); 
+        this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
+        this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
+        this.state.active_request_label == 'latest'?Requests.fetch_latest_product(this):null,
         Requests.fetch_all_categories_and_sub_categories(this);  
+      }
       });
   
   }
   
+  moveToTop =()=>{
+    this.flatListRef.current.scrollToIndex({ index: 0 })
+  }
+  //const moveToTop = () => flatList.current.scrollToIndex({ index: 0 });
+
   _loadInitialState = async()=>{  
-  Requests.fetch_trending_product(this);
+  //Requests.fetch_trending_product(this);
+  this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
+  this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
+  this.state.active_request_label == 'latest'?Requests.fetch_latest_product(this):null,
   Requests.fetch_all_categories_and_sub_categories(this);
   }
 
@@ -111,6 +131,10 @@ _getFooterHeight = () => {
     });
 };
 
+
+
+
+
   render(){
     const headerImageOpacity = this._getHeaderImageOpacity();
     const headerTextOpacity = this._getHeaderTextOpacity();
@@ -126,6 +150,8 @@ _getFooterHeight = () => {
 //     }).start();
 //   }, [headerShown]);
 
+    
+
     const renderProductItems = ({ item }) => (
       image_value = Logic.split_value(item.image, ','),
       //currency_price = Logic.currency_convert(item.price),
@@ -137,8 +163,16 @@ _getFooterHeight = () => {
       </CardItem>
       <CardItem cardBody style={{paddingHorizontal:10,paddingBottom:10}}>
           <Body>
-          <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
-          <NumberFormat value={2456981} displayType={'text'} renderText={formattedValue => <Text>{formattedValue}</Text>} thousandSeparator={true} prefix={'NGN'}/>
+          <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>  
+          {item.category!='23'?(
+            <NumberFormat value={item.price} displayType={'text'} renderText={formattedValue => <Text>{formattedValue}</Text>} thousandSeparator={true} prefix={'NGN'}/>
+          ):null} 
+          {item.category=='23'?(
+            <NumberFormat value={item.salary} displayType={'text'} renderText={formattedValue => <Text>{formattedValue}</Text>} thousandSeparator={true} prefix={'NGN'}/>
+          ):null} 
+
+          
+
           {item.land_mark!=''?(
           <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.land_mark}</Text>
           ):
@@ -175,13 +209,14 @@ const renderTabBar = (props: any) => {
 };
 
 
-  
+
 return(
   <Container style={{backgroundColor:'#fff'}}>
 
         <Tabs renderTabBar={renderTabBar}>
-          <Tab  tabStyle={{ backgroundColor: "#fff" }} activeTabStyle={{ backgroundColor: "#c9e0f4"}} heading="Products">
+          <Tab  tabStyle={{ backgroundColor: "#fff"}} textStyle={{color: '#ccc'}} activeTabStyle={{ backgroundColor: "#efefef"}} activeTextStyle={{color: '#0f619b'}} heading="Products">
     
+   
 
     {/* <Animated.View style={{transform: [
             { translateX: this.state.setHeaderShown ? 0 : - 100 },
@@ -189,7 +224,7 @@ return(
             
     {/* <Animated.View style={{opacity: headerDisplay,transform: [{translateY: imageTranslate}]}}> */}
     <LinearGradient style={[{height:'auto',width:'100%',alignItems:'center',alignContent:'center',paddingTop:0,paddingBottom:0,margin:0}]}
-        colors={['#c9e0f4', '#c9e0f4', '#fff']}
+        colors={['#efefef', '#efefef', '#fff']}
         start={{ x: 0.5, y: 0 }}>
      <Animated.Image style={[custom_style.searchImageStyle, {opacity: headerImageOpacity,height:headerImageSize,width:headerImageSize}]}
         source={require('../images/gnice_logo.png')} />
@@ -199,62 +234,184 @@ return(
     {/* <Text>{JSON.stringify(this.state.categories_and_sub)}</Text> */}
     {this.state.categories_and_sub ? (
       //this.state.showSearchView ? (
-        <SearchBox state = {this}/>
+        <SearchBox state = {this}/> 
       //):null
       
     ):null
     }
     </LinearGradient>
   
-    <Animated.Text style={[custom_style.section_header,{marginLeft:25,marginTop:2,fontSize:headerTextOpacity,opacity: headerImageOpacity}]}>Latest Ads</Animated.Text>  
+    
+    
+    <View style={{flexDirection:'row'}}>
+      
+    <View> 
+    {/* <Animated.View style={[custom_style.section_header,{flexDirection:'row',marginTop:2,fontSize:headerTextOpacity,opacity: headerImageOpacity}]}>   */}
+    <View style={[custom_style.section_header,{flexDirection:'row',paddingTop:0,marginTop:0}]}>
+    <Dropdown
+        // label='Favorite Fruit'
+        data={[{value: 'Latest Ads'}, {value: 'Sponsored Ads'}, {value: 'Top Rated Ads'}]}
+        value='Sponsored Ads'
+        underlineColor='transparent'
+        itemTextStyle={{paddingTop:0,paddingBottom:0}}
+        animationDuration={555}
+        style={{width:'auto',height:30,backgroundColor:'transparent',fontSize:14}}
+        useNativeDriver={true}
+        onChangeText={(value,index)=>{value=='Sponsored Ads' && this.setState({active_request_label:'trending',currentPage: 1,nextPage:2,showLoader:true,products:[]});Requests.fetch_trending_product(this),value=='Top Rated Ads' && this.setState({active_request_label:'top_rated',currentPage: 1,nextPage:2,showLoader:true,products:[]});Requests.fetch_top_rated_product(this),value=='Latest Ads' && this.setState({active_request_label:'latest',currentPage: 1,nextPage:2,showLoader:true,products:[]});Requests.fetch_latest_product(this)}}
+      />
+        {/* <Icon name='ios-arrow-down' style={{fontSize:15,marginLeft:-10,marginTop:8,color:'#000'}} /> */}
+        <Image source={require('../images/arrow_down_icon.png')}  style={{marginLeft:-10,marginTop:13,height: 6, width:12}}/>
+        
+      </View> 
+        
+      </View>
+      </View>
+    
+
     {this.state.showLoader ?(
         <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
         <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
         </View> 
     ):null} 
 
-<View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
+<View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10}]}>
+
+
 <SafeAreaView>
     <FlatList
+      ref={this.flatListRef}
       data={this.state.products}
       renderItem={renderProductItems}
       keyExtractor={(item, index) => String(index)}
       horizontal={false} 
       numColumns={2}
+      ListFooterComponent={() => (
+        <View style={{marginBottom:(150)}} />
+      )}
     //   onScroll={this.handleScroll}
       onScroll={Animated.event(
-      [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false}
+      [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false,
+        listener: event => {
+        const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+        if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 55){
+          this.setState({showArrowUpButton:true});
+        }
+
+        if(contentOffset.y == 0){
+          this.setState({showArrowUpButton:false});
+        }
+      }}
       )}
+
+      onEndReachedThreshold = {1}
+      onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false;}}
+      onEndReached = {() => {
+          if (!this.onEndReachedCalledDuringMomentum) {
+            if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
+              this.setState({showPaginationLoader:true});
+              //Requests.fetch_trending_product(this);
+              this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
+              this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
+              this.state.active_request_label == 'latest'? Requests.fetch_latest_product(this):null,
+              this.onEndReachedCalledDuringMomentum = true;
+            } 
+            
+          }
+      }}
+      
+      // onScroll={Animated.event(
+      // [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false,
+      //   listener: event => {
+      //   const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+      //   if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 55){
+      //     this.setState({showArrowUpButton:true});
+      //   }
+
+      //   if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 5){
+      //     if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
+      //         this.setState({showPaginationLoader:true});
+      //         this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
+      //         this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
+      //         this.state.active_request_label == 'latest'? Requests.fetch_latest_product(this):null;
+              
+      //       //Requests.fetch_trending_product(this);
+      //     } 
+          
+      //   }
+
+      //   if(contentOffset.y == 0){
+      //     this.setState({showArrowUpButton:false});
+      //   }
+
+      //  }}
+      // )}
+
+      // onScroll={({nativeEvent})=>{
+      //   const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
+      //   if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 20){
+      //     alert("close to bottom");
+      //   }
+
+      //   if(contentOffset.y == 0){
+      //     alert("Now on top");
+      //   }
+      //   }}
     
 
     />
+
+       
+
 </SafeAreaView>  
+
+
 </View>
+{this.state.showPaginationLoader ?(
+        <View style={{alignSelf:'center',justifyContent:'center',alignItems:'center',bottom:0,position:'absolute',marginTop:15,paddingBottom:20}}>
+        <Image source={require('../images/spinner4.gif')}  style={{alignSelf:'center',marginHorizontal:5,height: 45, width:45}}/>
+        <Text>Loading...</Text>
+        </View> 
+        ):null}
+
+{this.state.showArrowUpButton && (
+          <Fab
+            style={{ backgroundColor: 'black' }}
+            position="bottomRight"
+            onPress={()=>{this.moveToTop(this)}}>
+            <Icon name="arrow-up" style={{fontSize:14}}/>
+          </Fab>
+)}
 
           </Tab>
-          <Tab  tabStyle={{ backgroundColor: "white" }} activeTabStyle={{ backgroundColor: "#c9e0f4" }}  heading="Categories">
+          <Tab  tabStyle={{ backgroundColor: "white" }} textStyle={{color: '#ccc'}} activeTabStyle={{ backgroundColor: "#efefef" }}  activeTextStyle={{color: '#0f619b'}} heading="Categories">
 
-          {this.state.showLoader ?(
+        {this.state.showLoader ?(
         <View style={{alignSelft:'center',justifyContent:'center',alignItems:'center'}}>
         <Image source={require('../images/spinner4.gif')}  style={{marginHorizontal:5,height: 65, width:65}}/>
         </View> 
-      ):null} 
+        ):null} 
       
-          <Text style={[custom_style.section_header,{marginLeft:25,marginVertical:10}]}>Categories</Text>  
+          <Text style={[custom_style.section_header,{marginLeft:25,marginVertical:10,fontSize:15}]}>Select Category</Text>  
           <View style={[{paddingHorizontal:'.1%',marginTop:5,marginHorizontal:10,}]}>
           <SafeAreaView>
               <FlatList
+                
                 data={this.state.categories_and_sub}
                 renderItem={renderCategories}
                 keyExtractor={item => item.id}
                 horizontal={false}
                 numColumns={3}
+                ListFooterComponent={() => (
+                  <View style={{marginBottom:(50)}} />
+                )}
               />
           </SafeAreaView>  
           
           </View>
 
           </Tab> 
+
+          
   </Tabs>
   <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} messageButtonClick={Nav._openscreen.bind(this,this.props,'Messages',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
