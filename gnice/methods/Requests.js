@@ -532,11 +532,10 @@ if(res.status =="1"){
 }
     })
   .catch((error) => {
-      console.error(error);
+    console.error(error);
     var message = "There was an error! Please check your connection";
-      alert(JSON.stringify(message));
-   
-      //console.error(error);
+    alert(JSON.stringify(message));
+    //console.error(error);
     });
 }
 

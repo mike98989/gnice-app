@@ -109,7 +109,9 @@ export default class SellerPage extends Component <{}>{
           } 
               </Body>
               <Right>
-              <Text style={{color:'grey',fontSize:10}}> {this.timeAgo.format(new Date(Date.parse(product.date_added.replace(/-/g, '/'))))}</Text>
+              {product.date_added ? (
+                <Text style={{color:'grey',fontSize:10}}> {this.timeAgo.format(new Date(Date.parse(product.date_added.replace(/-/g, '/'))))}</Text>
+              ):null}
               </Right>
               </TouchableOpacity>
             </ListItem>

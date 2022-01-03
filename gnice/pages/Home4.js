@@ -289,36 +289,6 @@ return(
         <View style={{marginBottom:(150)}} />
       )}
     //   onScroll={this.handleScroll}
-      onScroll={Animated.event(
-      [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false,
-        listener: event => {
-        const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
-        if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 55){
-          this.setState({showArrowUpButton:true});
-        }
-
-        if(contentOffset.y == 0){
-          this.setState({showArrowUpButton:false});
-        }
-      }}
-      )}
-
-      onEndReachedThreshold = {1}
-      onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false;}}
-      onEndReached = {() => {
-          if (!this.onEndReachedCalledDuringMomentum) {
-            if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
-              this.setState({showPaginationLoader:true});
-              //Requests.fetch_trending_product(this);
-              this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
-              this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
-              this.state.active_request_label == 'latest'? Requests.fetch_latest_product(this):null,
-              this.onEndReachedCalledDuringMomentum = true;
-            } 
-            
-          }
-      }}
-      
       // onScroll={Animated.event(
       // [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false,
       //   listener: event => {
@@ -327,24 +297,54 @@ return(
       //     this.setState({showArrowUpButton:true});
       //   }
 
-      //   if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 5){
-      //     if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
-      //         this.setState({showPaginationLoader:true});
-      //         this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
-      //         this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
-      //         this.state.active_request_label == 'latest'? Requests.fetch_latest_product(this):null;
-              
-      //       //Requests.fetch_trending_product(this);
-      //     } 
-          
-      //   }
-
       //   if(contentOffset.y == 0){
       //     this.setState({showArrowUpButton:false});
       //   }
-
-      //  }}
+      // }}
       // )}
+
+      // onEndReachedThreshold = {1}
+      // onMomentumScrollBegin = {() => {this.onEndReachedCalledDuringMomentum = false;}}
+      // onEndReached = {() => {       
+      //     if (!this.onEndReachedCalledDuringMomentum) {
+      //       if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
+      //         this.setState({showPaginationLoader:true});
+      //         //Requests.fetch_trending_product(this);
+      //         this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
+      //         this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
+      //         this.state.active_request_label == 'latest'? Requests.fetch_latest_product(this):null,
+      //         this.onEndReachedCalledDuringMomentum = true;
+      //       } 
+            
+      //     }
+      // }}
+      
+      onScroll={Animated.event(
+      [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}],{useNativeDriver: false,
+        listener: event => {
+        const {layoutMeasurement, contentOffset, contentSize} = event.nativeEvent;
+        if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 55){
+          this.setState({showArrowUpButton:true});
+        }
+
+        if(layoutMeasurement.height + contentOffset.y >= contentSize.height - 5){
+          if (!this.state.showPaginationLoader && this.state.currentPage < this.state.nextPage){
+              this.setState({showPaginationLoader:true});
+              this.state.active_request_label =='trending' ? Requests.fetch_trending_product(this):null,
+              this.state.active_request_label =='top_rated'? Requests.fetch_top_rated_product(this):null,
+              this.state.active_request_label == 'latest'? Requests.fetch_latest_product(this):null;
+              
+            //Requests.fetch_trending_product(this);
+          } 
+          
+        }
+
+        if(contentOffset.y == 0){
+          this.setState({showArrowUpButton:false});
+        }
+
+       }}
+      )}
 
       // onScroll={({nativeEvent})=>{
       //   const {layoutMeasurement, contentOffset, contentSize} = nativeEvent;
