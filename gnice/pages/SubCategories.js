@@ -96,7 +96,7 @@ export default class SubCategories extends Component <{}>{
     ):null
     }
   </View>
-  <View style={[{paddingHorizontal:'1%',marginTop:5,marginHorizontal:10,height:'80%'}]}>
+  <View style={[{paddingHorizontal:'1%',marginTop:5,marginHorizontal:10,height:'100%'}]}>
   <SafeAreaView>
       <FlatList
         data={JSON.parse(this.props.route.params.paramsdata)}

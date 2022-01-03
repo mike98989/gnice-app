@@ -10,6 +10,20 @@
 		00E356F31AD99517003FC87E /* gniceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* gniceTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4C1A0004272478CD003170F8 /* Misslena.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87AD2235D86547BCA8EAE3D5 /* Misslena.ttf */; };
+		4C1A0005272478CD003170F8 /* Ocean Summer.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC598E2C9D4C4A0F87A29D60 /* Ocean Summer.ttf */; };
+		4C1A0006272478CD003170F8 /* Cicle_Fina_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A393C4B8CF28430A818D91EB /* Cicle_Fina_Italic.ttf */; };
+		4C1A0007272478CD003170F8 /* Cicle_Fina.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C233C5F8D127430BA7644752 /* Cicle_Fina.ttf */; };
+		4C1A0008272478CD003170F8 /* Cicle_Gordita_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22D5CB283DB4402FBA630058 /* Cicle_Gordita_Italic.ttf */; };
+		4C1A0009272478CD003170F8 /* Cicle_Gordita.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05E09055AD984989AC5195E0 /* Cicle_Gordita.ttf */; };
+		4C1A000A272478CD003170F8 /* Cicle_Semi_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B027F7E601EA4FEE9DCBE3E9 /* Cicle_Semi_Italic.ttf */; };
+		4C1A000B272478CD003170F8 /* Cicle_Semi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A6519057E0E4F8AA8400A9C /* Cicle_Semi.ttf */; };
+		4C1A000C272478CD003170F8 /* Cicle_Shadow.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBF771DDE88E4B31ADE802CF /* Cicle_Shadow.ttf */; };
+		4C1A000D272478CD003170F8 /* Rajdhani-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0342BDA349A043F59F7E6001 /* Rajdhani-Bold.ttf */; };
+		4C1A000E272478CD003170F8 /* Rajdhani-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C8B5FD249824F01BA52B4E0 /* Rajdhani-Light.ttf */; };
+		4C1A000F272478CD003170F8 /* Rajdhani-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A0C7496C7264B2C8F812DF0 /* Rajdhani-Medium.ttf */; };
+		4C1A0010272478CD003170F8 /* Rajdhani-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9ABD6833BC4F2488560D31 /* Rajdhani-Regular.ttf */; };
+		4C1A0011272478CD003170F8 /* Rajdhani-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3D392676681467384DF068C /* Rajdhani-SemiBold.ttf */; };
 		B01EA5777E762B738F1458D8 /* libPods-gnice-gniceTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB77BDB4A4247466F6FF0C5 /* libPods-gnice-gniceTests.a */; };
 		DD0192AD33D3A41A230D2AD1 /* libPods-gnice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A2D60D154E37DAE9EBAE723 /* libPods-gnice.a */; };
 /* End PBXBuildFile section */
@@ -394,6 +408,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C1A0004272478CD003170F8 /* Misslena.ttf in Resources */,
+				4C1A0005272478CD003170F8 /* Ocean Summer.ttf in Resources */,
+				4C1A0006272478CD003170F8 /* Cicle_Fina_Italic.ttf in Resources */,
+				4C1A0007272478CD003170F8 /* Cicle_Fina.ttf in Resources */,
+				4C1A0008272478CD003170F8 /* Cicle_Gordita_Italic.ttf in Resources */,
+				4C1A0009272478CD003170F8 /* Cicle_Gordita.ttf in Resources */,
+				4C1A000A272478CD003170F8 /* Cicle_Semi_Italic.ttf in Resources */,
+				4C1A000B272478CD003170F8 /* Cicle_Semi.ttf in Resources */,
+				4C1A000C272478CD003170F8 /* Cicle_Shadow.ttf in Resources */,
+				4C1A000D272478CD003170F8 /* Rajdhani-Bold.ttf in Resources */,
+				4C1A000E272478CD003170F8 /* Rajdhani-Light.ttf in Resources */,
+				4C1A000F272478CD003170F8 /* Rajdhani-Medium.ttf in Resources */,
+				4C1A0010272478CD003170F8 /* Rajdhani-Regular.ttf in Resources */,
+				4C1A0011272478CD003170F8 /* Rajdhani-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,7 +665,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 28X725PG93;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = gnice/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -653,6 +681,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -718,6 +747,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -782,6 +812,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
