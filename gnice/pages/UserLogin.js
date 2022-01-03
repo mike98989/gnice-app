@@ -29,7 +29,7 @@ export default class Home extends Component <{}>{
     <Container style={{backgroundColor:'#fff'}}>
       
         <ImageBackground source={require('../images/gnice_top_login_bg.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'70%',paddingTop:5,}]}></ImageBackground>	 
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'50%',paddingTop:5,}]}></ImageBackground>	 
         {/* <ImageBackground source={require('../images/gnice_burble_backgroud.png')} style={[{resizeMode: "cover",
     position:'absolute',zIndex:0,top:0, width: '100%',height:'30%',paddingTop:5,}]}>
         </ImageBackground>  */}
@@ -80,7 +80,7 @@ export default class Home extends Component <{}>{
          </TouchableOpacity>  
         
         <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow]} onPress={Nav._openscreen.bind(this,this.props,'UserSignup',null)}>
-            <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:18}}>Register</Text>
+            <Text style={{color:'#c1700a',fontWeight:'bold',fontSize:15}}>Register</Text>
         </TouchableOpacity>
         </ScrollView>
         {/* </KeyboardAvoidingView> */}

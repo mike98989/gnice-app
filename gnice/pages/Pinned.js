@@ -69,6 +69,7 @@ export default class Pinned extends Component <{}>{
                 <Thumbnail round source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}/>
               </Left>
               <Body>
+              <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',product)}>
                 <Text>{product.name}</Text>
                 <Text>NGN {product.price}</Text>
                 {product.land_mark!=''?(
@@ -76,6 +77,7 @@ export default class Pinned extends Component <{}>{
           ):
           <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{product.state}/{product.lga}</Text>
           } 
+          </TouchableOpacity>
               </Body>
               <Right>
               <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',product)}>
@@ -99,7 +101,7 @@ export default class Pinned extends Component <{}>{
         </ScrollView>
             
         </View>
-        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
+        <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} messageButtonClick={Nav._openscreen.bind(this,this.props,'Messages',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"
             /> 
         </Container>

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component,useState,useEffect} from 'react';
 import {View,Text,StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './pages/Home4';
 import Pinned from './pages/Pinned';
-import Product from './pages/Product';
+import Product from './pages/Product3';
 import Products from './pages/Products';
 import SearchResults from './pages/Search';
 import SellerPage from './pages/SellerPage';
@@ -17,7 +17,9 @@ import UserScreens from './pages/UserScreens';
 import LandingScreen from './pages/user/LandingScreen';
 import MyProducts from './pages/user/MyProducts';
 import NewProduct from './pages/user/NewProduct';
+import EditProduct from './pages/user/EditProduct';
 import Messages from './pages/user/Messages';
+import Transactions from './pages/user/Transactions';
 import MyProfile from './pages/user/MyProfile';
 import EditProfile from './pages/user/EditProfile';
 import ChangePassword from './pages/user/ChangePassword';
@@ -26,28 +28,54 @@ import SellerAccountTypeScreen_preview from './pages/SellerAccountTypeScreen_pre
 import CardPaymentUi from './pages/CardPaymentUi';
 import TransactionStatus from './pages/TransactionStatus';
 
-
 import UserCustomDrawerContent from './components/UserScreenCustomDrawer'
-import { createDrawerNavigator,DrawerContentScrollView,
-    DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import { createDrawerNavigator,DrawerContentScrollView,DrawerItemList, DrawerItem, useIsDrawerOpen } from '@react-navigation/drawer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const Drawer = createDrawerNavigator();
 
 const Stack = createStackNavigator();
 
-function UserArea() {
-  return (
+// export default function DrawerContent({ state, navigation, ...props }) {
+//   //function Example() {
+//   const [data, setCount] = useState('asdfasdfasdf');
+//   return (
+//   <View style={{paddingTop:100}}><Text>{JSON.stringify(data)}</Text></View>
+//   )
+//   }
 
-    
-    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <UserCustomDrawerContent {...props} that={this} />} drawerContentOptions={{
+const UserArea = () => {
+  const [userData, setUserData] = useState([]);
+  useEffect( () => { 
+      async function fetchData() {
+          try {
+            //alert('asdfasgoooooogoogodf');
+            //var token = await AsyncStorage.getItem('user-token');
+            var datavalue = await AsyncStorage.getItem('user-data');
+            var dataObject = JSON.parse(datavalue);
+            setUserData(dataObject);
+            //alert(JSON.stringify(dataObject));
+          } catch (err) {
+              console.log(err);
+          }
+      }
+      fetchData();
+  }, []);
+
+  return (
+    <Drawer.Navigator initialRouteName='LandingScreen' drawerContent={props => <UserCustomDrawerContent {...props} userData={userData}/>} drawerContentOptions={{
     activeTintColor: '#e91e63',
     }}>
     <Drawer.Screen name="LandingScreen" options={{ drawerLabel: 'LandingScreen' }} component={LandingScreen} />
     <Drawer.Screen name="NewProduct" options={{ drawerLabel: 'NewProduct' }} component={NewProduct} />
+    <Drawer.Screen name="EditProduct" options={{ drawerLabel: 'EditProduct' }} component={EditProduct} />
     <Drawer.Screen name="MyProducts" options={{ drawerLabel: 'MyProducts' }} component={MyProducts} />
     <Drawer.Screen name="MyProfile" options={{ drawerLabel: 'MyProfile' }} component={MyProfile} />
     <Drawer.Screen name="EditProfile" options={{ drawerLabel: 'EditProfile' }} component={EditProfile} />
     <Drawer.Screen name="ChangePassword" options={{ drawerLabel: 'ChangePassword' }} component={ChangePassword} />
     <Drawer.Screen name="Messages" options={{ drawerLabel: 'Messages' }} component={Messages} />
+    <Drawer.Screen name="Transactions" options={{ drawerLabel: 'Transactions' }} component={Transactions} />
     </Drawer.Navigator>
   
     // <Stack.Navigator  screenOptions={{headerShown: false}}>
@@ -58,6 +86,9 @@ function UserArea() {
 
 
 export default function Routes() {
+  
+//alert('asdfasdf');
+//setUserData(dataObject);
   return (
     <NavigationContainer>
     <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
@@ -79,6 +110,8 @@ export default function Routes() {
       <Stack.Screen name="SearchResults" component={SearchResults} />
       <Stack.Screen name="SellerPage" component={SellerPage} />
       <Stack.Screen name="TransactionStatus" component={TransactionStatus} />
+      <Stack.Screen name="Messages" component={Messages} />
+
 
     </Stack.Navigator>
     </NavigationContainer>

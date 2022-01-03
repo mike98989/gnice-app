@@ -6,7 +6,7 @@ export const _loadSessionState = async(that)=>{
   var token = await AsyncStorage.getItem('user-token');
   var datavalue = await AsyncStorage.getItem('user-data');
   var dataObject = JSON.parse(datavalue);
-  //alert(token);
+  
   if((token!=null)&&(token !='')){
     that.setState({
       userID:dataObject.id,
@@ -18,9 +18,8 @@ export const _loadSessionState = async(that)=>{
     }  
   }else{
   AsyncStorage.clear();
-  
-  var route = that.props.route;
-  //alert(JSON.stringify(route));return;
+  if(that.props.route){
+  var route = that.props.route;  
   if(route.params){
   if(route.params.paramsdata){
     route.params.paramsdata.revertTo=route.name;
@@ -30,6 +29,9 @@ export const _loadSessionState = async(that)=>{
   }
   }else{
     that.props.navigation.navigate('UserLogin',{paramsdata:null});
+  }
+  }else{
+  that.props.navigation.navigate('UserLogin');
   }
   
   

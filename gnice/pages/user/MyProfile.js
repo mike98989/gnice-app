@@ -48,11 +48,11 @@ export default class MyProfile extends Component <{}>{
     render(){
     return(
         <Container style={{backgroundColor:'#c9e0f4'}}>
-        <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground>    
+        <ImageBackground source={require('../../images/gnice_user_layout2.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'17%',paddingTop:5,}]}></ImageBackground>    
         <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
         
-        <View style={[custom_style.container,{marginTop:30,justifyContent:'center', alignItems:'center'}]}>
+        <View style={[{marginTop:100,justifyContent:'center', alignItems:'center'}]}>
         {this.state.uploadImageCount==0 ? (
             <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>
             <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:50,overflow:'hidden',width:100,height:100}}/>
@@ -62,7 +62,7 @@ export default class MyProfile extends Component <{}>{
             {this.state.uploadImageCount>0 ? (
              <View style={{flexDirection:'column'}}> 
             <TouchableOpacity onPress={Logic.chooseImage.bind(this,this)}>  
-            <Image source={{uri:this.state.resourcePath.uri}} style={{borderRadius:50,overflow:'hidden',width:100,height:100,marginTop:10,}} />
+            <Image source={{uri:this.state.resourcePath.uri}} style={{borderRadius:50,overflow:'hidden',width:100,height:100,marginTop:0,}} />
             </TouchableOpacity>
             
             {this.state.showLoader ?(
@@ -80,7 +80,7 @@ export default class MyProfile extends Component <{}>{
             
 
             <Text style={[custom_style.section_header,{marginVertical:2}]}>{this.state.userData.fullname}</Text>
-            <Text style={{color:'#0e3f5f',fontSize:11}}>Click profile image to browse</Text>
+            <Text style={{color:'#0e3f5f',fontSize:11}}>Click profile image to upload new image</Text>
 
 
         {/* <TouchableOpacity style={[custom_style.login_btn,{flexDirection:'row',}]}>
@@ -89,14 +89,16 @@ export default class MyProfile extends Component <{}>{
             ):null}  
         <Text style={{fontSize:17,color:'#fff'}}>Upload</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow,{alignSelf:'flex-start',width:160,marginTop:15,marginBottom:0,}]} onPress={Nav._openscreen.bind(this,this.props,'ChangePassword',null)}>
+        {/* <TouchableOpacity style={[custom_style.signup_btn,custom_style.right_border_radius,custom_style.textInputShadow,{alignSelf:'flex-start',width:160,marginTop:5,marginBottom:0,}]} onPress={Nav._openscreen.bind(this,this.props,'ChangePassword',null)}>
             <Text style={{color:'#0e3f5f',fontSize:14,fontWeight:'bold'}}>Change Password</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
 
         {this.state.userData.seller_account_details ?(
-        <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingTop:10,height:'auto',marginTop:0}]}>
-        <ScrollView>
+          <ScrollView>
+          <>
+        <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingTop:10,height:'auto',marginTop:30,paddingBottom:0}]}>
+        
           <List>
             <ListItem>
               <Text>Seller ID: {this.state.userData.seller_id}</Text>
@@ -124,18 +126,23 @@ export default class MyProfile extends Component <{}>{
             <ListItem>
              <Text>Registered: {this.state.userData.signup_date}</Text>
             </ListItem>
-            <ListItem style={{flexDirection:'column'}}>
-            <TouchableOpacity style={[custom_style.login_btn,{alignSelf:'center'}]} onPress={Nav._openscreen.bind(this,this.props,'EditProfile',null)}>
-            <Text style={{fontSize:17,color:'#fff'}}>Update Profile</Text>
+            <ListItem style={{flexDirection:'row',justifyContent:'center'}}>
+            <TouchableOpacity style={[custom_style.login_btn,{alignSelf:'flex-start',width:'auto',backgroundColor:'#ccc',marginRight:20,paddingHorizontal:15}]}onPress={Nav._openscreen.bind(this,this.props,'ChangePassword',null)}>
+            <Text style={{fontSize:13,color:'#000',}}>Change Password</Text>
             </TouchableOpacity>
 
-           
-
+            <TouchableOpacity style={[custom_style.login_btn,{alignSelf:'flex-end',justifyContent:'flex-end', width:'auto',paddingHorizontal:15}]} onPress={Nav._openscreen.bind(this,this.props,'EditProfile',null)}>
+            <Text style={{fontSize:13,color:'#fff'}}>Edit Profile</Text>
+            </TouchableOpacity>
             </ListItem>
           </List>
-          </ScrollView>
+          
           </View>
+          </>
+        </ScrollView>
+          
         ):null}
+        
         
         {/* <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)}
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"

@@ -8,6 +8,7 @@ import UserScreenHeader from '../../components/UserScreenHeader';
 import * as AsyncMethods from '../../methods/AsyncMethods';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Requests from '../../methods/Requests';
+import MainHeader from '../../components/MainHeader'
 
 
 
@@ -45,20 +46,23 @@ export default class EditProfile extends Component <{}>{
     render(){
     return(
         <Container style={{backgroundColor:'#c9e0f4'}}>
-        <ImageBackground source={require('../../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground>    
-        <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/>
+        <ImageBackground source={require('../../images/gnice_user_layout2.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:140,paddingTop:5,}]}></ImageBackground>    
+         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/> 
 
-        <View style={[custom_style.container]}>
-        <View style={[custom_style.container,{justifyContent:'center', alignItems:'center'}]}>
-        <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:30,overflow:'hidden',width:105,height:105}}/>
-            <Text style={[custom_style.section_header,{marginLeft:5,marginVertical:0}]}>Edit </Text>
-            <Text>{this.state.userData.fullname}'s Profile</Text>
+         <View style={{paddingTop:20,marginTop:40}}>
+         <ScrollView style={{marginBottom:0}}>
+        <KeyboardAvoidingView>
+        <View style={[custom_style.container,{bottom:0,marginBottom:30}]}>
+        <View style={[{justifyContent:'center', alignItems:'center'}]}>
+        <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}} style={{borderRadius:50,overflow:'hidden',width:95,height:95}}/>
+            <Text style={[{marginVertical:0}]}>Edit </Text>
+            <Text style={{fontWeight:'bold'}}>{this.state.userData.fullname}'s Profile</Text>
         </View>
-
+        
+        
         <View style={[custom_style.curved_top_side_view,{backgroundColor:'#fff',paddingHorizontal:20,paddingTop:0,height:'auto',}]}>
         
-        <ScrollView>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Full Name</Text> 
         <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Full Name" keyboardType="default" selectionColor={'#1688EA'} value={this.state.fullname}
@@ -66,17 +70,17 @@ export default class EditProfile extends Component <{}>{
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Email</Text> 
-        <TextInput style={[custom_style.formcontrol,{width:'100%',backgroundColor:'#ececec',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="default" selectionColor={'#1688EA'} value={this.state.email}
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',backgroundColor:'#ececec',color:'#aaa',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Email" keyboardType="default" selectionColor={'#1688EA'} value={this.state.email}
         placeholderTextColor="grey" editable={false}
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Phone Number</Text> 
-        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Phone number" keyboardType="number-pad" selectionColor="#fff" value={this.state.phone}
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Phone number" keyboardType="number-pad" selectionColor={'#1688EA'} value={this.state.phone}
         placeholderTextColor="grey" onChangeText={(phone) =>this.setState({phone})}
         />
 
         <Text style={[{marginBottom:5,paddingLeft:10}]}>Whatsapp Number</Text> 
-        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Whatsapp" keyboardType="default" selectionColor="#fff" value={this.state.whatsapp}
+        <TextInput style={[custom_style.formcontrol_product_screen,{width:'100%',color:'#000',paddingLeft:20}]} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Whatsapp" keyboardType="default" selectionColor={'#1688EA'} value={this.state.whatsapp}
         placeholderTextColor="grey" onChangeText={(whatsapp) =>this.setState({whatsapp})}
         />
 
@@ -84,12 +88,17 @@ export default class EditProfile extends Component <{}>{
             {this.state.showLoader ?(
             <Image source={require('../../images/spinner2.gif')}  style={{marginHorizontal:5,height: 25, width:25}}/> 
             ):null}  
-            <Text style={{fontSize:17,color:'#fff'}}>Update Profile</Text>
+            <Text style={{fontSize:13,color:'#fff'}}>Update Profile</Text>
             </TouchableOpacity>
-          </ScrollView>
+            
           
           </View>
+          
+          </View>
+          </KeyboardAvoidingView>
+          </ScrollView>
         </View>
+        
         
         {/* <MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
             pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} active="pinned"

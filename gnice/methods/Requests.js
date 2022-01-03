@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../components/global';
 import * as Logic from './Logic';
 import * as Commons from './Commons';
+import { min } from 'react-native-reanimated';
 
   //////SIGNUP METHOD
   export const signup = (that) => {
@@ -23,7 +24,7 @@ import * as Commons from './Commons';
     formData.append('phone', that.state.phone);
     formData.append('password', that.state.password);
     formData.append('confirm_password', that.state.confirm_password);
-    formData.append('seller','1');
+    
     
 
     that.setState({
@@ -494,6 +495,141 @@ export const send_recovery_code = (that) =>{
   
 // }
 
+
+export const fetch_trending_product = (that) =>{
+  let nextPage = that.state.currentPage + 1;
+  fetch (global.serverUrl+'api/fetch_trending_product?current_page='+that.state.currentPage+'&next_page='+that.state.nextPage+'&limit='+that.state.fetch_limit,{
+    method:'GET',
+    headers: {
+      'gnice-authenticate': 'gnice-web'
+            },
+  
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+  //console.log(res);
+    // alert(JSON.stringify(res));
+    // return;
+    that.setState({
+      showLoader:false
+    })
+if(res.status =="1"){
+  that.setState({
+      products: [...that.state.products, ...res.data],
+      //products: res.data,
+      currentPage:nextPage,
+      nextPage:nextPage+1,
+      showPaginationLoader:false,
+    })
+    return;
+}else{
+  that.setState({
+    currentPage:nextPage,
+    showPaginationLoader:false,
+  })
+  Commons._showToast(res.message,ToastAndroid.LONG);
+  return;
+}
+    })
+  .catch((error) => {
+    console.error(error);
+    var message = "There was an error! Please check your connection";
+    alert(JSON.stringify(message));
+    //console.error(error);
+    });
+}
+
+export const fetch_latest_product = (that) =>{
+  let nextPage = that.state.currentPage + 1;
+  fetch (global.serverUrl+'api/fetch_latest_product?current_page='+that.state.currentPage+'&next_page='+that.state.nextPage+'&limit='+that.state.fetch_limit,{
+    method:'GET',
+    headers: {
+      'gnice-authenticate': 'gnice-web'
+            },
+  
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+  //console.log(res);
+    // alert(JSON.stringify(res));
+    // return;
+    that.setState({
+      showLoader:false
+    })
+if(res.status =="1"){
+  that.setState({
+      products: [...that.state.products, 
+        ...res.data],
+      currentPage:nextPage,
+      nextPage:nextPage+1,
+      showPaginationLoader:false,
+    })
+    return;
+}else{
+  that.setState({
+    currentPage:nextPage,
+    showPaginationLoader:false,
+  })
+  Commons._showToast(res.message,ToastAndroid.LONG);
+  return;
+}
+    })
+  .catch((error) => {
+      console.error(error);
+    var message = "There was an error! Please check your connection";
+      alert(JSON.stringify(message));
+   
+      //console.error(error);
+    });
+}
+
+
+export const fetch_top_rated_product = (that) =>{
+  let nextPage = that.state.currentPage + 1;
+  fetch (global.serverUrl+'api/fetch_top_rated_products?current_page='+that.state.currentPage+'&next_page='+that.state.nextPage+'&limit='+that.state.fetch_limit,{
+    method:'GET',
+    headers: {
+      'gnice-authenticate': 'gnice-web'
+            },
+  
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+  //console.log(res);
+    // alert(JSON.stringify(res));
+    // return;
+    that.setState({
+      showLoader:false
+    })
+if(res.status =="1"){
+  that.setState({
+      products: [...that.state.products, 
+        ...res.data],
+      currentPage:nextPage,
+      nextPage:nextPage+1,
+      showPaginationLoader:false,
+    })
+    return;
+}else{
+  that.setState({
+    currentPage:nextPage,
+    showPaginationLoader:false,
+  })
+  Commons._showToast(res.message,ToastAndroid.LONG);
+  return;
+}
+    })
+  .catch((error) => {
+      console.error(error);
+    var message = "There was an error! Please check your connection";
+      alert(JSON.stringify(message));
+   
+      //console.error(error);
+    });
+}
+
+
+
 export const fetch_all_products = (that) =>{
   
     fetch (global.serverUrl+'api/fetch_all_product',{
@@ -506,8 +642,8 @@ export const fetch_all_products = (that) =>{
     .then((response)=>response.json())
     .then((res) =>{
     console.log(res);
-      //alert(JSON.stringify(res));
-      //return;
+      // alert(JSON.stringify(res));
+      // return;
       that.setState({
         showLoader:false
       })
@@ -528,7 +664,39 @@ export const fetch_all_products = (that) =>{
       });
   }
 
-  
+  export const fetch_all_user_transactions = (that) =>{
+    that.setState({
+      showLoader:true
+    })
+    fetch (global.serverUrl+'api/fetch_all_user_transactions?user_email='+that.state.userData.email,{
+      method:'GET',
+      headers: {
+        'gnice-authenticate': that.state.userToken,
+      },
+    
+    })
+    .then((response)=>response.json())
+    .then((res) =>{
+      //alert(JSON.stringify(res.data));return;
+      that.setState({
+        showLoader:false
+      })
+    if(res.status =="1"){
+      that.setState({
+          transactions: JSON.parse(JSON.stringify(res.data)),
+        })
+
+    }
+      })
+    .catch((error) => {
+        console.error(error);
+      var message = "There was an error! Please check your connection";
+        alert(JSON.stringify(message));
+     
+        //console.error(error);
+      });
+  }
+
   export const fetch_all_user_messages = (that) =>{
     that.setState({
       showLoader:true
@@ -546,13 +714,11 @@ export const fetch_all_products = (that) =>{
       that.setState({
         showLoader:false
       })
-  if(res.status =="1"){
-    that.setState({
-        messages: JSON.parse(JSON.stringify(res.data)),
-      })
-
-  }else{
-  }
+      if(res.status =="1"){
+        that.setState({
+            messages: JSON.parse(JSON.stringify(res.data)),
+          })
+      }
       })
     .catch((error) => {
         console.error(error);
@@ -847,6 +1013,74 @@ export const fetch_all_products = (that) =>{
       
     }
 
+
+    export const disable_enable_item = (that,i,value) =>{
+      //alert(that.state.products[i].status);return;
+      that.setState({showLoader:true})
+      fetch (global.serverUrl+'api/disableEnableProduct?product_id='+that.state.item_to_disable.id+'&seller_id='+that.state.userData.seller_id+'&value='+value,{
+        method:'GET',
+        headers: {
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        
+        if(res.status=='1'){
+          // var array = [...that.state.products]; // make a separate copy of the array
+          // if (i!== -1) {
+          // array.splice(i,1);
+          // that.setState({products: array});
+          // }  
+          Commons._showToast(res.message,ToastAndroid.LONG);
+          that.state.products[i].status=value;
+          //that.setState({products[index].status})
+          //fetch_seller_products(that);
+        }
+        that.setState({showLoader:false})
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+      
+    }
+
+
+    ///////////DELETE PRODUCT IMAGE
+    export const delete_product_image = (that,index) =>{
+      
+      fetch (global.serverUrl+'api/deleteProductImage?product_id='+that.props.route.params.paramsdata.id+'&index='+index,{
+        method:'GET',
+        headers: {
+          'gnice-authenticate': that.state.userToken,
+      },
+      })
+      .then((response)=>response.json())
+      .then((res) =>{
+        
+        if(res.status=='1'){
+          var array = [...that.state.images]; // make a separate copy of the array
+          if (index !== -1) {
+          array.splice(index,1);
+          that.setState({images: array});
+          }  
+          Commons._showToast(res.message,ToastAndroid.LONG);
+        }
+        })
+      .catch((error) => {
+          console.error(error);
+        var message = "There was an error! Please check your connection";
+          alert(JSON.stringify(message));
+       
+          //console.error(error);
+        });
+      
+    }
+
     //////////FETCH USER PRODUCTS
     export const fetch_all_messages_to_user = (that) =>{
       //let paramsValue = that.props.route.params.paramsdata;
@@ -873,16 +1107,14 @@ export const fetch_all_products = (that) =>{
           console.error(error);
         var message = "There was an error! Please check your connection";
           alert(JSON.stringify(message));
-       
+        
           //console.error(error);
         });
       }
     }
 
     const get_user_account_package_usage_breakdown = (that) =>{
-      var user_remaining_product_slot =
-      that.state.userData.seller_account_details.product_count * 1 -
-      that.state.products_count * 1;
+      var user_remaining_product_slot =that.state.userData.slot;
       //alert($scope.user_remaining_product_slot);
       var date1 = new Date(that.state.userData.account_type_activation_date);
       var date2 = new Date();
@@ -891,7 +1123,20 @@ export const fetch_all_products = (that) =>{
       var Difference_In_Days = Math.round(
         Difference_In_Time / (1000 * 3600 * 24)
       );
+      ////////IF THE USER IS ON A FREE ACCOUNT
+      if(that.state.userData.seller_account_details.value=='0'){
+        var slot_remaining_duration = 1;
+      }
+      /////////ELSE IF ITS NOT FREE
+      else{
       var slot_remaining_duration = that.state.userData.seller_account_details.duration_in_days * 1 - Difference_In_Days;
+      }
+      if(user_remaining_product_slot<1){
+        user_remaining_product_slot=0;
+      }
+      if(slot_remaining_duration<1){
+        slot_remaining_duration=0;
+      }
       //alert(Difference_In_Days);
       //$scope.$apply();
       that.setState({
@@ -987,9 +1232,9 @@ export const reportAbuse = (that) =>{
 
 
     //////////FETCH RELATED PRODUCTS
-    export const fetch_required_table = (that) =>{
+    export const fetch_required_table = (that,update_edit_view) =>{
       //let paramsValue = that.props.route.params.paramsdata;
-      
+      //alert(update_edit_view);
       fetch (global.serverUrl+'api/fetch_required_table',{
         method:'GET',
         headers: {
@@ -1002,16 +1247,22 @@ export const reportAbuse = (that) =>{
       
         //alert(res);
         // return;
-        that.setState({
-          showLoader:false
-        })
+        // that.setState({
+        //   showLoader:false,
+        //   showForm:true
+        // })
     if(res.status =="1"){
       //alert(JSON.stringify(res.data))
-      that.setState({
+        that.setState({
         required_tables: res.data,
-        //car_makes: JSON.parse(JSON.stringify(res.car_makes)),
+        // showLoader:false,
+        // showForm:true
         })
-        
+        update_edit_view ? Logic.update_edit_view_and_picker_value(that):null
+        that.setState({
+            showLoader:false,
+            showForm:true
+        })
         //alert(JSON.stringify(that.state.required_tables));
   
     }else{
@@ -1069,20 +1320,15 @@ export const reportAbuse = (that) =>{
     })
     .then((response)=>response.json())
     .then((res) =>{
-    
-      //alert(JSON.stringify(res.data[1].subcategory[0].counted_sub_category_products.counted));
-      //return;
-      that.setState({
-        showLoader:false
-      })
-  if(res.status =="1"){
+
+    if(res.status =="1"){
     that.setState({
       categories_and_sub: JSON.parse(JSON.stringify(res.data)),
       })
       //alert(JSON.stringify(that.state.categories_and_sub));
-
-  }else{
-  }
+    
+    }else{
+    }
       })
     .catch((error) => {
         console.error(error);
@@ -1120,8 +1366,10 @@ export const login = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
+    //console.log(res);
     //alert(JSON.stringify(res));return
     //alert(JSON.stringify(res.token));
+    //alert(res.status);
     //console.log(res);
     if(res.status =="1"){
       //alert('here is the problem333');return;
@@ -1171,7 +1419,7 @@ export const update_user_account_type = (that) =>{
   // if(that.state.account_type!='new'){
   //   that.setState({email_to_activate:that.state.userData.email}) 
   // }
-
+  
   that.setState({
         showLoader:true
       })
@@ -1196,10 +1444,11 @@ export const update_user_account_type = (that) =>{
   })
   .then((response)=>response.json())
   .then((res) =>{
-    
-    console.log(res);
+    //console.log(res);
+    //alert(JSON.stringify(res));return;
+    //console.log(res);
     if(res.status =="1"){
-      alert(JSON.stringify(res.data));
+      //alert(JSON.stringify(res.data));
       AsyncStorage.removeItem('user-data');
       AsyncStorage.removeItem('selected_account_type');
       AsyncStorage.removeItem('email_to_activated');
@@ -1227,9 +1476,139 @@ export const update_user_account_type = (that) =>{
 }
 
 
+/////////////UPDATE PRODUCTS
+export const updateProducts = (that) =>{
+  //alert(that.state.userToken);return;
+  if(that.state.categorySelected=='0'){
+    Commons._showToast('Please select Category!',ToastAndroid.LONG);
+  }
+  if(that.state.subCategorySelected=='0'){
+    Commons._showToast('Please select Sub Category!',ToastAndroid.LONG);
+  }
+  else if(!that.state.advert_title){
+    Commons._showToast("Please Enter Title!",ToastAndroid.LONG);
+  }
+  else if((that.state.uploadImageCount==0)&&(that.state.images.length==0)){
+    Commons._showToast('Please select an Image!',ToastAndroid.LONG);
+  }
+  else if(!that.state.land_mark){
+    Commons._showToast("Please Enter a Landmark!",ToastAndroid.LONG);
+  }
+  else if((!that.state.price)&&(that.state.categorySelected!='23')){
+    //if(that.state.categorySelected!='23'){
+    Commons._showToast("Please Enter Ads Price!",ToastAndroid.LONG);
+    //}
+  }
+  else{
+    Logic.update_category_view(that.state.categorySelected,that,true,false);
+    that.setState({
+      showLoader:true,
+      showSubmitLoader:true,
+    })
+
+    if(that.state.negotiable_price){
+      var negotiable = 'YES';
+    }else{
+      var negotiable='NO';
+    }
+
+    if(that.state.delivery_available){
+      var delivery_available = 'YES';
+    }else{
+      var delivery_available='NO';
+    }
+    ///////////IF NEW IMAGES ARE ADDED
+    if(that.state.uploadImageCount>0){
+    var pegedSize = 5;  
+    that.state.resourcePath.map((item, i) => {
+    const imageSize = Logic.calculate_megabyte_from_byte(item.fileSize); 
+    var Size = imageSize*1;
+    if(Size<pegedSize){
+    that.formData.append('files['+i+']', {
+      uri: item.uri,
+      type: 'image/jpeg',
+      name: item.fileName,
+      //data: item.data,
+    })
+    }else{
+      Commons._showToast(item.fileName+'exceeds the maximum limit of '+pegedSize+'mb. Please try again!');
+      return;
+    }
+  });
+  }
+    //alert('got here');
+   
+
+    that.formData.append('category', that.state.categorySelected);
+    that.formData.append('sub_category',that.state.subCategorySelected);
+    //Logic.update_new_product_subcategory_view(that.state.subCategorySelected,that);
+    
+    that.formData.append('state',that.state.stateSelected);
+    that.formData.append('lga',that.state.lgaSelected);
+    that.formData.append('condition_state',that.state.conditionSelected);
+    that.formData.append('second_condition',that.state.secondConditionSelected);
+    that.formData.append('name',that.state.advert_title);
+    that.formData.append('price',that.state.price);
+    that.formData.append('land_mark',that.state.land_mark);
+    that.formData.append('negotiable',negotiable);
+    that.formData.append('delivery_available',delivery_available);
+    that.formData.append('description',that.state.advert_details);
+    that.formData.append('store_address',that.state.store_address);
+    that.formData.append('seller_id',that.state.userData.seller_id);
+    that.formData.append('edit',that.props.route.params.paramsdata.id);
+    that.formData.append('product_code',that.props.route.params.paramsdata.product_code);
+    console.log(that.formData);
+    //return;
+    fetch (global.serverUrl+'api/update_product',{
+    method:'POST',
+    headers: {'Accept': 'application/x-www-form-urlencoded','gnice-authenticate': that.state.userToken,'Content-Type': 'multipart/form-data'},
+    body: that.formData,
+    
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    //alert(JSON.stringify(res));
+    //return;
+    if(res.status =="1"){
+      that.setState({
+        showSubmitLoader:false,
+      })
+      Commons._showToast("Ads updated successfully!",ToastAndroid.LONG);
+       setTimeout(()=>{ 
+          that.props.navigation.navigate('MyProducts',{paramsdata:null});
+        }, 500);
+      
+    }else{
+      Commons._showToast(res.msg,ToastAndroid.LONG);
+      that.setState({
+        errorMsg:res.msg,
+        showLoader:false,
+        showSubmitLoader:false,
+      })
+      setTimeout(()=>{ 
+        AsyncStorage.clear();
+        that.props.navigation.navigate('UserLogin',{paramsdata:null});
+        }, 500);
+      //alert(res.message);
+    }
+  
+
+  })
+  .catch((error) => {
+      that.setState({
+        showLoader:false,
+        showSubmitLoader:false,
+      })
+      console.error(error);
+    });
+}
+  
+}
+
 /////////////ADD PRODUCTS
 export const addProducts = (that) =>{
   //alert(that.state.userToken);return;
+  
   if(that.state.categorySelected=='0'){
     Commons._showToast('Please select Category!',ToastAndroid.LONG);
   }
@@ -1249,8 +1628,10 @@ export const addProducts = (that) =>{
     Commons._showToast("Please Enter Ads Price!",ToastAndroid.LONG);
   }
   else{
+    Logic.update_category_view(that.state.categorySelected,that,true,false);
     that.setState({
-      showLoader:true
+      showLoader:true,
+      showSubmitLoader:true,
     })
 
     if(that.state.negotiable_price){
@@ -1278,17 +1659,18 @@ export const addProducts = (that) =>{
     that.formData.append('category', that.state.categorySelected);
     that.formData.append('sub_category',that.state.subCategorySelected);
 
-    Logic.update_new_product_subcategory_view(that.state.subCategorySelected,that);
-    
     that.formData.append('state',that.state.stateSelected);
     that.formData.append('lga',that.state.lgaSelected);
     that.formData.append('condition_state',that.state.conditionSelected);
+    that.formData.append('second_condition',that.state.secondConditionSelected);
     that.formData.append('name',that.state.advert_title);
     that.formData.append('price',that.state.price);
     that.formData.append('land_mark',that.state.land_mark);
     that.formData.append('negotiable',negotiable);
-    that.formData.append('description',that.state.userData.advert_details);
+    that.formData.append('description',that.state.advert_details);
+    that.formData.append('store_address',that.state.store_address);
     that.formData.append('seller_id',that.state.userData.seller_id);
+    that.formData.append('hierarchy',that.state.userData.account_type);
 
     console.log(that.formData);
     fetch (global.serverUrl+'api/add_product',{
@@ -1303,15 +1685,26 @@ export const addProducts = (that) =>{
     //return;
     if(res.status =="1"){
       Commons._showToast("Advert created successfully!",ToastAndroid.LONG);
+      AsyncStorage.setItem('user-data',JSON.stringify(res.data));
+      that.setState({
+        userData:res.data
+      })
+
        setTimeout(()=>{ 
           that.props.navigation.navigate('MyProducts',{paramsdata:null});
         }, 500);
       
     }else{
+      Commons._showToast(res.message+" "+res.errors,ToastAndroid.LONG);
       that.setState({
         errorMsg:res.message,
-        showLoader:false
+        showLoader:false,
+        showSubmitLoader:false,
       })
+      // setTimeout(()=>{ 
+      //   AsyncStorage.clear();
+      //   that.props.navigation.navigate('UserLogin',{paramsdata:null});
+      //   }, 500);
       //alert(res.message);
     }
   
@@ -1319,7 +1712,8 @@ export const addProducts = (that) =>{
   })
   .catch((error) => {
       that.setState({
-        showLoader:false
+        showLoader:false,
+        showSubmitLoader:false,
       })
       console.error(error);
     });
@@ -1342,7 +1736,7 @@ export const verify_transaction = (that) =>{
     })
     .then((response)=>response.json())
     .then((res) =>{
-      //alert(JSON.stringify(res));
+      //alert(JSON.stringify(res));return;
       //console.log(res.data);
       if(res.data.status=='success'){
       //if(res.status =="1"){
@@ -1382,8 +1776,69 @@ export const verify_transaction = (that) =>{
   
 }
 
+export const send_feedback =(that)=>{
+ //alert(that.state.review);return;
+  if((that.state.starCount=='0')){
+    Commons._showToast("Please rate this product",ToastAndroid.LONG);
+    return;
+  }else if((!that.state.review)||(that.state.review=='')){
+    Commons._showToast("Please enter review",ToastAndroid.LONG);
+    return;
+  }else{
+
+    that.setState({
+      showLoader:true
+    })  
+  let formData = new FormData();
+  formData.append('product_id', that.props.route.params.paramsdata.id);
+  formData.append('user_id', that.state.userData.id);
+  formData.append('rating', that.state.starCount);
+  formData.append('review', that.state.review);
+  fetch (global.serverUrl+'api/save_product_review',{
+  method:'POST',
+  headers: {
+              'gnice-authenticate': that.state.userToken
+          },
+  body: formData,
+  
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+  //alert(JSON.stringify(res));
+  //console.log(res);return;
+  that.setState({
+    showLoader:false
+  })
+  if(res.status =="1"){
+    get_product_reviews(that);
+    setTimeout(()=>{ 
+      that.setState({
+        errorMsg:res.message,
+        ratingModalVisible:false,
+        starCount:0
+      })
+    }, 500);
+    Commons._showToast(res.message,ToastAndroid.LONG);
+  }else{
+    that.setState({
+      errorMsg:res.message,
+    })
+  }
+  
+  })
+  .catch((error) => {
+    that.setState({
+      showLoader:false
+    })
+    alert(error);
+    console.error(error);
+  });
+  }
+  
+}
+
+  
 export const message_product_seller =(that)=>{
- 
 if((that.state.visitor_email=='')||(that.state.visitor_phone=='')||(that.state.visitor_name=='')||(that.state.visitor_message=='')){
   alert('All Fields are required');
   return;
@@ -1417,7 +1872,7 @@ that.setState({
 if(res.status =="1"){
   that.setState({
     errorMsg:res.message,
-    modalVisible:false,
+    messageModalVisible:false,
   })
   Commons._showToast(res.message,ToastAndroid.LONG);
 }else{
@@ -1437,6 +1892,46 @@ if(res.status =="1"){
 }
 
 }
+
+////////////////GET PRODUCT REVIEWS 
+export const get_product_reviews = (that) =>{
+  
+
+  fetch (global.serverUrl+'api/get_product_reviews?id='+that.props.route.params.paramsdata.id,{
+    method:'GET',
+    headers: {'gnice-authenticate': 'gnice-web'},
+  
+  })
+  .then((response)=>response.json())
+  .then((res) =>{
+    //alert(JSON.stringify(res.data));
+  //if(res.status =="1"){
+    that.setState({
+    product_reviews: res.data,
+    showRateLoader:false,
+    average_review_rate:calculate_average_reviews(res.data)
+    })
+    //calculate_average_reviews(msg.data);
+  // }else{
+  // }
+    })
+  .catch((error) => {
+    that.setState({showRateLoader:false})
+
+      console.error(error);
+    var message = "There was an error! Please check your connection";
+      alert(JSON.stringify(message));
+    });
+}
+
+export const calculate_average_reviews = (data)=>{
+  var review_star=0;
+  for(var a=0;a<data.length;a++){
+    review_star=(review_star*1)+(data[a].rating*1);
+  }
+  var average_review_rate = Math.round(review_star/data.length);
+  return average_review_rate;
+}
 /////////////UPDATE USER ACCOUNT TYPE
 export const generate_paystack_checkout = (that) =>{
   //alert(that.state.userToken);return;
@@ -1452,7 +1947,7 @@ export const generate_paystack_checkout = (that) =>{
       })
       return;
   }else{
-    //alert(that.state.email_to_activated);
+    //alert(that.state.email_to_activated);return;
     let formData = new FormData();
     formData.append('email', that.state.email_to_activated);
     formData.append('amount', that.state.selectedValue+'00');
@@ -1487,7 +1982,8 @@ export const generate_paystack_checkout = (that) =>{
         errorMsg:res.msg,
         showLoader:false
       })
-      //alert(res.msg);
+      Commons._showToast(res.msg, ToastAndroid.LONG);
+
     }
     })
   .catch((error) => {
@@ -1504,7 +2000,7 @@ export const generate_paystack_checkout = (that) =>{
 export const updateProfileImage = (that) => { 
   const formData = new FormData();
   if(that.state.uploadImageCount>0){
-  var pegedSize = 4;  
+  var pegedSize = 5;  
   const imageSize = Logic.calculate_megabyte_from_byte(that.state.resourcePath.fileSize); 
   var Size = imageSize*1;
   if(Size<pegedSize){
@@ -1519,7 +2015,8 @@ export const updateProfileImage = (that) => {
     })
 
   }else{    
-  that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegSize+'MB'})
+  that.setState({showLoader:false,errorMsg:'Sorry, Image Size greater than '+pegedSize+'MB'});
+  Commons._showToast('Sorry, Image Size greater than '+pegedSize+'MB', ToastAndroid.LONG);
   return;
   }
   //console.log(that.state.resourcePath.fileName);  
@@ -1540,7 +2037,7 @@ export const updateProfileImage = (that) => {
         showLoader:false,
         uploadImageCount:0
       })
-      //that.props.navigation.push('UserScreen',{default_screen:"Profile"});
+      that.props.navigation.push('UserArea',{paramsdata:null});
 
     }else{
       alert(JSON.stringify(res.msg));
@@ -1551,9 +2048,10 @@ export const updateProfileImage = (that) => {
       })
     })
   .catch((error) => {
+    Commons._showToast('Sorry, Invalid Image. Please try another image ', ToastAndroid.LONG);
     var message = error;
     //console.log(error);
-      alert(JSON.stringify(message));
+      //alert(JSON.stringify(message));
       that.setState({
         errorMsg:message,
         showLoader:false
@@ -1596,13 +2094,15 @@ export const updateProfile = (that) => {
   .then((res) =>{
     //alert(res);
     if(res.status =="1"){
-      //alert(JSON.stringify(res.data));
+      Commons._showToast("Your Profile have been updated", ToastAndroid.LONG);
       AsyncStorage.setItem('user-data',JSON.stringify(res.data));
       that.setState({
         userData:JSON.parse(JSON.stringify(res.data)),
         errorMsg:res.msg,
         showLoader:false
       })
+      that.props.navigation.push('UserArea',{paramsdata:null});
+
     }else{
       alert(JSON.stringify(res.msg));
     }

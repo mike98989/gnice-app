@@ -11,7 +11,7 @@ const MainHeader = (props) => (
         <Header transparent style={[{height:40,marginTop:25}]}>
         <Left>
           <TouchableOpacity transparent style={{marginLeft:10}} onPress={props.openDrawer}>
-          <Image source={require('../images/drawer4.png')} style={{width:30,height:30}}/>
+          <Image source={require('../images/drawer6.png')} style={{width:35,height:35}}/>
             </TouchableOpacity>
         </Left>
           <Body>
@@ -19,11 +19,11 @@ const MainHeader = (props) => (
             
           </Body>
           <Right>
-          <Button transparent style={{marginLeft:2}} onPress={props.profileImageClick}>
-          <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+props.profileImageUrl}} style={{borderRadius:30,overflow:'hidden',width:35,height:35}}/>
-          </Button>
+          {/* <Button transparent style={{marginLeft:2}} onPress={props.profileImageClick}>
+          <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+props.profileImageUrl}} style={{borderRadius:20,overflow:'hidden',width:25,height:25,borderWidth:0.3,borderColor:'#ccc'}}/>
+          </Button> */}
           <Button transparent style={{marginLeft:12}} onPress={props.logoutImageClick}>
-          <Image source={require('../images/logout_icon.png')} style={{width:25,height:28}}/>
+          <Image source={require('../images/logout_icon.png')} style={{width:27,height:35.5}}/>
           </Button>
           </Right>
         </Header>

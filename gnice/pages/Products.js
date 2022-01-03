@@ -10,6 +10,7 @@ import { SearchBar } from 'react-native-elements';
 import * as Logic from '../methods/Logic';
 import SearchBox from '../snipets/SearchBox'
 import MainFooter from '../components/MainFooter';
+import NumberFormat from 'react-number-format';
 
 
 export default class Home extends Component <{}>{
@@ -56,27 +57,34 @@ export default class Home extends Component <{}>{
     let paramsValue = JSON.parse(this.props.route.params.paramsdata);
     const renderProductItems = ({ item }) => (
       image_value = Logic.split_value(item.image, ','),
-      <Card style={[custom_style.item_box,{width:'48%',margin:0, marginLeft:'1%'}]}>
+      <View style={[custom_style.item_box,{width:'47%',margin:0, marginLeft:'2%',marginBottom:17,overflow:'hidden'}]}>
         <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'Product',item)}>
       <CardItem cardBody>
         <Image source={{ uri: global.serverUrl+global.UploadImageBaseUrl+image_value[0]}}  style={{height: 150, width: null, flex: 1}}/>
       </CardItem>
       <CardItem>
         
-          <Body>
+               
+      <Body>
           <Text numberOfLines={2} ellipsizeMode="tail" style={custom_style.product_name}>{item.name}</Text>   
-          <Text style={custom_style.product_price}>NGN {item.price}</Text>  
+          {item.category!='23'?(
+            <NumberFormat value={item.price} displayType={'text'} renderText={formattedValue => <Text>{formattedValue}</Text>} thousandSeparator={true} prefix={'NGN'}/>
+          ):null} 
+          {item.category=='23'?(
+            <NumberFormat value={item.salary} displayType={'text'} renderText={formattedValue => <Text>{formattedValue}</Text>} thousandSeparator={true} prefix={'NGN'}/>
+          ):null} 
+          
           {item.land_mark!=''?(
           <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.land_mark}</Text>
           ):
           <Text style={{color:'#7a7878',fontSize:12}}><Icon name="location" style={{color:'#7a7878',fontSize:12}} />{item.state}/{item.lga}</Text>
           } 
-          </Body>
+         </Body>
         
       </CardItem>
       
       </TouchableOpacity>
-    </Card>
+    </View>
     );
     return(
   <Container style={{backgroundColor:'#e1e5e7'}}>
@@ -108,6 +116,10 @@ this.state.products.length!=0 ? (
         keyExtractor={(item, index) => String(index)}
         horizontal={false}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={() => (
+          <View style={{marginBottom:(100)}} />
+        )}
       />
   </SafeAreaView>  
   </View>
@@ -124,7 +136,7 @@ this.state.products.length!=0 ? (
 
 
 </View>
-<MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)}
+<MainFooter homeButtonClick={Nav._openscreen.bind(this,this.props,'Home',null)} sellButtonClick={Nav._openscreen.bind(this,this.props,'NewProduct',null)} messageButtonClick={Nav._openscreen.bind(this,this.props,'Messages',null)}
   pinnedButtonClick={Nav._openscreen.bind(this,this.props,'Pinned',null)} userButtonClick={Nav._openscreen.bind(this,this.props,'UserArea',null)} 
   active="home"
   />
