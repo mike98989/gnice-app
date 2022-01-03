@@ -211,10 +211,10 @@ const renderTabBar = (props: any) => {
 
 
 return(
-  <Container style={{backgroundColor:'#fff'}}>
+  <Container style={{backgroundColor:'#efefef'}}>
 
-        <Tabs renderTabBar={renderTabBar}>
-          <Tab  tabStyle={{ backgroundColor: "#fff"}} textStyle={{color: '#ccc'}} activeTabStyle={{ backgroundColor: "#efefef"}} activeTextStyle={{color: '#0f619b'}} heading="Products">
+        <Tabs renderTabBar={renderTabBar} style={{paddingTop: Platform.OS === 'ios' ? 30 : 0}}>
+          <Tab  tabStyle={{ backgroundColor: "#fff"}} textStyle={{color: '#ccc'}} activeTabStyle={{ backgroundColor: "#efefef",}} activeTextStyle={{color: '#0f619b'}} heading="Products">
     
    
 

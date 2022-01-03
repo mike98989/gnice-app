@@ -47,7 +47,7 @@ export default class Messages extends Component <{}>{
         position:'absolute',zIndex:0,top:-5, width: '100%',height:'20%',paddingTop:5,}]}></ImageBackground>    
         {/* <UserScreenHeader header_type="transparent" nav_type="complete" profileImageClick={Nav._openscreen.bind(this,this.props,'MyProfile')} profileImageUrl={this.state.userData.image} logoutImageClick={Nav._logout.bind(this,this.props,'Home',null)} openDrawer={Nav._opendrawer.bind(this,this.props)}/> */}
         <MainHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/>
-        <Text style={[custom_style.section_header,{color:'#fff',marginTop:30}]}>Payment History</Text>  
+        <Text style={[custom_style.section_header,{color:'#fff',marginTop:Platform.OS === 'ios' ? 10 :30}]}>Payment History</Text>  
         <Text style={[custom_style.section_header,{marginLeft:2,color:'#fff',fontSize:13}]}>Records of all payment transactions</Text>      
         <View style={{marginTop:5,marginBottom:20}}>
         </View>

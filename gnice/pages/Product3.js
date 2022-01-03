@@ -252,7 +252,7 @@ export default class Home extends Component <{}>{
         
         </View> */}
         
-        <View style={[custom_style.item_box,{margin:0,height:null,marginBottom:7,marginTop:5,borderRadius:0,borderBottomWidth:1,borderColor:'#fff',borderTopWidth:1,overflow:'hidden'}]}>
+        <View style={[custom_style.item_box,{margin:0,height:null,marginBottom:7,marginTop:0,borderRadius:0,borderBottomWidth:1,borderColor:'#fff',borderTopWidth:0,overflow:'hidden'}]}>
         <Carousel layout={'default'} layoutCardOffset={18}
               ref={(c) => { this._carousel = c; }}
               data={image_value}

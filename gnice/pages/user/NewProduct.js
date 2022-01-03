@@ -130,7 +130,7 @@ export default class LandingScreen extends Component <{}>{
         {/* <UserScreenHeader header_type="transparent" nav_type="backOnly" go_back={Nav._goback.bind(this,this.props)}/> */}
         <MainHeader header_type="transparent" go_back={Nav._goback.bind(this,this.props)} nav_type="backOnly"/>
         <View style={[custom_style.container,{paddingHorizontal:0,paddingTop:0}]}>
-        <Text style={[custom_style.section_header,{marginTop:20,color:'#fff'}]}>Add Product/Service</Text>
+        <Text style={[custom_style.section_header,{marginTop:Platform.OS === 'ios' ? 20 :20,color:'#fff'}]}>Add Product/Service</Text>
         <Text style={[custom_style.section_header,{marginLeft:2,color:'#fff',fontSize:13,marginBottom:10}]}>Sell your idea to a larger audience</Text>
         <Text style={custom_style.errorMsg}>{this.state.errorMsg}</Text>
         

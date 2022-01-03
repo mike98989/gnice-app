@@ -41,8 +41,8 @@ export default class CustomDrawerContent extends Component <{}>{
   return (
     <View style={[custom_style.fullHeight,{marginVertical:0,backgroundColor:'#ddd'}]}>
     <View style={{height:200}}>
-   <ImageBackground source={require('../images/gnice_user_layout2.png')} style={[{resizeMode: "cover",
-    position:'absolute',zIndex:0,top:-5, width: '100%',height:'100%',paddingTop:5,}]}></ImageBackground>
+   <ImageBackground source={require('../images/gnice_user_layout1.png')} style={[{resizeMode: "cover",
+    position:'absolute',zIndex:0,top:-5, width: '100%',height:'150%',paddingTop:5,}]}></ImageBackground>
     <Image source={require('../images/gnice_logo.png')}  style={{height: 25, width:25,marginTop:40,alignSelf:'flex-end'}}/>
     <TouchableOpacity onPress={Nav._openscreen.bind(this,this.props,'MyProfile')}>
     <Image source={{ uri: global.serverUrl+global.ProfileImageBaseUrl+this.state.userData.image}}  style={{borderRadius:25,borderWidth:0.5,borderColor:'#ccc',height: 50, width:50,marginTop:10,alignSelf:'center'}}/>

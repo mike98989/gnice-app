@@ -34,7 +34,7 @@ const MainHeader = (props) => (
       }
       </View>
     ):
-    <Header transparent style={[{height:40,marginTop:40,paddingLeft:0}]}>
+    <Header transparent style={[{height:40,marginTop:Platform.OS=='ios'? 20:40,paddingLeft:0}]}>
       
         <Left>
           {/* <Button transparent style={{marginLeft:0}} onPress={props.go_back}>

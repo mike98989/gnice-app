@@ -250,7 +250,7 @@ back_curved_btn:{
   justifyContent:'center',
   paddingLeft:20,
   marginTop:10,
-  marginBottom:10,
+  marginBottom:Platform.select({ ios: 0, android: 10 }),
 },
 generic_btn:{
   width:80,

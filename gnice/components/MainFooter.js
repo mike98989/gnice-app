@@ -25,7 +25,7 @@ const MainFooter = (props) => (
               </TouchableOpacity>
               </Button>
             
-            <TouchableOpacity onPress={props.sellButtonClick} style={{height:50,width:50,backgroundColor: '#0f619b',borderBottomRightRadius:25,borderBottomLeftRadius:25,borderTopRightRadius:25,borderTopLeftRadius:25,alignItems:'center',justifyContent:'center',marginTop:-7,alignContent:'center'}}>
+            <TouchableOpacity onPress={props.sellButtonClick} style={{height:50,width:50,backgroundColor: '#0f619b',borderBottomRightRadius:25,borderBottomLeftRadius:25,borderTopRightRadius:25,borderTopLeftRadius:25,alignItems:'center',justifyContent:'center',marginTop:Platform.OS === 'ios' ? 0 : -7 ,alignContent:'center'}}>
               <Icon name="add" style={{fontWeight:'bold',fontSize:30,color:'#fff',alignContent:'center',alignItems:'center'}}/>
             </TouchableOpacity>
             
